@@ -1,0 +1,82 @@
+﻿@model AdminWidgetViewModel
+@{Layout = "~/Views/Admin/__LayoutAdministration.cshtml";}
+@Html.Partial("_ModalDeleteConfirm")
+@Html.Partial("_ModalInternalSiteSelect", Model)
+@if (Model.CurrentWidget.Type == "WidgetComposite")
+{
+    @Html.Partial("_ModalWidgetCompositeSelector", Model)
+}
+
+<div class="row">
+    <div class="toolbar clearfix">
+        <ol class="breadcrumb">
+            <li><a href="/admin"><i class="fa fa-home"></i></a></li>
+            <li><a href="/admin">@Model.CurrentSiteSetting.Name</a></li>
+            @if (Model.CurrentSiteId != Guid.Empty)
+            {
+                string siteurl = "/" + @Model.Sites.Find(s => s.Id == Model.CurrentSiteId).UrlFull + "/?preview=prerelease";
+                string url = "/" + @Model.Sites.Find(s => s.Id == Model.CurrentSiteId).UrlFull;
+                <li><a href="/admin/siteedit/@Model.CurrentSiteId">@Model.Sites.Find(s => s.Id == Model.CurrentSiteId).Name</a> <a target="_blank" href='@siteurl.Replace("//", "/")'><i class="fa fa-eye"></i></a></li>
+                if (Model.CurrentWidgetId != Guid.Empty)
+                {
+                    string widgeturl = url + "/" + @Model.Widgets.Find(w => w.Id == Model.CurrentWidgetId).Url + "/?preview=prerelease";
+                    <li><a href="/admin/widgetedit/@Model.CurrentWidgetId?siteid=@Model.CurrentSiteId#!tab_widgets_@Model.CurrentWidgetId">@Model.Widgets.Find(w => w.Id == Model.CurrentWidgetId).Name</a> <a target="_blank" href='@widgeturl.Replace("//", "/")'><i class="fa fa-eye"></i></a></li>
+                    <li class="active">@Model.CurrentWidget.Name</li>
+                }
+                else
+                {
+                    string urlwidget = url + "/" + Model.CurrentWidget.Url + "/?preview=prerelease";
+                    <li class="active">@Model.CurrentWidget.Name <a target="_blank" href='@urlwidget.Replace("//", "/")'><i class="fa fa-eye"></i></a></li>
+                }
+            }
+            else
+            {
+                <li><a href="/admin#!widgets">Widgets</a></li>
+                if (Model.CurrentWidgetId != Guid.Empty)
+                {
+                    <li><a href="/admin/widgetedit/@Model.CurrentWidgetId?siteid=@Model.CurrentSiteId#!tab_widgets_@Model.CurrentWidgetId">@Model.Widgets.Find(w => w.Id == Model.CurrentWidgetId).Name</a></li>
+                }
+                <li class="active">@Model.CurrentWidget.Name</li>
+            }
+        </ol>
+    </div>
+
+    <div class="well">
+        @using (Html.BeginForm("widgetedit", "admin", FormMethod.Post, new { id = "WidgetEdit", autosave = "/admin/widgeteditautosave/" + Model.CurrentWidget.Id }))
+        {
+            @Html.Partial("WidgetEditForm", Model)
+            <div class="row">
+                <div class="col-md-8">
+                    <p id="lastchange">
+                        Last Save: @Model.CurrentWidget.Updated.ToString()
+                    </p>
+                </div>
+            </div>
+            <div class="error alert alert-warning hidden" role="alert"><span></span></div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="controls">
+                        <a class="btn btn-success" onclick="$('#WidgetEdit').submit(); return false;">Save</a>
+
+                        @{
+                            string copyUrl = "/admin/widgetcopy/" + Model.CurrentWidget.Id.ToString();
+                        }
+                        @if (Model.CurrentSiteId != Guid.Empty)
+                        {
+                            <a href="/admin/siteedit/@Model.CurrentSiteId" class="btn btn-default">Back to pages</a>
+                            <a href="/admin/siteedit/@Model.CurrentSiteId" class="btn btn-default">Back to widgets</a>
+                            <a href="@copyUrl" class="btn btn-default pull-right">Copy widget</a>
+                        }
+                        else
+                        {
+                            <a href="/admin" class="btn btn-default">Back to pages</a>
+                            <a href="/admin#!widgets" class="btn btn-default">Back to widgets</a>
+                            <a href="@copyUrl" class="btn btn-default pull-right">Copy widget</a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+                            }
+    </div>
+</div>

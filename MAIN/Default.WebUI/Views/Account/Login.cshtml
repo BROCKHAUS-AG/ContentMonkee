@@ -1,0 +1,28 @@
+﻿
+@{
+    Layout = "~/Views/Admin/__LayoutAdministration.cshtml";
+    ViewBag.Title = "Index";
+
+}
+
+
+
+
+<div class="modal-dialog">
+    <div class="loginmodal-container">
+        <h1>Anmelden</h1><br>
+        <div>@Html.ValidationMessage("login")</div>
+        <form action="/account/login" method="post">
+            <input type="text" name="email" placeholder="E-Mail">
+            <input type="password" name="password" placeholder="Password">
+            <input type="submit" name="login" class="btn btn-primary" value="Anmelden">
+        </form>
+
+        <div class="login-help">
+
+        </div>
+    </div>
+</div>
+
+
+

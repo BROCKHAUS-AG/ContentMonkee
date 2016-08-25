@@ -1,0 +1,199 @@
+﻿@using Default.WebUI.Extensions
+@model GlobalViewModel
+
+@{
+    string path;
+
+    if (!Model.Site.Favicon.IsNullOrEmpty())
+    {
+        path = "/Content/Favicons/" + Model.Site.Favicon.Replace("/Content/", "") + "/";
+    }
+    else if (!Model.SiteSetting.Favicon.IsNullOrEmpty())
+    {
+        path = "/Content/Favicons/" + Model.SiteSetting.Favicon.Replace("/Content/", "") + "/";
+    }
+    else
+    {
+        path = "/App_Themes/bag/favicon/";
+    }
+
+    string altpath = "";
+
+    if (!Model.Site.AltFavicon.IsNullOrEmpty())
+    {
+        altpath = "/Content/Favicons/" + Model.Site.AltFavicon.Replace("/Content/", "") + "/";
+    }
+
+
+}
+
+@if (Model.Site.ChangeTitleOnTabChange || Model.Site.ChangeFaviconOnTabChange)
+{
+    if (Model.Site.ChangeFaviconOnTabChange)
+    {
+        <script>
+            var faviconlist = [
+                {
+                    href: "@(path)apple-icon-57x57.png",
+                    althref: "@(altpath)apple-icon-57x57.png",
+                    rel: "apple-touch-icon",
+                    sizes: "57x57"
+                },
+                {
+                    href: "@(path)apple-icon-60x60.png",
+                    althref: "@(altpath)apple-icon-60x60.png",
+                    rel: "apple-touch-icon",
+                    sizes: "60x60"
+                },
+                {
+                    href: "@(path)apple-icon-72x72.png",
+                    althref: "@(altpath)apple-icon-72x72.png",
+                    rel: "apple-touch-icon",
+                    sizes: "72x72"
+                },
+                {
+                    href: "@(path)apple-icon-76x76.png",
+                    althref: "@(altpath)apple-icon-76x76.png",
+                    rel: "apple-touch-icon",
+                    sizes: "76x76"
+                },
+                {
+                    href: "@(path)apple-icon-114x114.png",
+                    althref: "@(altpath)apple-icon-114x114.png",
+                    rel: "apple-touch-icon",
+                    sizes: "114x114"
+                },
+                {
+                    href: "@(path)apple-icon-120x120.png",
+                    althref: "@(altpath)apple-icon-120x120.png",
+                    rel: "apple-touch-icon",
+                    sizes: "120x120"
+                },
+                {
+                    href: "@(path)apple-icon-144x144.png",
+                    althref: "@(altpath)apple-icon-144x144.png",
+                    rel: "apple-touch-icon",
+                    sizes: "144x144"
+                },
+                {
+                    href: "@(path)apple-icon-152x152.png",
+                    althref: "@(altpath)apple-icon-152x152.png",
+                    rel: "apple-touch-icon",
+                    sizes: "152x152"
+                },
+                {
+                    href: "@(path)apple-icon-180x180.png",
+                    althref: "@(altpath)apple-icon-180x180.png",
+                    rel: "apple-touch-icon",
+                    sizes: "180x180"
+                },
+                {
+                    href: "@(path)android-icon-192x192.png",
+                    althref: "@(altpath)android-icon-192x192.png",
+                    rel: "icon",
+                    sizes: "192x192"
+                },
+                {
+                    href: "@(path)favicon-32x32.png",
+                    althref: "@(altpath)favicon-32x32.png",
+                    rel: "icon",
+                    sizes: "32x32"
+                },
+                {
+                    href: "@(path)favicon-96x96.png",
+                    althref: "@(altpath)favicon-96x96.png",
+                    rel: "icon",
+                    sizes: "96x96"
+                },
+                {
+                    href: "@(path)favicon-16x16.png",
+                    althref: "@(altpath)favicon-16x16.png",
+                    rel: "icon",
+                    sizes: "16x16"
+                },
+            ];
+        </script>
+    }
+
+    <script>
+    var active = true;
+
+    window.onblur = function (e) {
+        active = false;
+        setTimeout(function () {
+            if (!active) {
+                @if (Model.Site.ChangeTitleOnTabChange)
+                {
+                    @:$("title").html("@Model.Site.AltTitle");
+                }
+
+                @if (Model.Site.ChangeFaviconOnTabChange)
+                {
+                    @:faviconlist.forEach(function(f){
+                        @:  $("link[rel=" + f.rel + "][sizes=" + f.sizes + "]").attr("href", f.althref);
+                        @:});
+                }
+
+                @if(Model.Site.AnimateAltTitle && !Model.Site.AltTitle.IsNullOrEmpty())
+                {
+                    @:animate = true;
+                    @:animateTitle();
+                }
+            }
+        }, @Model.Site.TabChangeTimeout * 1000);
+    };
+
+    window.onfocus = function (e) {
+        active = true;
+
+        @if(Model.Site.AnimateAltTitle && !Model.Site.AltTitle.IsNullOrEmpty())
+        {
+            @:animate = false;
+        }
+
+        @if (Model.Site.ChangeTitleOnTabChange)
+        {
+            @:$("title").html("@ViewBag.Title");
+        }
+
+        @if (Model.Site.ChangeFaviconOnTabChange)
+        {
+            @:faviconlist.forEach(function(f){
+                @:  $("link[rel=" + f.rel + "][sizes=" + f.sizes + "]").attr("href", f.href);
+                @:});
+        }
+    };
+
+        @if (Model.Site.AnimateAltTitle && !Model.Site.AltTitle.IsNullOrEmpty())
+        {
+            @:var title = "@Html.Raw(Model.Site.AltTitle)  ";
+            @:var animate = true;
+
+            @:var animateTitle = function(){
+            @:  if(animate){
+                @:    title = title.substring(1, title.length) + title.substring(0, 1);
+                @:    document.title = title;
+                @:    setTimeout("animateTitle()", 1000 / @Model.Site.AnimationSpeed);
+                @:  }
+            @:};
+        }
+    </script>
+}
+
+<link rel="apple-touch-icon" sizes="57x57" href="@(path)apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="@(path)apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="@(path)apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="@(path)apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="@(path)apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="@(path)apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="@(path)apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="@(path)apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="@(path)apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="@(path)android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="@(path)favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="@(path)favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="@(path)favicon-16x16.png">
+<link rel="manifest" href="/App_Themes/bag/favicon/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="@(path)ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">

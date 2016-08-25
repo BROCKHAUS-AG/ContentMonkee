@@ -1,0 +1,36 @@
+﻿<div id="slide-panel" ng-cloak>
+    <div class="slide-header">
+        <span class="pull-left" ng-show="!currentManufactory">Tischler suchen</span>
+        <span class="pull-left" ng-show="currentManufactory" ng-cloak>
+            Ihr Tischler
+            <img src="~/Content/ok.png" style="padding-left: 20px;">
+        </span>
+        <a href="#" class="btn-close pull-right"></a>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="slide-body" ng-show="currentManufactory" ng-cloak>
+        <p>
+            <strong><a ng-href="/tischler/{{currentManufactory.url}}">{{currentManufactory.title}}</a></strong><br />
+            Tel.: {{currentManufactory.telephone}}<br />
+            <span ng-if="currentManufactory.fax">Fax: {{currentManufactory.fax}}</span><br />
+
+            <br />
+            <a href="#" ng-click="openContactManufactoryForm(currentManufactory)">zum Kontaktformular <span class="ion-chevron-right"></span></a><br />
+            <a ng-href="/tischler">zur Tischlerübersicht <span class="ion-chevron-right"></span></a><br />
+        </p>
+    </div>
+
+    <div class="slide-body" ng-hide="currentManufactory">
+        <form action="/tischler/" method="GET">
+            <input name="zip" id="search-query" placeholder="Postleitzahl oder Ort" required=""
+                   ng-model="zipCode">
+            <button type="submit" id="search-flyout-submit" ng-click="searchManufactory(true)">
+                <i class="ion-chevron-right"></i>
+            </button>
+        </form>
+        <p class="search-text">
+            Bitte geben Sie Ihre PLZ oder Ihren Ort ein, um den nächstgelegenen Tischlerbetrieb zu finden.
+        </p>
+    </div>
+</div>

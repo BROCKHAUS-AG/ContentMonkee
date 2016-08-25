@@ -1,0 +1,33 @@
+﻿@model WidgetsViewModel
+<div class="widgetList scroll">
+    @foreach (var widget in Model.Widgets)
+    {
+
+        if (Model.NavigationPoints.Contains(widget.Id))
+        {
+            <hr class="widgetline" />
+        }
+
+        var path = "~/Views/Widgets/" + widget.Partial;
+        if (System.IO.File.Exists(Server.MapPath(path)))
+        {
+            @Html.Partial(path, new WidgetWrapperViewModel(widget))
+        }
+        else
+        {
+            <text>
+                <div class="alert alert-danger" role="alert">Widget @widget.Name (@widget.Partial) nicht gefunden.</div>
+            </text>
+        }
+        if (_Globals.Instance.IsAuthenticated && widget.Id != Guid.Empty)
+        {
+            <div class="clearfix"></div>
+                <a href="/admin/widgetedit/@widget.Id"
+                   target="_top"
+                   class="btn btn-default btn-xs">EDIT&nbsp;-&nbsp;@widget.Name</a>
+        }
+
+    }
+
+    <div class="next"><a href="/widgetList/@Model.HasPrinted/1/@Model.SEOUrl">Loading...</a></div>
+</div>

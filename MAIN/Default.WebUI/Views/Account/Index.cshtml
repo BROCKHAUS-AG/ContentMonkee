@@ -1,0 +1,18 @@
+﻿@{
+
+    Layout = "~/Views/Admin/__LayoutAdministration.cshtml";
+}
+
+
+
+<div class="modal-dialog">
+    <div class="monkee_login"><img src="~/App_Themes/admin/img/contentmonkee_logo_Affe_web.png" alt="Was geht ab?" /></div>
+    <div class="loginmodal-container">
+        <h1>Login</h1>
+        <form action="/account/login" method="post">
+            <input type="text" name="email" placeholder="E-Mail">
+            <input type="password" name="password" placeholder="Password">
+            <input type="submit" name="login" class="btn btn-primary" value="Login">
+        </form>
+    </div>
+</div>

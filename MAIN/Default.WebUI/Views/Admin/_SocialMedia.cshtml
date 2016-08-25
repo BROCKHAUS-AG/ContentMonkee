@@ -1,0 +1,57 @@
+﻿@using BAG.Common.Data.Entities
+@model SocialMedia
+
+
+<text>
+    <div class="form-horizontal">
+        <div class="row">
+
+            
+            <div class="form-group">
+                <label class="control-label col-sm-2">Facebook</label>
+                <div class="col-sm-4">
+                    <label class="well"><input type="checkbox" id="socialmedia.facebook_share" name="socialmedia.facebook_share" @Html.Raw(Model.Facebook_Share ? "checked" : "") /> share on facebook </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Xing</label>
+                <div class="col-sm-4">
+                    <label class="well"><input type="checkbox" id="socialmedia.xing_share" name="socialmedia.xing_share" @Html.Raw(Model.Xing_Share ? "checked" : "") /> share on Xing </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">LinkedIn</label>
+                <div class="col-sm-4">
+                    <label class="well"><input type="checkbox" id="socialmedia.linkedin_share" name="socialmedia.linkedin_share" @Html.Raw(Model.LinkedIn_Share ? "checked" : "") /> share on LinkedIn </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Reddit</label>
+                <div class="col-sm-4">
+                    <label class="well"><input type="checkbox" id="socialmedia.reddit_share" name="socialmedia.reddit_share" @Html.Raw(Model.Reddit_share ? "checked" : "") /> share on reddit </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Twitter</label>
+                <div class="col-sm-4">
+                    <label class="well"><input type="checkbox" id="socialmedia.twitter_share" name="socialmedia.twitter_share" @Html.Raw(Model.Twitter_share ? "checked" : "") /> share on twitter </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Google+</label>
+                <div class="col-sm-4">
+                    <label class="well"><input type="checkbox" id="socialmedia.googleplus_share" name="socialmedia.googleplus_share" @Html.Raw(Model.Googleplus_share ? "checked" : "") /> share on google+ </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Email</label>
+                <div class="col-sm-4">
+                    <label class="well"><input type="checkbox" id="socialmedia.email_share" name="socialmedia.email_share" @Html.Raw(Model.Email_share ? "checked" : "") /> share on email </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</text>

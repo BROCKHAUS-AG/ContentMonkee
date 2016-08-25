@@ -1,0 +1,173 @@
+﻿@model WidgetWrapperViewModel
+@{
+    var viewspath = "~/Views/" + _Globals.Instance.CurrentSiteSettingId + "/Widgets/WidgetVCard.cshtml";
+    var mappath = this.Server.MapPath(viewspath);
+    if (System.IO.File.Exists(mappath))
+    {
+        @Html.Partial(viewspath, Model);
+        return;
+    }
+}
+@{
+    var widget = Model.Widget as BAG.Common.Data.Entities.WidgetVCard;
+}
+
+@if (Model.IsDesignMode)
+{
+
+    <text>
+        <div class="cm-admin-widget">
+            <h5>Chose Employee Data</h5>
+            <hr />
+            <div class="form-group">
+                <label for="titlevcard" class="control-label col-sm-2">Title VCard:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="titlevcard" name="titlevcard" value="@widget.TitleVCard" />
+                </div>
+            </div>
+            <div class="form-group">              
+                <label for="userid" class="control-label col-sm-2" style="display:none">User-Id:</label>
+                <div class="col-sm-6" style="display:none">
+                    <input type="text" class="form-control" id="userid" name="userid" value="@widget.UserId" readonly style="display:none" />
+                </div>
+                <label for="employeename" class="control-label col-sm-2">Mitarbeiter:</label>
+                <div class="col-sm-4">
+                    <fieldset>
+                        <select id="employeename" name="employeename" class="form-control" onchange="document.getElementById('userid').value = this.options[this.selectedIndex].getAttribute('eid')">
+                            @{
+                                if (widget.UserId != null)
+                                {
+                                    <option selected="selected" eid="@widget.UserId">@widget.EmployeeName</option>
+                                }
+                                else
+                                {
+                                    <option selected="selected" eid="@Guid.Empty">please choose</option>
+                                }
+                                foreach (var emp in widget.employees.Get())
+                                {
+                                    <option eid="@emp.Id">@emp.DisplayName</option>
+                                }
+                            }
+                        </select>
+                    </fieldset>
+                </div>
+            </div>
+
+            <h5>Configure File Data</h5>
+            <hr />
+            <div class="form-group">
+                <label for="titleflyer" class="control-label col-sm-2">Title File 1:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="titleflyer" name="titleflyer" value="@widget.TitleFlyer" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">File:</label>
+                <div class="col-sm-4 item-kontakt-media">
+                    <input type="text" id="FlyerText" name="FlyerText" class="form-control" value="@widget.FlyerText" placeholder="Please add text here" />
+                    <div class="img-selector-container" data-name="SelectFlyer">
+                        <img class="preview image-responsive" src="@Html.Raw(string.IsNullOrWhiteSpace(widget.FlyerFileUrl) ? string.Empty : "/App_Themes/admin/img/pdf.png")" />
+                        <input class="selection" type="hidden" name="FlyerFileUrl" id="FlyerFileUrl" value="@widget.FlyerFileUrl" />
+                        <div class="controls">
+                            <button class="btn btn-default select-pdf">Select Flyer File</button>
+                            <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="titlereferences" class="control-label col-sm-2">Title File 2:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="titlereferences" name="titlereferences" value="@widget.TitleReferences" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">File:</label>
+                <div class="col-sm-4 item-kontakt-media">
+                    <input type="text" id="v" name="ReferencesText" class="form-control" value="@widget.ReferencesText" placeholder="Please add text here" />
+                    <div class="img-selector-container" data-name="SelectReferences">
+                        <img class="preview image-responsive" style="max-width: 200px; max-height: 200px;"
+                                src="@Html.Raw(string.IsNullOrWhiteSpace(widget.ReferencesFileUrl) ? string.Empty : "/App_Themes/admin/img/pdf.png")" />
+                        <input class="selection" type="hidden" name="ReferencesFileUrl" id="ReferencesFileUrl" value="@widget.ReferencesFileUrl" />
+                        <div class="controls">
+                            <button class="btn btn-default select-pdf">Select References File</button>
+                            <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </text>
+}
+else
+{
+    var employees = widget.employees.Get(e => e.Id == widget.UserId);
+    var employee = employees.Count() > 0 ? employees.First() : null;
+    var n = 0;
+    string mailto = "mailto:" + employee.Email;
+    string mailtocrypt = "";
+    for (var i = 0; i < mailto.Length; i++)
+    {
+        n = (int)mailto[i];
+        if (n >= 8364)
+        {
+            n = 128;
+        }
+        mailtocrypt += Convert.ToChar(n+1).ToString();
+    }
+
+    if (employee != null)
+    {
+
+        <text>
+            <div class="cm-widget widget-vcard">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            @if (!string.IsNullOrWhiteSpace(widget.TitleVCard))
+                            {
+                                <h3><span>@Html.Raw(widget.TitleVCard)</span></h3>
+                            }
+                            <div class="box vcard" itemscope itemtype="http://schema.org/Person">
+                                <img src="@employee.ProfilImagePath" class="vcard-image" itemprop="image" alt="@widget.EmployeeName" />
+                                <strong itemprop="name">@widget.EmployeeName</strong>
+                                <span itemprop="jobTitle">@employee.Position</span>
+                                <div class="phone">
+                                    Tel.: <span itemprop="telephone">@employee.Telephone</span> <br />
+                                    Fax: @employee.Fax
+                                </div>
+                                <div class="qta">
+                                    <a href="@Url.Action("GetVCardDownload", "QRCode", new { employeeId = @widget.UserId})"><i class="icon-download-harddisk"></i></a>
+                                    <a href="@Url.Action("GetQRImage", "QRCode", new { employeeId = @widget.UserId, pixelsPerModule = 5 })" data-lightbox="image-1"><i class="icon-qr-code"></i></a>
+                                    <a href="javascript:linkTo_UnCrypt('@mailtocrypt');" itemprop="email"><i class="icon-person-email"></i></a>
+                                    <a href="@employee.XingProfileUrl" target="_blank" rel="nofollow" itemprop="sameAs"><i class="icon-share-xing"></i></a>
+                                    <a href="@employee.LinkedInProfileUrl" target="_blank" rel="nofollow" itemprop="sameAs"><i class="icon-share-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            @if (!string.IsNullOrWhiteSpace(widget.TitleFlyer))
+                            {
+                                <h3><span>@Html.Raw(widget.TitleFlyer)</span></h3>
+                            }
+                            <div class="box">
+                                @widget.FlyerText
+                                <a href="@widget.FlyerFileUrl" class="download" rel="nofollow" target="_blank"><i class="icon-transfer-files-computer"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            @if (!string.IsNullOrWhiteSpace(widget.TitleReferences))
+                            {
+                                <h3><span>@Html.Raw(widget.TitleReferences)</span></h3>
+                            }
+                            <div class="box">
+                                @widget.ReferencesText
+                                <a href="@widget.ReferencesFileUrl" class="download" rel="nofollow" target="_blank"><i class="icon-transfer-files-computer"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </text>
+    }
+}

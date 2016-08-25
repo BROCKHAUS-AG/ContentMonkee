@@ -1,0 +1,92 @@
+﻿@model WidgetViewModel
+
+
+@{ 
+    var socialMedia = Model.Widget.SocialMedia;
+}
+@if (socialMedia.Facebook_Share || socialMedia.Googleplus_share || socialMedia.Twitter_share || socialMedia.LinkedIn_Like || socialMedia.Reddit_share || socialMedia.Email_share || socialMedia.Xing_Share) {
+<div class="cm-widget widget-social">
+    
+    <div class="container">
+        <button class="btn btn-default" onclick="ShowShare(this);">Share</button>
+        <ul class="rrssb-buttons clearfix hidden">
+            @{
+                var domain = Url.RequestContext.HttpContext.Request.Url.Authority;
+                var scheme = Url.RequestContext.HttpContext.Request.Url.Scheme;
+                var fulldomain = scheme + "://" + domain;
+                var url = fulldomain + Url.Encode(("/" + Model.SocialUrl + "/").Replace("//", "/"));
+                var name = Url.Encode(Model.Widget.Name);                
+            }
+            @if (socialMedia.Facebook_Share)
+            {
+                <li class="rrssb-facebook">
+                    <!--  Replace with your URL. For best results, make sure you page has the proper FB Open Graph tags in header: https://developers.facebook.com/docs/opengraph/howtos/maximizing-distribution-media-content/ -->
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=@url" class="popup">
+                        <span class="rrssb-icon icon-share-facebook"></span>
+                        <span class="rrssb-text">facebook</span>
+                    </a>
+                </li>
+            }
+            @if (socialMedia.Googleplus_share)
+            {
+                <li class="rrssb-googleplus">
+                    <a href="https://plus.google.com/share?url=@url"
+                       class="popup">
+                        <span class="rrssb-icon icon-share-gplus"></span>
+                        <span class="rrssb-text">google+</span>
+                    </a>
+                </li>
+            }
+            @if (socialMedia.Twitter_share)
+            {
+                <li class="rrssb-twitter">
+                    <a href="https://twitter.com/intent/tweet?text=@url"
+                       class="popup">
+                        <span class="rrssb-icon icon-share-twitter"></span>
+                        <span class="rrssb-text">twitter</span>
+                    </a>
+                </li>
+            }
+            @if (socialMedia.Xing_Share)
+            {
+                <li class="rrssb-xing">
+                    <a href="https://www.xing.com/spi/shares/new?cb=0&amp;url=@url"
+                       class="popup">
+                        <span class="rrssb-icon icon-share-xing"></span>
+                        <span class="rrssb-text">xing</span>
+                    </a>
+                </li>
+            }
+            @if (socialMedia.LinkedIn_Share)
+            {
+                <li class="rrssb-linkedin">
+                    <a href="http://www.linkedin.com/shareArticle?mini=true&url=@url"
+                       class="popup">
+                        <span class="rrssb-icon icon-share-linkedin"></span>
+                        <span class="rrssb-text">linkedin</span>
+                    </a>
+                </li>
+            }
+            @if (socialMedia.Reddit_share)
+            {
+                <li class="rrssb-reddit">
+                    <a href="http://www.reddit.com/submit?url=@url"
+                       class="popup">
+                        <span class="rrssb-icon icon-share-reddit"></span>
+                        <span class="rrssb-text">reddit</span>
+                    </a>
+                </li>
+            }
+            @if (socialMedia.Email_share)
+            {
+                <li class="rrssb-email">
+                    <a href="mailto:?subject=@name&body=@url">
+                        <span class="rrssb-icon icon-share-email"></span>
+                        <span class="rrssb-text">email</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+}

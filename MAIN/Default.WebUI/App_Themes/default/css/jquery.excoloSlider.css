@@ -1,0 +1,102 @@
+@import url(https://fonts.googleapis.com/css?family=BenchNine:400);
+
+/* slider
+----------------------------------------------------------*/
+.slider {
+    /*border: 1px solid #ccc;*/
+    padding: 10px;
+    max-height: 448px;
+}
+
+.slide > * {
+    max-width: 100%;
+}
+
+.slide-wrapper a {
+    max-height: 448px;
+}
+
+.slider .slide-prev , .slider .slide-next{
+    cursor: pointer;
+    height: 48px;
+    width: 48px;
+    position: absolute;
+    top: 50%;
+    margin-top: -24px;
+    background-color: rgba(255,255,255,0.8);
+    padding: 0px;
+	opacity: 0.8;
+}
+.slider .slide-prev  {
+	left: 0;
+}
+.slider .slide-next  {
+	right: 0;
+}
+.slider .slide-prev:before, .slider .slide-next:before {
+	display: block;
+	width: 48px;
+	height: 48px;
+	font-size: 40px;
+	line-height: 50px;
+	text-align: center;
+    font-family: 'BenchNine', sans-serif;
+    position: absolute;
+}
+.slider .slide-prev:before {
+	content:"<"; 
+}
+.slider .slide-next:before {
+    left: 3px;  /* for better central alignment */
+	content:">"; 
+}
+.slider .slide-next:hover, .slider .slide-prev:hover {
+    background-color: rgba(255,255,255,0.9);
+}
+.es-caption {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    background-color: rgba(0,0,0,0.8);
+    color: #fff;
+    font-size: 14px;
+    padding: 16px;
+    margin: 10px;
+    width: auto;
+    left: 0;
+    right: 0;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -khtml-border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+ul.es-pager {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin: -28px 0;
+    padding: 0;
+    line-height: 0px;
+    z-index: 11;
+    position: relative;
+}
+ul.es-pager li {
+    display: inline-block;
+    margin: 2px;
+    padding: 0;
+    height: 15px;
+    width: 15px;
+    cursor: pointer;
+	border: 2px solid #888;
+	border-radius: 7px;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    -khtml-border-radius: 7px;
+}
+ul.es-pager li:hover, ul.es-pager li.act {
+    background-color: #888;
+}
+ul.es-pager li.act {
+    cursor: default;
+}

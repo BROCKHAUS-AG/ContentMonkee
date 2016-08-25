@@ -1,0 +1,50 @@
+﻿[
+  {
+    "outputFile": "App_Themes/admin/css/admin_site.css",
+    "inputFile": "App_Themes/admin/css/admin_site.scss"
+  },
+  {
+    "outputFile": "App_Themes/default/css/site.css",
+    "inputFile": "App_Themes/default/css/site.scss"
+  },
+  {
+    "outputFile": "App_Themes/bag/css/site.css",
+    "inputFile": "App_Themes/bag/css/site.scss"
+  },
+  {
+    "outputFile": "App_Themes/bag/css/tablet.css",
+    "inputFile": "App_Themes/bag/css/tablet.scss"
+  },
+  {
+    "outputFile": "App_Themes/bag/css/desktop.css",
+    "inputFile": "App_Themes/bag/css/desktop.scss"
+  },
+  {
+    "outputFile": "App_Themes/landing/css/main.css",
+    "inputFile": "App_Themes/landing/css/main.less"
+  },
+  {
+    "outputFile": "App_Themes/galaxy/css/tablet.css",
+    "inputFile": "App_Themes/galaxy/css/tablet.scss"
+  },
+  {
+    "outputFile": "App_Themes/galaxy/css/desktop.css",
+    "inputFile": "App_Themes/galaxy/css/desktop.scss"
+  },
+  {
+    "outputFile": "App_Themes/galaxy/css/site.css",
+    "inputFile": "App_Themes/galaxy/css/site.scss"
+  },
+  {
+    "outputFile": "App_Themes/rocket/css/desktop.css",
+    "inputFile": "App_Themes/rocket/css/desktop.scss"
+  },
+  {
+    "outputFile": "App_Themes/rocket/css/tablet.css",
+    "inputFile": "App_Themes/rocket/css/tablet.scss"
+  },
+  {
+    "outputFile": "App_Themes/rocket/css/site.css",
+    "inputFile": "App_Themes/rocket/css/site.scss"
+  }
+]

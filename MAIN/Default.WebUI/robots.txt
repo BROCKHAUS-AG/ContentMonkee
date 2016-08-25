@@ -1,0 +1,17 @@
+﻿#Robots.txt www.eample.com/robots.txt
+User-agent: *
+Disallow:
+Disallow: /admin/
+# ===================================
+# Schließe folgende Spider komplett aus:
+# ===================================
+User-agent: spambot
+User-agent: WebReaper
+User-agent: WebCopier
+User-agent: Offline Explorer
+User-agent: HTTrack
+User-agent: Microsoft.URL.Control
+User-agent: EmailCollector
+User-agent: penthesilea
+Disallow: /
+Disallow: /admin/

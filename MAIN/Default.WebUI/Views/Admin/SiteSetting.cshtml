@@ -1,0 +1,417 @@
+﻿@using Default.WebUI.Extensions
+@model AdminViewModel
+<div class="well">
+    @using (Html.BeginForm("SiteSettingEdit", "admin", FormMethod.Post, new { id = "SiteSettingEdit", @class = "form-horizontal" }))
+    {
+        <input type="hidden" name="OwnerId" value="@Model.CurrentUser.Id" />
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
+            @if (String.IsNullOrEmpty(Model.CurrentSiteSetting.Template))
+            {
+                <li role="presentation"><a href="#widgetsselect" aria-controls="widgetsselect" role="tab" data-toggle="tab">Wigets Select</a></li>
+            }
+            <li role="presentation"><a href="#seo" aria-controls="seo" role="tab" data-toggle="tab">SEO</a></li>
+            <li role="presentation"><a href="#sitestructure" aria-controls="sitestructure" role="tab" data-toggle="tab">Structured Data</a></li>
+            <li role="presentation"><a href="#imageconfig" aria-controls="imageconfig" role="tab" data-toggle="tab">Image Configuration Data</a></li>
+            <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span></a></li>
+        </ul>
+
+        <div class="tab-content well">
+            <div role="tabpanel" class="tab-pane active" id="general">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label for="Template" class="control-label col-sm-2">Template:</label>
+
+
+                            @if (String.IsNullOrEmpty(Model.CurrentSiteSetting.Template))
+                            {
+                                <div class="col-sm-6">
+                                    <select class="form-control" name="Template" id="Template">
+                                        <option value="">please choose</option>
+                                        @foreach (var Template in Model.Templates)
+                                        {
+                                            <option>@Path.GetFileName(Template)</option>
+                                        }
+                                    </select>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-sm-6">
+                                    <input type="text" name="Template" class="form-control" value="@Model.CurrentSiteSetting.Template" disabled />
+                                </div>
+                            }
+
+                        </div>
+                        <div class="form-group">
+                            <label for="Name" class="control-label col-sm-2">Name:</label>
+                            <div class="col-sm-9">
+                                <input id="Name" name="Name" class="form-control" type="text" title="The website name" value="@Model.CurrentSiteSetting.Name" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="MainDomain" class="control-label col-sm-2">Main Domain:</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="MainDomain" name="MainDomain" title="The website main Domain" value="@Model.CurrentSiteSetting.MainDomain" placeholder="www.example.com" onblur="GenerateBinding('#Bindings', this);" />
+                            </div>
+                            <div class="col-sm-1"><a href="#" title="Tincidunt integer eu augue augue nunc elit dolor, luctus placerat scelerisque euismod" data-toggle="tooltip"><i class="fa fa-question-circle"></i></a></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Bindings" class="control-label col-sm-2">Domain Bindings:</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="Bindings" name="Bindings" title="Allows you to bind more then one domain with the website" value="@Model.CurrentSiteSetting.Bindings" placeholder="www.example.com or *.example.*" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="docs">
+                            <button type="button" class="close close-docs" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <p><i class="fa fa-info-circle"></i> <strong>Tips:</strong> Tincidunt integer eu augue augue nunc elit dolor, luctus placerat scelerisque euismod, iaculis eu lacus nunc mi elit, vehicula ut laoreet ac, aliquam sit amet justo nunc tempor, metus vel.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (String.IsNullOrEmpty(Model.CurrentSiteSetting.Template))
+            {
+                <div role="tabpanel" class="tab-pane" id="widgetsselect">
+                    <div class="form-group">
+                        @foreach (var widget in Model.NewWidgets)
+                        {
+                            var name = widget.GetType().Name;
+                            <div class="col-sm-12">
+                                <label for="@widget.GetHashCode()" class="control-label">
+                                    <img src="@Html.Raw("/App_Themes/admin/img/widgets/" + name + ".svg")" width="50">
+                                    <input type="checkbox" id="@widget.GetHashCode()" name="WidgetsType" value="@name" />
+                                    @widget.Name
+
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            <div role="tabpanel" class="tab-pane" id="sitestructure">
+                <div class="form-group">
+                    <label for="SiteStructureType" class="control-label col-sm-2">Type:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="SiteStructureType" name="SiteStructureType" value="@Model.CurrentSiteSetting.SiteStructureType" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="SiteStructureName" class="control-label col-sm-2">Name:</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="SiteStructureName" name="SiteStructureName" value="@Model.CurrentSiteSetting.SiteStructureName" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="SiteStructureUrl" class="control-label col-sm-2">Url:</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="SiteStructureUrl" name="SiteStructureUrl" value="@Model.CurrentSiteSetting.SiteStructureUrl" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="SiteStructureLogo" class="control-label col-sm-2">Logo:</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="SiteStructureLogo" name="SiteStructureLogo" value="@Model.CurrentSiteSetting.SiteStructureLogo" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="SiteStructureStreetAddress" class="control-label col-sm-2">StreetAddress:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="SiteStructureStreetAddress" name="SiteStructureStreetAddress" value="@Model.CurrentSiteSetting.SiteStructureStreetAddress" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="SiteStructureAddressLocality" class="control-label col-sm-2">AddressLocality:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="SiteStructureAddressLocality" name="SiteStructureAddressLocality" value="@Model.CurrentSiteSetting.SiteStructureAddressLocality" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="SiteStructureAddressRegion" class="control-label col-sm-2">AddressRegion:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="SiteStructureAddressRegion" name="SiteStructureAddressRegion" value="@Model.CurrentSiteSetting.SiteStructureAddressRegion" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="SiteStructurePostalCode" class="control-label col-sm-2">PostalCode:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="SiteStructurePostalCode" name="SiteStructurePostalCode" value="@Model.CurrentSiteSetting.SiteStructurePostalCode" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="SiteStructureAddressCountry" class="control-label col-sm-2">AddressCountry:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="SiteStructureAddressCountry" name="SiteStructureAddressCountry" value="@Model.CurrentSiteSetting.SiteStructureAddressCountry" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="SiteStructureGeoLatitude" class="control-label col-sm-2">GeoLatitude:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="SiteStructureGeoLatitude" name="SiteStructureGeoLatitude" value="@Model.CurrentSiteSetting.SiteStructureGeoLatitude" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="SiteStructureGeoLongitude" class="control-label col-sm-2">GeoLongitude:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="SiteStructureGeoLongitude" name="SiteStructureGeoLongitude" value="@Model.CurrentSiteSetting.SiteStructureGeoLongitude" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="SiteStructureTelephone" class="control-label col-sm-2">Telephone:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="SiteStructureTelephone" name="SiteStructureTelephone" value="@Model.CurrentSiteSetting.SiteStructureTelephone" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="SiteStructureContactType" class="control-label col-sm-2">ContactType:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="SiteStructureContactType" name="SiteStructureContactType" value="@Model.CurrentSiteSetting.SiteStructureContactType" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="SiteStructureOpens" class="control-label col-sm-2">Opens:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="SiteStructureOpens" name="SiteStructureOpens" value="@Model.CurrentSiteSetting.SiteStructureOpens" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="SiteStructureCloses" class="control-label col-sm-2">Closes:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="SiteStructureCloses" name="SiteStructureCloses" value="@Model.CurrentSiteSetting.SiteStructureCloses" />
+                    </div>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="imageconfig">
+                <div class="form-group">
+                    <label for="ImagePhoneHight" class="control-label col-sm-2">Imagehight for Phone:</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" id="ImagePhoneHight" name="ImagePhoneHight" value="@Model.CurrentSiteSetting.ImagePhoneHight" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ImagePhoneWidth" class="control-label col-sm-2">Imagewidth for Phone:</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" id="ImagePhoneWidth" name="ImagePhoneWidth" value="@Model.CurrentSiteSetting.ImagePhoneWidth" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ImageTabletHight" class="control-label col-sm-2">Imagehight for Tablet:</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" id="ImageTabletHight" name="ImageTabletHight" value="@Model.CurrentSiteSetting.ImageTabletHight" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ImageTabletWidth" class="control-label col-sm-2">Imagewidth for Tablet:</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" id="ImageTabletWidth" name="ImageTabletWidth" value="@Model.CurrentSiteSetting.ImageTabletWidth" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ImageDesktopHight" class="control-label col-sm-2">Imagehight for Desktop:</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" id="ImageDesktopHight" name="ImageDesktopHight" value="@Model.CurrentSiteSetting.ImageDesktopHight" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ImageDesktopWidth" class="control-label col-sm-2">Imagewidth for Desktop:</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" id="ImageDesktopWidth" name="ImageDesktopWidth" value="@Model.CurrentSiteSetting.ImageDesktopWidth" />
+                    </div>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="seo">
+                <div class="form-group">
+                    <label for="GoogleAnalyticTrackingId" class="control-label col-sm-2">Google Analytic Tracking Id:</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="GoogleAnalyticTrackingId" name="GoogleAnalyticTrackingId" value="@Model.CurrentSiteSetting.GoogleAnalyticTrackingId" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <label for="IpAnonymization" class="well">
+                            <input type="checkbox" id="IpAnonymization" name="IpAnonymization" @Html.Raw(Model.CurrentSiteSetting.IpAnonymization ? "checked" : "") />
+                            Anonymisierung IP-Adresse
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="TrackingCode" class="control-label col-sm-2">Global Header Code:</label>
+                    <div class="col-sm-6">
+                        <textarea id="TrackingCode" name="TrackingCode" class="codemirror form-control">@Model.CurrentSiteSetting.TrackingCode</textarea>
+                    </div>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.CurrentSiteSetting.Template))
+                {
+                    <div class="form-group">
+                        <label for="Robots" class="control-label col-sm-2">robots.txt:</label>
+                        <div class="col-sm-6">
+
+                            <textarea class="codemirror" id="Robots" name="Robots">@Model.CurrentSiteSetting.Robots</textarea>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div role="tabpanel" class="tab-pane" id="settings">
+                <h5>Fallback</h5>
+                <hr />
+                <div class="form-group">
+                    <label for="Fallback" class="control-label col-sm-2">Fallback:</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="Fallback" name="Fallback" value="@Model.CurrentSiteSetting.Fallback" />
+                    </div>
+                </div>
+
+                @if (!String.IsNullOrEmpty(Model.CurrentSiteSetting.Template))
+                {
+                    <h5>Icon and Logo</h5>
+                    <hr />
+                    <div class="form-group">
+                        <label for="LogoImage" class="control-label col-sm-2">Logo</label>
+                        <div class="col-sm-6">
+                            <div class="img-selector-container" data-name="SelectLogo">
+                                <img class="preview image-responsive" style="max-width: 200px; max-height: 200px;"
+                                     src="@Html.Raw(string.IsNullOrWhiteSpace(Model.CurrentSiteSetting.LogoImage) ? string.Empty : Model.CurrentSiteSetting.LogoImage.GetImagePath())" />
+                                <input class="selection" type="hidden" name="LogoImage" id="LogoImage" value="@Model.CurrentSiteSetting.LogoImage" />
+                                <div class="controls">
+                                    <button class="btn btn-default select-image">Select Logo</button>
+                                    <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="favicon" class="control-label col-sm-2">Favicon</label>
+                        <div class="col-sm-6">
+                            <div class="img-selector-container" data-name="SelectImage">
+                                <img class="preview image-responsive" style="max-width: 200px; max-height: 200px;"
+                                     src="@Html.Raw(string.IsNullOrWhiteSpace(Model.CurrentSiteSetting.Favicon) ? string.Empty : Model.CurrentSiteSetting.Favicon.GetImagePath())" />
+                                <input class="selection" type="hidden" name="favicon" id="favicon" value="@Model.CurrentSiteSetting.Favicon" />
+                                <div class="controls">
+                                    <button class="btn btn-default select-image">Select Favicon</button>
+                                    <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="FontsCSS" class="control-label col-sm-2">Fonts CSS File</label>
+                        <div class="col-sm-6">
+                            <div class="img-selector-container" data-name="SelectFlyer">
+                                <input class="selection form-control" type="text" name="FontsCSS" id="FontsCSS" value="@Model.CurrentSiteSetting.FontsCSS" />
+                                <div class="controls">
+                                    <button class="btn btn-default select-pdf">Select Fonts CSS File</button>
+                                    <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <h5>Cookie Desciption</h5>
+                <hr />
+
+                <div class="form-group">
+                    <label for="CookieDescription" class="control-label col-sm-2">Cookie Description:</label>
+                    <div class="col-sm-6">
+                        <textarea id="CookieDescription" name="CookieDescription" class="form-control">@Model.CurrentSiteSetting.CookieDescription</textarea>
+                    </div>
+                </div>
+                <h5>Author</h5>
+                <hr />
+
+                <div class="form-group">
+                    <label for="Author" class="control-label col-sm-2">Author:</label>
+                    <div class="col-sm-4">
+                        @if (String.IsNullOrEmpty(Model.CurrentSiteSetting.Author))
+                        {
+                            <input type="text" class="form-control" id="Author" name="Author" value="@Model.CurrentUser.DisplayName" />
+                        }
+                        else
+                        {
+                            <input type="text" class="form-control" id="Author" name="Author" value="@Model.CurrentSiteSetting.Author" />
+                        }
+                    </div>
+                </div>
+                <h5>Configuration</h5>
+                <hr />
+                <div class="form-group">
+                    <label for="Type" class="control-label col-sm-2">Type:</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="Type" name="Type" value="@Model.CurrentSiteSetting.Type" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <label for="IsDefault" class="well">
+                            @if (Model.CurrentSiteSetting.IsDefault)
+                            {
+                                <input type="checkbox" id="IsDefault" name="IsDefault" checked="checked" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" id="IsDefault" name="IsDefault" />
+                            }
+                            IsDefault
+                        </label>
+                    </div>
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <label for="IsPortalEnabled" class="well">
+                            @if (Model.CurrentSiteSetting.IsPortalEnabled)
+                            {
+                                <input type="checkbox" id="IsPortalEnabled" checked="checked" name="IsPortalEnabled" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" id="IsPortalEnabled" name="IsPortalEnabled" />
+                            }
+                            IsPortalEnabled
+                        </label>
+                    </div>
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <label for="Archived" class="well">
+                            @if (Model.CurrentSiteSetting.Archived)
+                            {
+                                <input type="checkbox" id="Archived" checked="checked" name="Archived" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" id="Archived" name="Archived" />
+                            }
+                            Archived
+                        </label>
+                    </div>
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <label for="HideWidgetsToolbar" class="well">
+                            @if (Model.CurrentSiteSetting.HideWidgetsToolbar)
+                            {
+                                <input type="checkbox" id="HideWidgetsToolbar" checked="checked" name="HideWidgetsToolbar" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" id="HideWidgetsToolbar" name="HideWidgetsToolbar" />
+                            }
+                            Hide Widget Toolbar when viewing site
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="error alert alert-warning hidden" role="alert"><span></span></div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="controls">
+                    <a class="btn btn-success" onclick="$('#SiteSettingEdit').submit(); return false;">Save</a>
+                    <a href="/admin/sitesettings" class="btn btn-default">Back to sites</a>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

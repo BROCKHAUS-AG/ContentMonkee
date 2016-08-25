@@ -1,0 +1,36 @@
+﻿@model DataViewModel
+@{
+    ViewBag.Title = "Daten";
+    Layout = "~/Views/Admin/__LayoutAdministration.cshtml";
+}
+@Html.Partial("_ModalDeleteConfirm")
+
+<div class="row">
+    @if (Model.CurrentSiteSetting != null)
+    {
+
+        <div class="toolbar clearfix">
+            <ol class="breadcrumb pull-left">
+                <li><a href="~/admin"><i class="fa fa-home"></i></a></li>
+                <li><a href="/admin">@Model.CurrentSiteSetting.Name</a></li>
+                <li class="active">Employees</li>
+            </ol>
+            @Html.Partial("_SiteSelection", Model.SiteSelectionViewModel)
+        </div>
+    }
+
+    <div class="well">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="@Html.Raw(Model.GetTabActiveString(""))"><a href="#employees" aria-controls="employees" role="tab" data-toggle="tab">Employees</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content well">
+            <div role="tabpanel" class="tab-pane @Html.Raw(Model.GetTabActiveString(""))" id="employees">
+                @Html.Partial("~/Views/Admin/Data/Employees.cshtml", Model.Employees)
+            </div>
+        </div>
+
+    </div>
+</div>

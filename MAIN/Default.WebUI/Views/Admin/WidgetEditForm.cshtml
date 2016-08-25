@@ -1,0 +1,188 @@
+﻿@using BAG.Common.Data.Entities
+@model AdminWidgetViewModel
+
+
+<text>
+    <input type="hidden" name="id" value="@Model.CurrentWidget.Id">
+
+    @if (!(Model.CurrentSiteId == Guid.Empty))
+    {
+        <input type="hidden" name="currentsiteid" value="@Model.CurrentSiteId" />
+    }
+    @if (!(Model.CurrentWidgetId == Guid.Empty))
+    {
+        <input type="hidden" name="currentwidgetid" value="@Model.CurrentWidgetId" />
+    }
+    <!-- Nav tabs -->
+    <h4>@Model.CurrentWidget.Name</h4>
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#tab_data_@Model.CurrentWidget.Id" aria-controls="data" role="tab" data-toggle="tab">Data</a></li>
+        @if (Model.CurrentWidget.Type == "WidgetComposite")
+        {
+            <li role="presentation"><a href="#tab_widgets_@Model.CurrentWidget.Id" aria-controls="widgets" role="tab" data-toggle="tab">Widgets</a></li>
+
+        }
+        <li role="presentation"><a href="#tab_template_@Model.CurrentWidget.Id" aria-controls="template" role="tab" data-toggle="tab">Template</a></li>
+        <li role="presentation"><a href="#tab_socialmedia_@Model.CurrentWidget.Id" aria-controls="template" role="tab" data-toggle="tab">Social Media</a></li>
+        <li role="presentation"><a href="#seo" aria-controls="seo" role="tab" data-toggle="tab">SEO</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content well" style="background-color: #fff; border-radius: 0;">
+        <div role="tabpanel" class="tab-pane active" id="tab_data_@Model.CurrentWidget.Id">
+            <div class="form-horizontal">
+                <div class="row">
+                        <h5>Widget Data</h5>
+                        <hr />
+                    <div class="form-group">
+                        <label for="name" class="control-label col-sm-2">Widget Name</label>
+                        <div class="col-sm-6">
+                            <input type="text"
+                                   class="form-control"
+                                   name="name" id="name"
+                                   placeholder="Widget Name"
+                                   value="@Model.CurrentWidget.Name"
+                                   oninput="HandleNameChange('#url', 'value', this, '@Model.CurrentWidget.Id', false);"
+                                   onblur="HandleNameChange('#url', 'value', this, '@Model.CurrentWidget.Id', true)">
+                            <span class="help-block" style="display: none;">This Name generates an URL that is already used, so numbers are added to the URL to make it Unique. Maybe you should think about changing the Name to something else.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="url" class="control-label col-sm-2">Widget Url</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="url" placeholder="Widget Url" value="@Model.CurrentWidget.Url" readonly>
+                        </div>
+                    </div>
+
+                    @{
+                        var path = "~/Views/Widgets/" + Model.CurrentWidget.Partial;
+                        var viewspath = "~/Views/" + _Globals.Instance.CurrentSiteSettingId + "/Widgets/" + Model.CurrentWidget.Partial;
+                        if (System.IO.File.Exists(Server.MapPath(viewspath)))
+                        {
+                            path = viewspath;
+                        }
+
+                        if (System.IO.File.Exists(Server.MapPath(path)))
+                        {
+                            if (Model.CurrentWidget.GetType().Name == "WidgetPageFooter")
+                            {
+                                @Html.Partial(path, new FooterViewModel() { IsDesignMode = true, Widget = Model.CurrentWidget })
+                            }
+                            else
+                            {
+                                @Html.Partial(path, new WidgetWrapperViewModel(Model.CurrentWidget) { IsDesignMode = true })
+                            }
+                        }
+                        else
+                        {
+                            <text>
+                                <div class="alert alert-danger" role="alert">Widget @Model.CurrentWidget.Name (@Model.CurrentWidget.Partial) nicht gefunden.</div>
+                            </text>
+                        }
+                    }
+                    @if (!(Model.CurrentSiteId == Guid.Empty) && Model.CurrentWidgetId == Guid.Empty)
+                    {
+                        <h5>Settings</h5>
+                        <hr />
+                        <div class="form-group">
+                            <div class="col-sm-6 col-sm-offset-2">
+                                <label class="well"><input type="checkbox" id="inmenu" name="inmenu" @Html.Raw(Model.IsNavigation ? "checked" : "") /> Navigation Point</label>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        @if (Model.CurrentWidget.Type == "WidgetComposite")
+        {
+            <div role="tabpanel" class="tab-pane" id="tab_widgets_@Model.CurrentWidget.Id">
+                <button type="button" class="btn btn-primary btn-sm btn-add" data-toggle="modal" data-target="#widgetCompositeSelector">Add</button>
+                @Html.Partial("_WidgetCompositeList")
+            </div>
+
+        }
+
+        <div role="tabpanel" class="tab-pane" id="tab_template_@Model.CurrentWidget.Id">
+            @{
+
+                if (System.IO.File.Exists(Server.MapPath(path)))
+                {
+                    var html = System.IO.File.ReadAllText(Server.MapPath(path));
+                    var encode = Server.HtmlEncode(html);
+                    <text>
+                        <div class="input-group input-teplate-group">
+                            <input class="form-control" readonly value="@Model.CurrentWidget.Partial">
+                            <span class="input-group-btn">
+                                <input type="hidden" name="wid" value="@Model.CurrentWidget.Id">
+                                <a class="btn btn-danger delete-confirm"
+                                   data-action="/admin/widgetreset"
+                                   data-id="@Model.CurrentWidget.Id"
+                                   data-title="Widget Zurücksetzen?"
+                                   data-description="Möchten Sie wirklich das Widget @Model.CurrentWidget.Name zurücksetzen?">
+                                    RESET
+                                </a>
+                            </span>
+                        </div><!-- /input-group -->
+
+                        <textarea class="codemirror" name="widgetfilecontent">@Html.Raw(encode)</textarea>
+                    </text>
+                }
+                else
+                {
+                    <text>
+                        Keine Widget Datei gefunden.
+                    </text>
+                }
+            }
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="seo">
+            <h5>Settings</h5>
+            <hr />
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label for="title" class="control-label col-sm-2">Title</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="metatitle" id="metatitle" class="form-control" placeholder="Titel des Widgets" value="@Model.CurrentWidget.MetaTitle" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="metadescription" class="control-label col-sm-2">Description</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="metadescription" id="metadescription" class="form-control" placeholder="Beschreibung des Widgets" value="@Model.CurrentWidget.MetaDescription" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="metaauthor" class="control-label col-sm-2">Author</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="metaauthor" id="metaauthor" class="form-control" placeholder="Author" value="@Model.CurrentWidget.MetaAuthor" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="metakeyword" class="control-label col-sm-2">Keywords</label>
+                    <div class="col-sm-8">
+                        <textarea type="text" name="metakeywords" id="metakeywords" class="form-control" rows="3" onkeyup="writeToAttr('keywords_countMessage', 'innerHtml', countKeywords(this.value) + ' keywords')">@Model.CurrentWidget.MetaKeywords</textarea>
+                        <h6 class="pull-right" id="keywords_countMessage"></h6>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="metapriority" class="control-label col-sm-2">Priority</label>
+                    <div class="col-sm-8">
+                        <input type="range" name="metapriority" min="0" max="1" step="0.05" id="metapriority" value="@Model.CurrentWidget.MetaPriority" />
+                    </div>
+                </div>
+            </div>
+            @Html.Partial("SEOStatistics", Model.SEOModel)
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="tab_socialmedia_@Model.CurrentWidget.Id">
+            @{
+                var socialMedia = Model.CurrentWidget.SocialMedia;
+            }
+            @Html.Partial("_SocialMedia", socialMedia == null ? new SocialMedia() : socialMedia)
+        </div>
+    </div>
+
+
+</text>

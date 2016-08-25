@@ -1,0 +1,234 @@
+﻿@model AdminViewModel
+<div class="well">
+    @if (Model.IsLoggedInAdmin || Model.IsCurrentUserLoggedIn)
+    {
+        using (Html.BeginForm("EmployeeEdit", "admin", FormMethod.Post, new { id = "EmployeeEdit" }))
+        {
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">Kontakt</a></li>
+            </ul>
+
+            <div class="tab-content well">
+                <div role="tabpanel" class="tab-pane active" id="general">
+                    <div class="row">
+                        <div class="col-md-8">
+                            @*<div class="form-group">
+                                    <label for="">Anrede</label>
+                                    <div>
+                                        @if (Model.CurrentEmployee.Gender == BAG.Common.Data.Entities.Gender.Male)
+                                        {
+                                            <input type="radio" name="Gender" id="Male" value="0" checked />
+                                            <label for="Male">Mann</label>
+                                        }
+                                        else
+                                        {
+                                            <input type="radio" name="Gender" id="Male" value="0" />
+                                            <label for="Male">Mann</label>
+                                        }
+                                        @if (Model.CurrentEmployee.Gender == BAG.Common.Data.Entities.Gender.Female)
+                                        {
+                                            <input type="radio" name="Gender" id="Female" checked value="1" />
+                                            <label for="Female">Frau</label>
+                                        }
+                                        else
+                                        {
+                                            <input type="radio" name="Gender" id="Female" value="1" />
+                                            <label for="Female">Frau</label>
+                                        }
+                                    </div>
+                                </div>*@
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="FirstName">First Name</label>
+                                        <input type="text" id="FirstName" name="FirstName" class="form-control" value="@Model.CurrentEmployee.FirstName" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="LastName">Last Name</label>
+                                        <input type="text" id="LastName" name="LastName" class="form-control" value="@Model.CurrentEmployee.LastName" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Email">Email</label>
+                                        <input type="text" id="Email" name="Email" class="form-control" value="@Model.CurrentEmployee.Email" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="EmailAlias">Email-Alias</label>
+                                        <input type="text" id="EmailAlias" name="EmailAlias" class="form-control" value="@Model.CurrentEmployee.EmailAlias" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="Position">Position</label>
+                                        <input type="text" id="FirstName" name="Position" class="form-control" value="@Model.CurrentEmployee.Position" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label for="Telephone">Phone</label>
+                                        <input type="text" id="Telephone" name="Telephone" class="form-control" value="@Model.CurrentEmployee.Telephone" />
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label for="Fax">Fax</label>
+                                        <input type="text" id="Fax" name="Fax" class="form-control" value="@Model.CurrentEmployee.Fax" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="EnterDate">Enter Date</label>
+                                        <input type="text" id="EnterDate" name="EnterDate" autocomplete="off" class="form-control datepickerForms" value="@Model.CurrentEmployee.EnterDate" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="ExitDate">Exit Date</label>
+                                        <input type="text" id="ExitDate" name="ExitDate" autocomplete="off" class="form-control datepickerForms" value="@Model.CurrentEmployee.ExitDate" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Birthday">Birth day</label>
+                                        <input type="text" id="Birthday" name="Birthday" autocomplete="off" class="form-control datepickerForms" value="@Model.CurrentEmployee.Birthday" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <label for="UserId">Content Monkee Profile:</label>
+                                        <select name="UserId" class="form-control">
+                                            @if (Model.CurrentEmployee.UserId == Guid.Empty)
+                                            {
+                                                <option value=""> -- Auswählen oder leer lassen -- </option>
+                                            }
+                                            @foreach (var user in Model.Users)
+                                            {
+                                                if (Model.CurrentEmployee.UserId == user.Id)
+                                                {
+                                                    <option selected value="@user.Id">@user.DisplayByLastName</option>
+                                                    <option disabled>--------------</option>
+                                                }
+                                            }
+
+                                            @foreach (var user in Model.Users)
+                                            {
+                                                <option value="@user.Id">@user.DisplayByLastName</option>
+                                            }
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <label for="XingProfilUrl">Xing</label>
+                                        <input type="text" id="XingProfilUrl" name="XingProfilUrl" class="form-control" value="@Model.CurrentEmployee.XingProfileUrl" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="LinkedInProfileUrl">LinkedIn</label>
+                                        <input type="text" id="LinkedInProfileUrl" name="LinkedInProfileUrl" class="form-control" value="@Model.CurrentEmployee.LinkedInProfileUrl" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="FacebookProfilUrl">Facebook</label>
+                                        <input type="text" id="FacebookProfilUrl" name="FacebookProfilUrl" class="form-control" value="@Model.CurrentEmployee.FacebookProfileUrl" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="GoogleProfilUrl">Google +</label>
+                                        <input type="text" id="GoogleProfilUrl" name="GoogleProfilUrl" class="form-control" value="@Model.CurrentEmployee.GoogleProfileUrl" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="XprncProfilUrl">Xprnc</label>
+                                        <input type="text" id="XprncProfilUrl" name="XprncProfilUrl" class="form-control" value="@Model.CurrentEmployee.XprncProfileUrl" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="VCardUrl">VCard Url</label>
+                                <input type="text" id="VCardUrl" name="VCardUrl" class="form-control" value="@Model.CurrentEmployee.VCardUrl" readonly />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @if (Model.CurrentEmployee.ProfilImagePath != string.Empty)
+                                {
+                                    <div class="employee-image"><img src="@Model.CurrentEmployee.ProfilImagePath" style="max-width: 100%;" /></div>
+                                }
+                                else
+                                {
+                                    <div class="employee-image"><img src="http://placehold.it/360x400" style="max-width: 100%;" /></div>
+                                }
+
+                                <label for="ProfilImagePath">Photo <a href="#" class="btn-employee-form">... choose</a> | <a class="btn-employee-form-remove">remove</a></label>
+                                <input type="text" id="ProfilImagePath" name="ProfilImagePath" readonly class="form-control" value="@Model.CurrentEmployee.ProfilImagePath" />
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="controls">
+                        <a class="btn btn-success" onclick="$('#EmployeeEdit').submit(); return false;">Save</a>
+                        <a href="/admin/data#employees" class="btn btn-default">Back to Overview</a>
+                    </div>
+                </div>
+            </div>
+                                    }
+
+
+                                    <script>
+                                        var employee_edit_firstname = "@Model.CurrentEmployee.FirstName";
+                                        var employee_edit_lastname = "@Model.CurrentEmployee.LastName";
+                                        function updateEmployeeVCardUrl(firstname, lastname) {
+                                            if (firstname != null) {
+                                                employee_edit_firstname = firstname;
+                                            }
+                                            if (lastname != null) {
+                                                employee_edit_lastname = lastname;
+                                            }
+                                            var link = employee_edit_firstname + '-' + employee_edit_lastname;
+                                            $('#VCardUrl').val('monkee.profil/link/' + core_stringToUrl(link));
+                                        }
+
+                                        $('#FirstName').change(function () {
+                                            updateEmployeeVCardUrl($(this).val(), null)
+                                        });
+                                        $('#LastName').change(function () {
+                                            updateEmployeeVCardUrl(null, $(this).val())
+                                        });
+                                    </script>
+                                    }
+                                    else
+                                    {
+                                        <h1 class="alert-danger">Keine Rechte!</h1>
+                                    }
+</div>

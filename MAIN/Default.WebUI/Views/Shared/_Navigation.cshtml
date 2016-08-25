@@ -1,0 +1,52 @@
+﻿@model GlobalViewModel
+@{
+    var viewspath = "~/Views/" + _Globals.Instance.CurrentSiteSettingId + "/Shared/_Navigation.cshtml";
+    var mappath = this.Server.MapPath(viewspath);
+    if (System.IO.File.Exists(mappath))
+    {
+        @Html.Partial(viewspath, Model);
+        return;
+    }
+}
+<div class="header-logo"><img src="@Html.Raw(string.IsNullOrWhiteSpace(Model.SiteSetting.LogoImage) ? string.Empty : Model.SiteSetting.LogoImage)" alt="@Html.Raw(Model.Site.Title);" /></div>
+@{
+            var site = Model.Site;
+            {
+                if (site.WidgetNavigations.Count != 0)
+                {
+            <a href="#" class="hamburger hamburger--spin" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                </span>
+            </a>
+
+            <nav id="navigation">
+                <ul>
+                    @foreach (var widgetpart in site.Widgets)
+                    {
+                        var widget = Model.IsPreview ? widgetpart.PreRelease : widgetpart.Release;
+                        if (widget == null)
+                        {
+                            continue;
+                        }
+
+                        if (site.WidgetNavigations.Contains(widget.Id))
+                        {
+
+                            string wUrl = ("/" + Model.SEOSiteUrl + widget.Url + "/").Replace("//", "/");
+
+                            if (site.Id == Model.Site.Id)
+                            {
+                                <li class="inf-con-nav n_wUrl"><a href="@wUrl">@widget.Name</a></li>
+                            }
+                            else
+                            {
+                                @*<li><a href="@wUrl">@widget.Name</a></li>*@
+                            }
+                        }
+                    }
+                </ul>
+            </nav>
+        }
+    }
+}

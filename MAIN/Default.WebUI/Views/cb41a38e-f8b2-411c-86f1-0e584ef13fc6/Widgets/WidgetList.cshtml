@@ -1,0 +1,58 @@
+﻿@using System.Web.UI.WebControls
+@model WidgetWrapperViewModel
+
+@{
+    var widget = Model.Widget as BAG.Common.Data.Entities.WidgetList;
+}
+
+@if (Model.IsDesignMode)
+{
+
+    <text>
+        <div class="cm-admin-widget">
+            <h5>Content</h5>
+            <hr />
+            <div class="admin-wdt-list">
+                <div class="items">
+                    <div class="item">
+                        <div class="form-group">
+                            <label for="title" class="control-label col-sm-2">Title:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="title" name="title" value="@widget.Title" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description" class="control-label col-sm-2">Description:</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control summernote" id="description" name="description">@widget.Description</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </text>
+
+}
+else
+{
+    <div class="cm-widget widget-list">
+        <div class="container">
+            <div class="panel-group">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse-next">@Html.Raw(widget.Title)</a>
+                        </h4>
+                    </div>
+                    <div class="panel-collapse collapse">
+                        <div class="panel-body">
+                            @Html.Raw(widget.Description)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

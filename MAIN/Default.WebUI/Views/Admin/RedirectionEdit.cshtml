@@ -1,0 +1,62 @@
+﻿@using Default.WebUI.Extensions
+@model AdminViewModel
+@{
+    Layout = "~/Views/Admin/__LayoutAdministration.cshtml";
+}
+
+<div class="row">
+
+    <div class="toolbar clearfix">
+        <ol class="breadcrumb pull-left">
+            <li><a href="/admin"><i class="fa fa-home"></i></a></li>
+            <li><a href="/admin">@Model.CurrentSiteSetting.Name</a></li>
+            <li class="active">RedirectionEdit</li>
+        </ol>
+    </div>
+
+    <div class="well">
+        @using (Html.BeginForm("redirectionedit", "admin", FormMethod.Post, new { id = "RedirectionEdit" }))
+        {
+            <div>
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+
+                    <li role="presentation"><a href="#urlmapping" aria-controls="widgets" role="tab" data-toggle="tab">Redirections</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content well" style="background-color: #fff; border-radius: 0;">
+                    <div class="form-horizontal">
+
+                        <div role="tabpanel" class="tab-pane" id="urlmapping">
+                            <div class="form-group">
+                                <label for="oldseourl" class="control-label col-sm-2">Old Url</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="oldseourl" id="oldseourl" class="form-control" placeholder="oldseourl" value="@Model.Redirection.oldSEOUrl" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="newseourl" class="control-label col-sm-2">New Url</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="newseourl" id="newseourl" class="form-control" placeholder="newseourl" value="@Model.Redirection.newSEOUrl" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-md-8 col-sm-offset-2">
+                <div class="controls">
+                    <a class="btn btn-success" onclick="$('#RedirectionEdit').submit(); return false;">Save</a>
+                    <a href="/admin" class="btn btn-default">Back to Pages</a>
+                    <a href="/admin/Redirections" class="btn btn-default">Back to Redirections</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

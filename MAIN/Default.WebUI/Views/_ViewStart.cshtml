@@ -1,0 +1,12 @@
+﻿@{
+    var viewspath = "~/Views/" + _Globals.Instance.CurrentSiteSettingId + "/Shared/_Layout.cshtml";
+    var mappath = this.Server.MapPath(viewspath);
+    if (System.IO.File.Exists(mappath))
+    {
+        Layout = viewspath;
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}

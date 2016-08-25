@@ -1,0 +1,246 @@
+﻿@using Default.WebUI.Extensions
+@using System.Text.RegularExpressions
+@model SiteViewModel
+@{
+    Layout = "~/Views/Admin/__LayoutAdministration.cshtml";
+    string siteurl = "/" + @Model.Site.UrlFull + "/?preview=prerelease";
+}
+
+@Html.Partial("_ModalWidgetSelector", Model)
+@Html.Partial("_ModalDeleteConfirm")
+
+<div class="row">
+
+    <div class="toolbar clearfix">
+        <ol class="breadcrumb">
+            <li><a href="/admin"><i class="fa fa-home"></i></a></li>
+            <li><a href="/admin">@Model.CurrentSiteSetting.Name</a></li>
+            <li><a href="/admin">Pages</a></li>
+            <li class="active">@Model.Site.Name <a target="_blank" href='@siteurl.Replace("//","/")'><i class="fa fa-eye"></i></a></li>
+        </ol>
+    </div>
+
+    <div class="well">
+        @using (Html.BeginForm("siteedit", "admin", FormMethod.Post, new { id = "SiteEdit" }))
+
+        {
+            <div>
+
+                <h4>@Model.Site.Name</h4>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+
+                    <li role="presentation" class="active"><a href="#widgets" aria-controls="widgets" role="tab" data-toggle="tab">Widgets</a></li>
+                    <li role="presentation"><a href="#preview" aria-controls="preview" role="tab" data-toggle="tab">Preview</a></li>
+                    <li role="presentation"><a href="#css" aria-controls="css" role="tab" data-toggle="tab">CSS</a></li>
+                    <li role="presentation"><a href="#js" aria-controls="js" role="tab" data-toggle="tab">JavaScript</a></li>
+                    <li role="presentation"><a href="#seo" aria-controls="seo" role="tab" data-toggle="tab">SEO</a></li>
+                    <li role="presentation">
+                        <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">
+                            <span class="glyphicon glyphicon-cog"></span>
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content well" style="background-color: #fff; border-radius: 0;">
+                    <div role="tabpanel" class="tab-pane" id="preview">
+                        <div class="isinadmineditframe"></div>
+                        <iframe src="@(Regex.Replace("/"+Model.Site.UrlFull + "?preview=prerelease",@"[/]+","/"))" style="min-height: 600px; width: 100%;"></iframe>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane active" id="widgets">
+                        <button type="button" class="btn btn-primary btn-sm btn-add" data-toggle="modal" data-target="#widgetSelector">Add</button>
+                        @Html.Partial("_WidgetList", Model.WidgetContainer)
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="css">
+                        <textarea class="codemirror" name="css">@Html.Raw(Model.Site.Css)</textarea>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="js">
+                        <textarea class="codemirror" name="javascript">@Html.Raw(Model.Site.JavaScript)</textarea>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="seo">
+                        <h5>Settings</h5>
+                        <hr />
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="title" class="control-label col-sm-2">Title</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="title" id="title" class="form-control" placeholder="Titel der Seite" value="@Model.Site.Title" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="description" class="control-label col-sm-2">Description</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="description" id="description" class="form-control" placeholder="Beschreibung der Seite" value="@Model.Site.Description" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="author" class="control-label col-sm-2">Author</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="author" id="author" class="form-control" placeholder="Author" value="@Model.Site.Author" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="keyword" class="control-label col-sm-2">Keywords</label>
+                                <div class="col-sm-8">
+                                    <textarea type="text" name="keywords" id="keywords" class="form-control" rows="3" onkeyup="writeToAttr('keywords_countMessage', 'innerHtml', countKeywords(this.value) + ' keywords')">@Model.Site.Keywords</textarea>
+                                    <h6 class="pull-right" id="keywords_countMessage"></h6>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="priority" class="control-label col-sm-2">Priority</label>
+                                <div class="col-sm-8">
+                                    <input type="range" name="priority" min="0" max="1" step="0.05" id="priority" value="@Model.Site.Priority" />
+                                </div>
+                            </div>
+                        </div>
+                        @Html.Partial("SEOStatistics", Model.SEOModel)
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="settings">
+                        <div class="form-horizontal">
+                            <h5>Name and Url</h5>
+                            <hr />
+                            <div class="form-group">
+                                <label for="InputName" class="control-label col-sm-2">Name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="name" id="InputName" class="form-control" placeholder="Name" value="@Model.Site.Name" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputVisible" class="control-label col-sm-2">Url-Prefix</label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="inputVisible" name="urlprefix" class="form-control" placeholder="prefix" value="@Model.Site.UrlPrefix" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="url" class="control-label col-sm-2">Url</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="url" id="url" class="form-control" placeholder="url" value="@Model.Site.Url" />
+                                </div>
+                            </div>
+
+                            <h5>Configuration Tab</h5>
+                            <hr />
+
+                            <div class="form-group">
+                                <label for="favicon" class="control-label col-sm-2">Favicon</label>
+                                <div class="col-sm-6">
+                                    <div class="img-selector-container" data-name="SelectImage">
+                                        <img class="preview image-responsive" style="max-width: 200px; max-height: 200px;"
+                                             src="@Html.Raw(string.IsNullOrWhiteSpace(Model.Site.Favicon) ? string.Empty : Model.Site.Favicon.GetImagePath())" />
+                                        <input class="selection" type="hidden" name="favicon" id="favicon" value="@Model.Site.Favicon" />
+                                        <div class="controls">
+                                            <button class="btn btn-default select-image">Select Favicon</button>
+                                            <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-6 col-sm-offset-2">
+                                    <label class="well"><input type="checkbox" id="changefaviconontabchange" name="changefaviconontabchange" @(Model.Site.ChangeFaviconOnTabChange ? "checked" : "")> Change Favicon on Tab Change</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="altfavicon" class="control-label col-sm-2">Tab Change Favicon</label>
+                                <div class="col-sm-6">
+                                    <div class="img-selector-container" data-name="SelectImage">
+                                        <img class="preview image-responsive" style="max-width: 200px; max-height: 200px;"
+                                             src="@Html.Raw(string.IsNullOrWhiteSpace(Model.Site.AltFavicon) ? string.Empty : Model.Site.AltFavicon.GetImagePath())" />
+                                        <input class="selection" type="hidden" name="altfavicon" id="altfavicon" value="@Model.Site.AltFavicon" />
+                                        <div class="controls">
+                                            <button class="btn btn-default select-image">Select Favicon</button>
+                                            <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-6 col-sm-offset-2">
+                                    <label class="well"><input type="checkbox" id="changetitleontabchange" name="changetitleontabchange" @(Model.Site.ChangeTitleOnTabChange ? "checked" : "")> Change Title on Tab Change</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-6 col-sm-offset-2">
+                                    <label class="well"><input type="checkbox" id="animatealttitle" name="animatealttitle" @(Model.Site.AnimateAltTitle ? "checked" : "")> Animate Title on Tab Change</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="text" class="control-label col-sm-2">Animation Speed</label>
+                                <div class="col-sm-6">
+                                    <input type="range" min="0" max="10" id="animationspeed" name="animationspeed" value="@Model.Site.AnimationSpeed" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="title" class="control-label col-sm-2">Tab Change Title</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="alttitle" id="alttitle" class="form-control" value="@Model.Site.AltTitle" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="text" class="control-label col-sm-2">Tab Change Timeout</label>
+                                <div class="col-sm-6">
+                                    <input type="range" min="0" max="100" id="tabchangetimeout" name="tabchangetimeout" value="@Model.Site.TabChangeTimeout" />
+                                </div>
+                            </div>
+
+                            <h5>Configuration</h5>
+                            <hr />
+
+                            <div class="form-group">
+                                <div class="col-sm-6 col-sm-offset-2">
+                                    <label class="well"><input type="checkbox" id="visible" name="visible" @Html.Raw(Model.Site.Visible ? "checked" : "") /> Visible</label>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-6 col-sm-offset-2">
+                                    <label class="well"><input type="checkbox" id="inmenu" name="inmenu" @Html.Raw(Model.IsNavigation ? "checked" : "") /> Navigation Point</label>
+                                </div>
+                            </div>
+                            <h5>Secured Site</h5>
+                            <hr />
+                            <div class="form-group">
+                                <label for="sitepassword" class="control-label col-sm-2">Site password</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="sitepassword" id="sitepassword" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-6 col-sm-offset-2">
+                                    <label class="well"><input type="checkbox" id="haspassword" name="haspassword" @Html.Raw(Model.Site.HasPassword ? "checked" : "") />Site secured</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+                        }
+        <div class="error alert alert-warning hidden" role="alert"><span></span></div>
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="controls">
+                    <a class="btn btn-success" onclick="$('#SiteEdit').submit(); return false;">Save</a>
+                    <a href="/admin" class="btn btn-default">Back to Pages</a>
+                    <a href="/admin#!widgets" class="btn btn-default">Back to Widgets</a>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <a class="btn btn-default pull-right @(Model.IsDistinct?"btn-warning":"")" href="/admin/sitepublish/@Model.Site.Id">Publish Site</a>
+            </div>
+        </div>
+    </div>
+</div>

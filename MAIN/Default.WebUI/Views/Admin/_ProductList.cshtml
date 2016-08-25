@@ -1,0 +1,35 @@
+﻿@using BAG.Common.Data.Entities
+@model EditionModalSelectorViewModel
+<table class="table table-hover table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Typ</th>
+        </tr>
+    </thead>
+    <tbody class="item-selection">
+        @if (Model.Products.Count == 0)
+        {
+            <tr>
+                <td colspan="3">
+                    Keine Produkte vorhanden.
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var product in Model.Products)
+            {
+                <tr>
+                    <th scope="row">
+                        <input type="checkbox" @(Model.PreSelectedItems.Contains(product.EditionId) ? "checked='checked'" : string.Empty) data-item-id="@product.EditionId" data-item-name="@product.Title" value="@product.EditionId" />
+                    </th>
+                    <td>@product.Title</td>
+                    <td>-</td>
+                </tr>
+            }
+        }
+    
+    </tbody>
+</table>

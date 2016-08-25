@@ -1,0 +1,16 @@
+﻿@model GlobalViewModel
+    @{ 
+        var test = Model.SiteSetting;
+    }
+@if (!_Globals.Instance.EnableCookies)
+{
+
+    <div class="cookiecontent">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10"><p>@Html.Raw(Model.SiteSetting.CookieDescription)</p></div>
+                <div class="col-md-2"><a id="cookieInstr" class="btn btn-default" href="/Account/SetCookie">Akzeptieren</a></div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,15 @@
+﻿@using Default.WebUI.Extensions
+@model BAG.Common.Data.Entities.Site
+
+
+@if (Model != null && !string.IsNullOrWhiteSpace(Model.HeaderImage))
+{
+    <div class="container-fluid hidden-sm hidden-xs text-center" style="height: 350px; overflow: hidden;">
+        <img src="@Html.Raw(Model.HeaderImage.GetImagePath())"/>
+    </div>
+    <div style="height: 60px;" class="hidden-lg hidden-md"></div>
+}
+else
+{
+    <div style="height: 60px;"></div>
+}

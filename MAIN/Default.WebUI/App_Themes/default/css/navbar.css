@@ -1,0 +1,130 @@
+@media (min-width: 768px) and (max-width: 991px) {
+    .navbar-collapse.collapse {
+        display: none !important;
+    }
+
+        .navbar-collapse.collapse.in {
+            display: block !important;
+        }
+
+    .navbar-header .collapse, .navbar-toggle {
+        display: block !important;
+    }
+
+    .navbar-header {
+        float: none;
+    }
+}
+
+.navbar {
+    opacity: .9;
+}
+
+    .navbar .nav-checkout {
+        margin-right: 100px !important;
+    }
+
+        .navbar .nav-checkout li a {
+            color: #D67216 !important;
+        }
+
+@media (min-width: 768px) {
+    .navbar li.checkout {
+        margin-left: 100px !important;
+    }
+}
+
+.navbar li.checkout a {
+    color: #D67216 !important;
+}
+
+.container-fluid {
+    padding: 0;
+}
+
+#thing {
+    z-index: 1000000000;
+}
+
+.desc {
+    padding: 1px 15px;
+    position: relative;
+    top: -41px;
+    background: white;
+    color: #1d1d1d;
+    border-radius: 5px 5px 0 0;
+}
+
+.down {
+    width: 280px;
+    height: 0px;
+    -webkit-transition: all 0.6s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.6s;
+    -o-transition: all 0.6s;
+    transition: all 0.6s;
+}
+
+.up {
+    height: 120px;
+    z-index: 1000000;
+    -webkit-transition: all 0.6s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.6s;
+    -o-transition: all 0.6s;
+    transition: all 0.6s;
+}
+
+#nav {
+    z-index: 10;
+    bottom: 0;
+    position: fixed;
+    background-color: white;
+    color: #fff;
+}
+
+#menu {
+    text-align: left;
+    position: fixed;
+}
+
+    #menu p {
+        padding: 0 12px;
+    }
+
+.filteropt {
+    margin: 0 5px;
+    display: inline-table;
+}
+
+.footer {
+    height: 44px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #EEE;
+}
+
+.auto-width {
+    width: 100%;
+}
+
+.tischler-logo {
+    margin-top: -10px;
+}
+
+@media (min-width: 768px) {
+    .nav-justified > li {
+        display: initial;
+        width: 1%;
+    }
+}
+
+.thumbnail2 {
+    height: 50px;
+    display: initial;
+}
+
+    .preview {
+        height: 310px;
+    }

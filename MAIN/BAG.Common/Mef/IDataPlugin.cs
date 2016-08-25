@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BAG.Common.Mef
+{
+    public interface IDataPlugin<T>:IPlugin
+    {
+         T Model { get; set; }
+
+
+        void OnPost();
+        void OnShow();
+    }
+}

@@ -1,0 +1,40 @@
+﻿@model List<BAG.Common.Data.Entities.Employee>
+<table class="table table-hover @Html.Raw(Model.Count == 0 ? string.Empty : "tablesorter {sortlist: [[1,0]]}")">
+    <thead>
+        <tr>
+            <th class="{sorter: false}"><a class="btn btn-primary btn-add" href="/admin/employeeedit">Add</a></th>
+            <th>Email-Alias</th>
+            <th>Birthday</th>
+            <th>Eintrittsdatum</th>
+            <th class="{sorter: false}"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model)
+            {
+            <tr>
+                <td><a href="employeeedit/@employee.Id">@employee.DisplayByLastName</a></td>
+                <td>@employee.EmailAlias</td>
+                <td>@employee.Birthday</td>
+                <td>@employee.EnterDate</td>
+
+
+                <td class="text-right">
+                    <a class="btn btn-default btn-xs" href="employeeedit/@employee.Id">
+                        <i class="fa fa-pencil"></i>
+                    </a>
+                    &nbsp;
+                    <a class="btn btn-danger btn-xs delete-confirm"
+                       data-action="/admin/employeedelete"
+                       data-id="@employee.Id"
+                       data-title="Employee löschen"
+                       data-description="Möchten Sie wirklich @employee.DisplayByLastName löschen?">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                    &nbsp;
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

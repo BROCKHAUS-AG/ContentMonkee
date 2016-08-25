@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DevMentor.Context.Entity;
+
+namespace $rootnamespace$.Data.Entities
+{
+    public class Base: BaseEntity
+    {
+        public Guid OwnerId { get; set; }
+        public bool Archived { get; set; }
+    }
+}

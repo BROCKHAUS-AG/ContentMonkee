@@ -1,0 +1,67 @@
+﻿@model Default.WebUI.Models.BackupViewModel
+@{
+    Layout = "~/Views/Admin/__LayoutAdministration.cshtml";
+    ViewBag.Title = "Backup View";
+}
+
+@Html.Partial("_ModalBackupRestore")
+@Html.Partial("_ModalBackupDeleteConfirm")
+<div class="row">
+    <div class="toolbar clearfix">
+        <ol class="breadcrumb pull-left">
+            <li><a href="/admin"><i class="fa fa-home"></i></a></li>
+            <li class="active">Backup</li>
+        </ol>
+    </div>
+
+    <div class="well">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#backup" aria-controls="backup" role="tab" data-toggle="tab">Backups</a></li>
+        </ul>
+        <div class="tab-content tab-content-well">
+            <div role="tabpanel" class="tab-pane active" id="backup">
+                <table class="table table-hover tablesorter {sortlist: [[1,0]]}">
+                    <thead>
+                        <tr>
+                            <th>Backup</th>
+                            <th>Status</th>
+                            <th class="{sorter: false}"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var Backup in Model.Backups)
+                        {
+                            <tr>
+                                <td>@Backup</td>
+
+                                <td class="backupstatus" data-name="@Backup"></td>
+                                
+                                <td class="text-right">
+
+                                    <a class="btn btn-default btn-xs backup-restore"
+                                       data-action="/admin/restorebackup"
+                                       data-name="@Backup"
+                                       data-title="Restore Backup"
+                                       data-description="Wollen sie dass Backup @Backup wirklich wiederherstellen">
+                                        Restore
+                                    </a>
+                                    <a class="btn btn-success btn-xs" href="/admin/downloadbackup?name=@Backup">
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                    <a class="btn btn-danger btn-xs backupdelete-confirm"
+                                       data-action="/admin/deletebackup"
+                                       data-name="@Backup"
+                                       data-title="SiteSetting löschen"
+                                       data-description="Möchten Sie wirklich das Backup @Backup löschen?">
+                                        <i class="fa fa-trash-o"></i>
+                                    </a>
+                                </td>
+
+                            </tr>
+                                        }
+                    </tbody>
+                </table>
+            </div>           
+        </div>
+    </div>
+</div>

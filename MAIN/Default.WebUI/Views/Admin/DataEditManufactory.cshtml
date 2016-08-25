@@ -1,0 +1,282 @@
+﻿@model DataViewModel
+@using Default.WebUI.Extensions;
+
+@{
+    ViewBag.Title = "Daten";
+    Layout = "~/Views/Admin/__LayoutAdministration.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="toolbar clearfix">
+        <ol class="breadcrumb">
+            <li><a href="~/admin"><i class="fa fa-home"></i></a></li>
+            <li><a href="/admin">@Model.CurrentSiteSetting.Name</a></li>
+            <li><a href="~/admin/Data?tab=manufactory">Data</a></li>
+            <li class="active">@Model.CurrentManufactory.Title</li>
+        </ol>
+    </div>
+
+    <div class="well">
+        @using (Html.BeginForm("DataEditManufactory", "admin", FormMethod.Post, new { id = "DataEditManufactory" }))
+        {
+            <text>
+                <input type="hidden" name="id" value="@Model.CurrentManufactory.Id">
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#data" aria-controls="data" role="tab" data-toggle="tab">Info</a></li>
+                    <li role="presentation"><a href="#text" aria-controls="text" role="tab" data-toggle="tab">Body</a></li>
+                    <li role="presentation"><a href="#address" aria-controls="address" role="tab" data-toggle="tab">Address</a></li>
+                    <li role="presentation"><a href="#images" aria-controls="images" role="tab" data-toggle="tab">Images</a></li>
+                    <li role="presentation"><a href="#seo" aria-controls="seo" role="tab" data-toggle="tab">SEO</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content well" style="background-color: #fff; border-radius: 0; ">
+                    <div role="tabpanel" class="tab-pane active" id="data">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="title" class="control-label col-sm-2">Title</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="title" name="title" required value="@Model.CurrentManufactory.Title">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="url" class="control-label col-sm-2">Url</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="url" name="url" required value="@Model.CurrentManufactory.Url">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cite" class="control-label col-sm-2">Summary</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control summernote" id="cite" name="cite">@Model.CurrentManufactory.Cite</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="citedperson" class="control-label col-sm-2">Summary Person</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="citedperson" name="citedperson" value="@Model.CurrentManufactory.CitedPerson">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-6 col-sm-offset-2">
+                                    <label class="control-label">Categories </label><br />
+                                    <input type="checkbox" name="categoryInnenausbau" @Html.Raw(Model.CurrentManufactory.Categories.Contains("Innenausbau") ? "checked=\"checked\"" : string.Empty) style="margin-right: 5px" /> Innenausbau <br />
+                                    <input type="checkbox" name="categoryMöbelbau" @Html.Raw(Model.CurrentManufactory.Categories.Contains("Möbelbau") ? "checked=\"checked\"" : string.Empty) style="margin-right: 5px" />Möbelbau<br />
+                                    <input type="checkbox" name="categoryKüchen" @Html.Raw(Model.CurrentManufactory.Categories.Contains("Küchen") ? "checked=\"checked\"" : string.Empty) style="margin-right: 5px" />Küchen<br />
+                                    <input type="checkbox" name="categoryRestaurierung" @Html.Raw(Model.CurrentManufactory.Categories.Contains("Restaurierung") ? "checked=\"checked\"" : string.Empty) style="margin-right: 5px" />Restaurierung
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="text">
+
+                        <div class="form-group">
+                            <label for="contentleft" class="control-label">Inhalt Links</label>
+                            <textarea class="form-control summernote" id="contentleft" name="contentleft">@Model.CurrentManufactory.ContentLeft</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contentright" class="control-label">Inhalt Rechts</label>
+                            <textarea class="form-control summernote" id="contentright" name="contentright">@Model.CurrentManufactory.ContentRight</textarea>
+                        </div>
+
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="address">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="street" class="control-label col-sm-2">Straße</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="street" name="street" value="@Model.CurrentManufactory.Street">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="zip" class="control-label col-sm-2">Postleitzahl</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="zip" name="zip" value="@Model.CurrentManufactory.Zip">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="city" class="control-label col-sm-2">Stadt</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="city" name="city" value="@Model.CurrentManufactory.City">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="mail" class="control-label col-sm-2">Mail</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="mail" name="mail" value="@Model.CurrentManufactory.Mail">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="homepage" class="control-label col-sm-2">Homepage</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="homepage" name="homepage" value="@Model.CurrentManufactory.Homepage">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="homepage2" class="control-label col-sm-2">Zweite Homepage</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="homepage2" name="homepage2" value="@Model.CurrentManufactory.Homepage2">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="telephone" class="control-label col-sm-2">Telefon</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="telephone" name="telephone" value="@Model.CurrentManufactory.Telephone">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="fax" class="control-label col-sm-2">Fax</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="fax" name="fax" value="@Model.CurrentManufactory.Fax">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="latitude" class="control-label col-sm-2">Latitude</label>
+                                <div class="col-sm-6">
+                                    <input type="text" readonly="readonly" class="form-control" id="latitude" name="latitude" value="@Model.CurrentManufactory.LatitudeString">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="longitude" class="control-label col-sm-2">Longitude</label>
+                                <div class="col-sm-6">
+                                    <input type="text" readonly="readonly" class="form-control" id="longitude" name="longitude" value="@Model.CurrentManufactory.LongitudeString">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-6 col-sm-offset-2">
+                                    <button id="btnGetCoordinates" class="btn btn-default select-image">Koordinaten aus Adresse übernehmen</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="images">
+                        <div class="form-group">
+                            <label for="inputTitle" class="control-label">ImageFactory</label>
+                            <div class="img-selector-container center-text" data-name="SelectImageBig">
+
+                                <img class="preview image-responsive" style="width: 200px; max-height: 200px;"
+                                     src="@Html.Raw( string.IsNullOrWhiteSpace(Model.CurrentManufactory.ImageFactory) ? string.Empty : Model.CurrentManufactory.ImageFactory.GetImagePath())" />
+                                <input class="selection" type="hidden" name="imagefactory" value="@Model.CurrentManufactory.ImageFactory" />
+                                <br />
+                                <button class="btn btn-default select-image">Bild auswählen</button>
+                                <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputTitle" class="control-label">ImageWorker</label>
+                            <div class="img-selector-container center-text" data-name="SelectImageSmall">
+
+                                <img class="preview image-responsive" style="width: 200px; max-height: 200px;"
+                                     src="@Html.Raw( string.IsNullOrWhiteSpace(Model.CurrentManufactory.ImageWorker) ? string.Empty : Model.CurrentManufactory.ImageWorker.GetImagePath())" />
+                                <input class="selection" type="hidden" name="imageworker" value="@Model.CurrentManufactory.ImageWorker" />
+                                <br />
+                                <button class="btn btn-default select-image">Bild auswählen</button>
+                                <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="seo">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="metatitle" class="control-label col-sm-2">Title</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="metatitle" id="metatitle" class="form-control" placeholder="Titel der Seite" value="@Model.CurrentManufactory.MetaTitle" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="metadescription" class="control-label col-sm-2">Description</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="metadescription" id="metadescription" class="form-control" placeholder="Beschreibung der Seite" value="@Model.CurrentManufactory.MetaDescription" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="metaauthor" class="control-label col-sm-2">Author</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="metaauthor" class="form-control" id="metaauthor" placeholder="Author" value="@Model.CurrentManufactory.MetaAuthor" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="metakeywords" class="control-label col-sm-2">Keywords</label>
+                                <div class="col-sm-6">
+                                    <textarea type="text" name="metakeywords" id="metakeywords" class="form-control" rows="3">@Model.CurrentManufactory.MetaKeywords</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 col-sm-offset-2">
+                        <div class="controls">
+                            <a class="btn btn-success" onclick="$('#DataEditManufactory').submit(); return false;">Save</a>
+                            <a href="~/admin/data?tab=manufactory" class="btn btn-default">Back to Overview</a>
+                        </div>
+                    </div>
+                </div>
+
+            </text>
+
+
+            <script>
+                $(function () {
+                    $('#btnGetCoordinates').click(function (e) {
+                        e.preventDefault();
+                        var jsonObject = {
+                            "Id": $("input[name='id']").val(),
+                            "Street": $("input[name='street']").val(),
+                            "Zip": $("input[name='zip']").val(),
+                            "City": $("input[name='city']").val()
+
+                        };
+
+                        $.ajax({
+                            url: "@Url.Action("GetCoordinates")",
+                            type: "POST",
+                            data: JSON.stringify(jsonObject),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            error: function (response) {
+                                alert(response.responseText);
+                            },
+                            success: function (response) {
+
+                                $("input[name='latitude']").val(response.LatitudeString);
+                                $("input[name='longitude']").val(response.LongitudeString);
+
+                            }
+                        });
+
+                    });
+                });
+
+
+            </script>
+        }
+    </div>
+</div>

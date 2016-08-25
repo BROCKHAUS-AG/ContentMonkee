@@ -1,0 +1,20 @@
+﻿@model Default.WebUI.Models.AdminViewModel
+
+@{
+    ViewBag.Title = "Employeeedit";
+    Layout = "~/Views/Admin/__LayoutAdministration.cshtml";
+}
+
+<div class="row">
+    <div class="toolbar clearfix">
+        <ol class="breadcrumb">
+            <li><a href="/admin"><i class="fa fa-home"></i></a></li>
+            <li><a href="/admin">@Model.CurrentSiteSetting.Name</a></li>
+            <li><a href="/admin/Data?tab=employees">Data</a></li>
+            <li class="active">@Model.CurrentEmployee.DisplayName</li>
+        </ol>    
+    </div>
+
+    @Html.Partial("~/Views/Admin/Employee.cshtml", Model)
+</div>
+

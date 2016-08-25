@@ -1,0 +1,26 @@
+﻿@model GlobalViewModel
+
+<div class="row">
+    <div class="col-md-4 lead">
+        Name
+    </div>
+
+    <div class="col-md-8 lead">
+        Beschreibung
+    </div>
+</div>
+
+
+
+
+@foreach (var r in Model.Results)
+{
+    <div class="row">
+        <div class="col-md-4">
+            <a href="@Html.Raw("/" + r.Site.UrlFull)">@Html.Raw(r.Site.Name)</a>
+        </div>
+        <div class="col-md-8">
+            @Html.Raw(r.Site.Description)
+        </div>
+    </div>
+}

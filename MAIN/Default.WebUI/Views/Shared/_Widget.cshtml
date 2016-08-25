@@ -1,0 +1,128 @@
+﻿@model WidgetViewModel
+
+@if (Model.Widget.GetType().Name == "WidgetPageHeader" || Model.Widget.GetType().Name == "WidgetPageFooter")
+{
+    var path = "~/Views/Widgets/" + Model.Widget.Partial;
+    if (System.IO.File.Exists(Server.MapPath(path)))
+    {
+        if (Model.Widget.GetType().Name == "WidgetPageFooter")
+        {
+            <div id="dyn-widget-edit-@Model.Widget.Id">
+                @Html.Partial(path, Model)
+            </div>
+        }
+        else
+        {
+            <div id="dyn-widget-edit-@Model.Widget.Id">
+                @Html.Partial(path, new WidgetWrapperViewModel(Model.Widget))
+            </div>
+        }
+    }
+    else
+    {
+        <text>
+            <div class="alert alert-danger" role="alert">Widget @Model.Widget.Name (@Model.Widget.Partial) nicht gefunden.</div>
+        </text>
+    }
+
+    if (_Globals.Instance.IsAuthenticated && Model.Widget.Id != Guid.Empty)
+    {
+        <div class="widget-edit-toolbar clearfix">
+            <p class="title">@Model.Widget.Name</p>
+
+            <button class="btn btn-default"
+                    href="/admin/widgeteditdyn/@Model.Widget.Id"
+                    onclick="widgeteditdyn(event)">
+                <i class="ionicons ion-edit"></i> Edit
+            </button>
+
+            <button class="btn btn-default"
+                    href="/admin/widgetdeletefront/@{@Model.Widget.Id}?siteid=@Model.SiteId"
+                    onclick="widgetdeletedyn(event, '@Model.Widget.Name', '@Model.Widget.Id')">
+                <i class="ionicons ion-trash-a"></i> Delete
+            </button>
+        </div>
+    }
+
+
+
+    }
+    else
+    {
+    <div class="widgetList scroll">
+        @{
+            if (Model.IsNavPoint)
+            {
+                <hr class="widgetline" />
+            }
+        }
+        <div class="widgetList-wrapper">
+
+            @{
+                var path = "~/Views/Widgets/" + Model.Widget.Partial;
+                if (System.IO.File.Exists(Server.MapPath(path)))
+                {
+                    <div id="dyn-widget-edit-@Model.Widget.Id">
+                        @Html.Partial(path, new WidgetWrapperViewModel(Model.Widget))
+                    </div>
+                }
+                else
+                {
+                    <text>
+                        <div class="alert alert-danger" role="alert">Widget @Model.Widget.Name (@Model.Widget.Partial) nicht gefunden.</div>
+                    </text>
+                }
+
+
+                if (Model.Widget.SocialMedia != null)
+                {
+                    @Html.Partial("_PartialSocialMedia", Model)
+                }
+
+            }
+        </div>
+
+        @if (_Globals.Instance.IsAuthenticated && Model.Widget.Id != Guid.Empty)
+        {
+            <div class="widget-edit-toolbar clearfix">
+                <p class="title">@Model.Widget.Name</p>
+
+                <button class="btn btn-default"
+                        href="/admin/widgeteditdyn/@Model.Widget.Id?siteid=@Model.SiteId"
+                        onclick="widgeteditdyn(event)">
+                    <i class="ionicons ion-edit"></i> Edit
+                </button>
+
+                <button class="btn btn-default"
+                        href="/admin/widgetdeletefront/@{@Model.Widget.Id}?siteid=@Model.SiteId"
+                        onclick="widgetdeletedyn(event, '@Model.Widget.Name', '@Model.Widget.Id')">
+                    <i class="ionicons ion-trash-a"></i> Delete
+                </button>
+
+                <button class="btn btn-default"
+                        href="/admin/widgetmovebase/@{@Model.Widget.Id}?siteid=@Model.SiteId&direction=first"
+                        onclick="widgetmovefirst(event, '@Model.Widget.Id')">
+                    <i class="ionicons ion-ios-skipbackward rotate-90"></i> Move First
+                </button>
+
+                <button class="btn btn-default"
+                        href="/admin/widgetmovebase/@{@Model.Widget.Id}?siteid=@Model.SiteId&direction=up"
+                        onclick="widgetmoveup(event, '@Model.Widget.Id')">
+                    <i class="ionicons ion-ios-arrow-back rotate-90"></i> Move Up
+                </button>
+
+                <button class="btn btn-default"
+                        href="/admin/widgetmovebase/@{@Model.Widget.Id}?siteid=@Model.SiteId&direction=down"
+                        onclick="widgetmovedown(event, '@Model.Widget.Id')">
+                    <i class="ionicons ion-ios-arrow-back rotate-270"></i> Move Down
+                </button>
+
+                <button class="btn btn-default"
+                        href="/admin/widgetmovebase/@{@Model.Widget.Id}?siteid=@Model.SiteId&direction=last"
+                        onclick="widgetmovelast(event, '@Model.Widget.Id')">
+                    <i class="ionicons ion-ios-skipbackward rotate-270"></i> Move Last
+                </button>
+            </div>
+    }
+    </div>
+}

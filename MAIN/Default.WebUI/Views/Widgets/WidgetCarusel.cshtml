@@ -1,0 +1,89 @@
+﻿@using BAG.Common.Data.Entities
+@using Default.WebUI.Extensions
+@model WidgetWrapperViewModel
+@{
+    var viewspath = "~/Views/" + _Globals.Instance.CurrentSiteSettingId + "/Widgets/WidgetCarusel.cshtml";
+    var mappath = this.Server.MapPath(viewspath);
+    if (System.IO.File.Exists(mappath))
+    {
+        @Html.Partial(viewspath, Model);
+        return;
+    }
+}
+@{
+    var widget = Model.Widget as WidgetCarusel;
+}
+
+@if (widget != null)
+{
+    if (Model.IsDesignMode)
+    {
+        <text>
+            <div class="cm-admin-widget">
+                <h5>Set of Images</h5>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-10 col-sm-offset-2">
+                        <label for="slider-items" class="control-label">Elemente</label>
+                        <input id="slider-items" type="hidden" name="itemsstring" value="@widget.ItemsString" />
+
+                        <table class="table table-striped table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Link</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody class="slider-items">
+                                @foreach (CaruselItem item in widget.Items)
+                                 {
+                                    <tr class="item" data-item-id="@item.Id" data-item-url="@item.Url" data-item-hash="@item.Image">
+                                        <td>
+                                            <input type="checkbox" name="marked-item" data-item-id="@item.Id" />
+
+                                            <img style="max-height: 150px; max-width: 100%;" src="@Html.Raw(string.IsNullOrWhiteSpace(item.Image) ? string.Empty : item.Image.GetImagePath())" />
+                                        </td>
+                                        <td>
+                                            <a class="item-link" href="@item.Url">@item.Url</a>
+                                        </td>
+                                        <td style="text-align: right">
+                                            <a href="#" class="btn btn-primary btn-enter-link">...</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                        <a href="#" class="btn btn-success btn-add-image">Add Image</a>
+                        <a href="#" class="btn btn-danger btn-delete-selected">Delete Selected</a>
+                    </div>
+                </div>
+            </div>
+        </text>
+    }
+    else
+    {
+        <div class="cm-widget widget-carusel">
+            <div style="display:block;height:50px;" class="hidden-sm hidden-md hidden-lg">
+            </div>
+            <div class="sliderViewContainer hidden-xs">
+                <div id="slider" style="padding-top:0;">
+                    @foreach (CaruselItem item in widget.Items.Where(i => !string.IsNullOrEmpty(i.Image)))
+                    {
+                        if (string.IsNullOrWhiteSpace(item.Url) || item.Url == "null")
+                        {
+                            <img src="@Html.Raw(string.IsNullOrWhiteSpace(item.Image) ? string.Empty : item.Image.GetImagePath())" alt="Slider Image" />
+                        }
+                        else
+                        {
+                            <a href="@item.Url">
+                                <img src="@Html.Raw(string.IsNullOrWhiteSpace(item.Image) ? string.Empty : item.Image.GetImagePath())" alt="Slider Image" />
+                            </a>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    }
+}

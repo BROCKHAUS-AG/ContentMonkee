@@ -1,0 +1,81 @@
+﻿@model AdminWidgetViewModel
+
+@{
+    Layout = null;
+}
+
+@Html.Partial("_ModalDeleteConfirm")
+@Html.Partial("_ModalInternalSiteSelect", Model)
+@if (Model.CurrentWidget.Type == "WidgetComposite")
+{
+    @Html.Partial("_ModalWidgetCompositeSelector", Model)
+}
+
+@{ var SEOUrl = Model.Sites.Find(w => w.Id == Model.CurrentSiteId);  }
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Administration</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+    @Styles.Render("~/admin/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @Html.Partial("_Gwc")
+</head>
+
+<body style="margin-bottom: 0;">
+    @Scripts.Render("~/admin/js")
+    @Scripts.Render("~/admin/bundles/jqueryval")
+
+    <div class="toolbar clearfix">
+        <ol class="breadcrumb">
+            <li><a><i class="fa fa-home"></i></a></li>
+            <li><a>Widgets</a></li>
+            <li class="active">@Model.CurrentWidget.Name</li>
+        </ol>
+    </div>
+
+    <div class="well" style="margin-bottom: 0;">
+        @using (Html.BeginForm("widgetedit", "admin", FormMethod.Post, new { id = "WidgetEdit_" + @Model.CurrentWidget.Id.ToString() }))
+        {
+            @Html.Partial("WidgetEditForm", Model)
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="controls">
+                        <a class="btn btn-success" onclick="$('#WidgetEdit_@Model.CurrentWidget.Id.ToString()').submit(); return false;">Save</a>
+                        <a href="" class="btn btn-default" id="WidgetEditCancel_@Model.CurrentWidget.Id.ToString()">Cancel</a>
+                    </div>
+                </div>
+            </div>
+                <script>
+                    window.onload = function () {
+                        parent.$("#widgetEditModal").trigger("contentloaded");
+                    };
+
+                        $('#WidgetEdit_@Model.CurrentWidget.Id.ToString()').submit(function (e) {
+                            e.preventDefault();
+                            $.ajax({
+                                url: '/admin/widgetedit/@Model.CurrentWidget.Id/',
+                                type: 'post',
+                                data: $('#WidgetEdit_@Model.CurrentWidget.Id.ToString()').serialize(),
+                                success: function () {
+                                    parent.$("#widgetEditModal").trigger("editsaved", {objid: "@Model.CurrentWidget.Id", link: "/widgetById/@Model.CurrentWidget.Id/@SEOUrl"});
+                                }
+                            });
+                        });
+
+                        $('#WidgetEditCancel_@Model.CurrentWidget.Id').on('click', function (e) {
+                            e.preventDefault();
+                            parent.$("#widgetEditModal").trigger("editcanceled");
+                        });
+                </script>
+        }
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,147 @@
+﻿@model AdminViewModel
+@{
+    ViewBag.Title = "Layouts";
+    Layout = "~/Views/Admin/__LayoutAdministration.cshtml";
+    var siteModel = Model.SiteLayoutEditor as LayoutEditorModel;
+
+}
+
+@if (!string.IsNullOrWhiteSpace(siteModel.Alert))
+{
+    <script type="text/javascript">
+        alert('@Html.Raw(siteModel.Alert)');
+    </script>
+}
+<div class="row">
+    @if (Model.CurrentSiteSetting != null)
+    {
+
+        <div class="toolbar clearfix">
+            <ol class="breadcrumb pull-left">
+                <li><a href="/admin"><i class="fa fa-home"></i></a></li>
+                <li><a href="/admin">@Model.CurrentSiteSetting.Name</a></li>
+                <li class="active">Layouts</li>
+            </ol>
+            @Html.Partial("_SiteSelection", Model)
+        </div>
+    }
+    <div class="well">
+        <h4>@Model.CurrentSiteSetting.Name</h4>
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" @(siteModel.CurrentTabName == "website" || string.IsNullOrWhiteSpace(siteModel.CurrentTabName) ? "class=active" : string.Empty)>                
+                <a href="#tab-website" aria-controls="home" role="tab" data-toggle="tab">Webseite</a>
+            </li>
+            <li role="presentation" @(siteModel.CurrentTabName == "fallback" ? "class=\"active\"" : string.Empty)>
+                <a href="#tab-fallback" aria-controls="shared" role="tab" data-toggle="tab">Fallback</a>
+            </li>
+            <li role="presentation" @(siteModel.CurrentTabName == "widgets" ? "class=\"active\"" : string.Empty)>
+                <a href="#tab-widgets" aria-controls="shared" role="tab" data-toggle="tab">Widgets</a>
+            </li>
+            <li role="presentation" @(siteModel.CurrentTabName == "config" ? "class=\"active\"" : string.Empty)>
+                <a href="#tab-config" aria-controls="config" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span></a>
+            </li>
+        </ul>
+        <div class="tab-content tab-content-well">
+
+            <div role="tabpanel" class="tab-pane @(siteModel.CurrentTabName == "website" || string.IsNullOrWhiteSpace(siteModel.CurrentTabName) ? "active" : string.Empty )" id="tab-website">
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.Raw(siteModel.WebsiteFiles)
+                    </div>
+                    <div class="col-md-9">
+
+                        @if (siteModel.CurrentTabName == "website" && !string.IsNullOrWhiteSpace(siteModel.OpenFilePath))
+                        {
+                            <div class="pathway">@siteModel.OpenFilePath</div>
+                                <form action="/Admin/Layouts?name=" method="POST">
+                                    <input type="hidden" name="layoutname" value="@siteModel.OpenFilePath">
+                                    <input type="hidden" name="tab" value="website" />
+                                    <textarea class="codemirror" name="layoutcontent">@siteModel.OpenFileContent</textarea>
+                                    <input type="submit" class="btn btn-success" value="Save" />
+                                </form>
+                        }
+                        else
+                        {
+                            <div class="pathway">Please select the file</div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane @(siteModel.CurrentTabName == "fallback" ? "active" : string.Empty )" id="tab-fallback">
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.Raw(siteModel.HomeFiles)
+                        @Html.Raw(siteModel.SharedFiles)
+                    </div>
+                    <div class="col-md-9">
+                        @if (siteModel.CurrentTabName == "fallback" && !string.IsNullOrWhiteSpace(siteModel.OpenFilePath))
+                        {
+                            <div class="pathway">@siteModel.OpenFilePath</div>
+                                <form action="/Admin/Layouts?name=" method="POST">
+                                    <input type="hidden" name="layoutname" value="@siteModel.OpenFilePath">
+                                    <input type="hidden" name="tab" value="fallback" />
+                                    <textarea class="codemirror" name="layoutcontent">@siteModel.OpenFileContent</textarea>
+                                    <input type="submit" class="btn btn-success" value="Save" />
+                                </form>
+                        }
+                        else
+                        {
+                            <div class="pathway">Please select the file</div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane @(siteModel.CurrentTabName == "widgets" ? "active" : string.Empty )" id="tab-widgets">
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.Raw(siteModel.WidgetFiles)
+                    </div>
+                    <div class="col-md-9">
+                        @if (siteModel.CurrentTabName == "widgets" && !string.IsNullOrWhiteSpace(siteModel.OpenFilePath))
+                        {
+                            <div class="pathway">@siteModel.OpenFilePath</div>
+                                <form action="/Admin/Layouts?name=" method="POST">
+                                    <input type="hidden" name="layoutname" value="@siteModel.OpenFilePath">
+                                    <input type="hidden" name="tab" value="widgets" />
+                                    <textarea class="codemirror" name="layoutcontent">@siteModel.OpenFileContent</textarea>
+                                    <input type="submit" class="btn btn-success" value="Save" />
+                                </form>
+                        }
+                        else
+                        {
+                            <div class="pathway">Please select the file</div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane @(siteModel.CurrentTabName == "config" ? "active" : string.Empty )" id="tab-config">
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.Raw(siteModel.ConfigFiles)
+                    </div>
+                    <div class="col-md-9">
+                        @if (siteModel.CurrentTabName == "config" && !string.IsNullOrWhiteSpace(siteModel.OpenFilePath))
+                        {
+                            <div class="pathway">@siteModel.OpenFilePath</div>
+                                <form action="/Admin/Layouts?name=" method="POST">
+                                    <input type="hidden" name="layoutname" value="@siteModel.OpenFilePath">
+                                    <input type="hidden" name="tab" value="config" />
+                                    <textarea class="codemirror" name="layoutcontent">@siteModel.OpenFileContent</textarea>
+                                    <input type="submit" class="btn btn-success" value="Save" />
+                                </form>
+                        }
+                        else
+                        {
+                            <div class="pathway">Please select the file</div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

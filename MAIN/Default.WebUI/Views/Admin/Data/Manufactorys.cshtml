@@ -1,0 +1,37 @@
+﻿@model List<BAG.Common.Data.Entities.Manufactory>
+
+<table class="table table-hover tablesorter {sortlist: [[1,0]]}">
+    <thead>
+        <tr>
+            <th class="{sorter: false}"><a class="btn btn-primary btn-add" href="~/admin/dataeditmanufactory/">Add</a></th>
+            <th>Website</th>
+            <th>Url</th>
+            <th class="{sorter: false}"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td><a href="~/admin/dataeditmanufactory/@p.Id">@p.Title</a></td>
+                <td>@p.Homepage</td>
+                <td>@p.Url</td>
+                <td class="text-right">
+                    <a class="btn btn-default btn-xs" href="~/admin/dataeditmanufactory/@p.Id">
+                        <i class="fa fa-pencil"></i>
+                    </a>
+                    &nbsp;
+                    <a class="btn btn-danger btn-xs delete-confirm"
+                       data-action="~/admin/datadelete"
+                       data-id="@p.Id"
+                       data-title="Daten Löschen"
+                       data-description="Möchten Sie wirklich diesen Datensatz löschen?">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                    &nbsp;
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

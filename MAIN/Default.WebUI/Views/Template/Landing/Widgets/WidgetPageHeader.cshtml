@@ -1,0 +1,102 @@
+﻿@using Default.WebUI.Extensions
+@model WidgetWrapperViewModel
+@{
+    var widget = Model.Widget as BAG.Common.Data.Entities.WidgetPageHeader;
+}
+
+@if (Model.IsDesignMode)
+{
+    <text>
+        <div class="cm-admin-widget">
+            <h5>Content</h5>
+            <hr />
+            <div class="form-group">
+                <label for="title" class="control-label col-sm-2">Title:</label>
+                <div class="col-sm-6">
+                    <textarea class="form-control" id="title" name="title">@widget.Title</textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="text" class="control-label col-sm-2">Description:</label>
+                <div class="col-sm-6">
+                    <textarea class="form-control" id="description" name="description">@widget.Description</textarea>
+                </div>
+            </div>
+
+            <h5>Enable Background</h5>
+            <hr />
+            <div class="form-group">
+                <div class="col-sm-6 col-sm-offset-2">
+                    <label class="well"><input type="checkbox" id="enablebackground" name="enablebackground" @(widget.EnableBackground ? "checked" : "")> Enable Background</label>
+                </div>
+            </div>
+            <h5>Configure Animation</h5>
+            <hr />
+            <div class="form-group">
+                <div class="col-sm-6 col-sm-offset-2">
+                    <label class="well"><input type="checkbox" id="enableanimations" name="enableanimations" @(widget.EnableAnimations ? "checked" : "")> Enable Animations</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="text" class="control-label col-sm-2">Animation Speed:</label>
+                <div class="col-sm-6">
+                    <input type="range" min="0" max="100" id="animationspeed" name="animationspeed" value="@widget.AnimationSpeed" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="text" class="control-label col-sm-2">Intensity:</label>
+                <div class="col-sm-6">
+                    <input type="range" min="0" max="100" id="intensity" name="intensity" value="@widget.Intensity" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="text" class="control-label col-sm-2">Base-Color:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control @(widget.Id)colorpicker" id="basecolor" name="basecolor" value="@widget.BaseColor" />
+                </div>
+            </div>
+            <h5>Configure Background Image</h5>
+            <hr />
+            <div class="form-group">
+                <div class="col-sm-6 col-sm-offset-2">
+                    <label class="well"><input type="checkbox" id="usecustomimage" name="usecustomimage" @(widget.UseCustomImage ? "checked" : "")> Use Custom Image</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-6 col-sm-offset-2">
+                    <div class="img-selector-container" data-name="SelectImage">
+                        <img class="preview image-responsive" style="width: 200px; max-height: 200px;"
+                             src="@Html.Raw(string.IsNullOrWhiteSpace(widget.CustomImage) ? string.Empty : widget.CustomImage.GetImagePath())" />
+                        <input class="selection" type="hidden" name="customimage" value="@widget.CustomImage" />
+                        <div class="controls">
+                            <button class="btn btn-default select-image">Select Image</button>
+                            <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </text>
+
+    <script>
+        $(".@(widget.Id)colorpicker").colorpicker({ format: "hex" });
+    </script>
+}
+else
+{
+    <header class="widget-header">
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1 id="homeHeading">@Html.Raw(widget.Title)</h1>
+                <hr>
+                <p>@Html.Raw(widget.Description)</p>
+                <a class="inf-con-nav-a btn btn-primary btn-xl page-scroll" href="@widget.FirstNonHeaderUrl">Find Out More</a>
+            </div>
+        </div>
+    </header>
+}

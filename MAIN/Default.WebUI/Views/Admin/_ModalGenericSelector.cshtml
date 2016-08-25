@@ -1,0 +1,60 @@
+﻿@model GenericSelectorWrapperModel
+
+@{
+    Layout = null;
+}
+
+<!-- Modal -->
+<div class="modal fade" id="@Model.ModalId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><i class="fa fa-file-text-o"></i> @Model.Title</h4>
+            </div>
+            <div class="modal-body" style="overflow-y: scroll; max-height: 500px;">
+                <input type="hidden" name="target"/>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th></th>
+                        <th>Titel</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr>
+                            <td>
+                                @if (Model.IsMultiselect)
+                                {
+                                    <input type="checkbox" name="id" value="@item.Id"
+                                           @Html.Raw(item.IsSelected ? "checked='checked'" : string.Empty)/>
+                                }
+                                else
+                                {
+                                    <input type="radio" name="id" value="@item.Id"
+                                           @Html.Raw(item.IsSelected ? "checked='checked'" : string.Empty)/>
+                                }
+                            </td>
+                            <td>
+                                <img src="#@*~/file?cmd=file&target=@item.Image*@">
+                            </td>
+                            <td>
+                                @item.Title
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-abort">Abbrechen</button>
+                <button type="button" class="btn btn-primary btn-select">Auswählen</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

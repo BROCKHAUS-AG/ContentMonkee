@@ -1,0 +1,72 @@
+﻿@using System.Web.UI.WebControls
+@model WidgetWrapperViewModel
+@{
+    var widget = Model.Widget as BAG.Common.Data.Entities.WidgetTitle;
+}
+
+@if (Model.IsDesignMode)
+{
+
+    <text>
+        <div class="cm-admin-widget">
+            <h5>Content</h5>
+            <hr />
+            <div class="form-group">
+                <label for="title" class="control-label col-sm-2">Title:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="title" name="title" value="@widget.Title" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="subtitle" class="control-label col-sm-2">Subtitle:</label>
+                <div class="col-sm-6">
+                    <textarea class="form-control" id="subtitle" name="subtitle">@widget.SubTitle</textarea>
+                </div>
+            </div>
+            <h5>Configure Icon</h5>
+            <hr />
+
+            <div class="form-group">
+                <label for="iconname" class="control-label col-sm-2">Media:</label>
+                <div class="col-sm-10">
+                    <div class="row">
+                        <div class="col-md-5"><label class="well"><input type="checkbox" id="useicon" name="useicon" @(widget.UseIcon ? "checked" : "")> Enable Icon</label></div>
+                        <div class="col-md-5"><label class="well"><input type="checkbox" id="usefile" name="usefile" @(widget.UseFile ? "checked" : "")> Enable File</label></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5"><input type="text" class="form-control" id="iconname" name="iconname" value="@widget.IconName" /></div>
+                        <div class="col-md-5">
+                            <div class="img-selector-container" data-name="SelectLogo">
+                                <img class="preview image-responsive" style="max-width: 200px; max-height: 200px;"
+                                     src="@Html.Raw(string.IsNullOrWhiteSpace(widget.FileName) ? string.Empty : widget.FileName)" />
+                                <input class="selection" type="hidden" name="filename" id="filename" value="@widget.FileName" />
+                                <div class="controls">
+                                    <button class="btn btn-default select-image">Select File</button>
+                                    <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </text>
+
+}
+else
+{
+    <div class="cm-widget widget-title">
+        <div class="container">
+            @if (widget.UseIcon)
+            {
+                <div class="icon icon-@Html.Raw(widget.IconName)"></div>
+            }
+            <h2>@Html.Raw(widget.Title)</h2>
+            <div class="subtitle">
+                @Html.Raw(widget.SubTitle)
+            </div>
+        </div>
+    </div>
+}

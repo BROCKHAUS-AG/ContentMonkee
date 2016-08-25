@@ -1,0 +1,19 @@
+﻿@model AdminViewModel
+@{
+    Layout = "~/Views/Admin/__LayoutAdministration.cshtml";
+    ViewBag.Title = "Index";
+}
+@Html.Partial("_ModalDeleteConfirm")
+
+<div class="row">
+    <div class="toolbar clearfix">
+        <ol class="breadcrumb">
+            <li><a href="/admin"><i class="fa fa-home"></i></a></li>
+            <li><a href="/admin/settings">Account</a></li>
+        </ol>    
+    </div>
+    
+    <div class="well">
+        @Html.Partial("~/Views/Admin/Account/User.cshtml", Model)
+    </div>
+</div>

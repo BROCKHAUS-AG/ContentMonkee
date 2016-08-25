@@ -1,0 +1,33 @@
+﻿@model AdminViewModel
+
+@{
+    Layout = "~/Views/Admin/__LayoutAdministration.cshtml";
+    ViewBag.Title = "Medien";
+}
+@if (Model.CurrentSiteSetting == null)
+{
+    <div>No sitesetting please create one: <a href="/admin/sitesettings">sitesetting</a></div>
+}
+else
+{
+    <div class="row">
+        <div class="toolbar clearfix">
+            <ol class="breadcrumb pull-left">
+                <li><a href="/admin"><i class="fa fa-home"></i></a></li>
+                <li><a href="/admin">@Model.CurrentSiteSetting.Name</a></li>
+                <li class="active">Media</li>
+            </ol>
+            @Html.Partial("_SiteSelection", Model)
+        </div>
+        <div class="well">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#media" aria-controls="media" role="tab" data-toggle="tab">Media</a></li>
+            </ul>
+            <div class="tab-content tab-content-well">
+                <div role="tabpanel" class="tab-pane active" id="media">
+                    <div id="elfinder"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?><ArrayOfSiteSetting><SiteSetting><Id>00000000-0000-0000-0000-000000000000</Id><Created>2016-05-05T17:24:42.0830521+02:00</Created><Updated>2016-08-25T16:45:06.4116697+02:00</Updated><OwnerId>f54088d2-9d55-4909-928f-804eb1e1558e</OwnerId><Archived>false</Archived><Author>Michel Jakob</Author><CookieDescription /><Favicon /><Fallback /><Bindings>*</Bindings><MainDomain>default</MainDomain><IsDefault>false</IsDefault><IsPortalEnabled>false</IsPortalEnabled><Name>default</Name><Type /><Template>Default</Template><Redirections /><SiteNavigations /><SiteIds /><Robots>      #Robots.txt www.eample.com/robots.txt
+      User-agent: *
+      Disallow:
+      Disallow: /admin/
+      # ===================================
+      # Schließe folgende Spider komplett aus:
+      # ===================================
+      User-agent: spambot
+      User-agent: WebReaper
+      User-agent: WebCopier
+      User-agent: Offline Explorer
+      User-agent: HTTrack
+      User-agent: Microsoft.URL.Control
+      User-agent: EmailCollector
+      User-agent: penthesilea
+      Disallow: /
+      Disallow: /admin/
+
+    </Robots><HideWidgetsToolbar>false</HideWidgetsToolbar><SiteStructureType /><SiteStructureName /><SiteStructureUrl /><SiteStructureLogo /><SiteStructureStreetAddress /><SiteStructureAddressLocality /><SiteStructureAddressRegion /><SiteStructurePostalCode /><SiteStructureAddressCountry /><SiteStructureGeoLatitude /><SiteStructureGeoLongitude /><SiteStructureTelephone /><SiteStructureContactType /><SiteStructureOpens /><SiteStructureCloses /><ImagePhoneHight>0</ImagePhoneHight><ImagePhoneWidth>0</ImagePhoneWidth><ImageTabletHight>0</ImageTabletHight><ImageTabletWidth>0</ImageTabletWidth><ImageDesktopHight>0</ImageDesktopHight><ImageDesktopWidth>0</ImageDesktopWidth><LogoImage /><IpAnonymization>false</IpAnonymization><GoogleAnalyticTrackingId /><TrackingCode /><FontsCSS /></SiteSetting><SiteSetting><Id>cb41a38e-f8b2-411c-86f1-0e584ef13fc6</Id><Created>2016-07-26T15:56:39.7384267+02:00</Created><Updated>2016-08-25T16:45:06.4116697+02:00</Updated><OwnerId>f54088d2-9d55-4909-928f-804eb1e1558e</OwnerId><Archived>false</Archived><Author>Azamat Toktakunov</Author><CookieDescription /><Favicon>/Content/cb41a38e-f8b2-411c-86f1-0e584ef13fc6/monkee.png</Favicon><Fallback /><Bindings>localhost,  *host,  local*,   *o*o*,     *</Bindings><MainDomain>localhost</MainDomain><IsDefault>true</IsDefault><IsPortalEnabled>false</IsPortalEnabled><Name>Content Monkee</Name><Type /><Template>Landing</Template><Redirections><Redirection><oldSEOUrl>/example/</oldSEOUrl><newSEOUrl>http://www.monkee.info</newSEOUrl><Id>f26baeb8-f448-46c7-b695-7f737792361e</Id></Redirection></Redirections><SiteNavigations /><SiteIds /><Robots>#Robots.txt www.eample.com/robots.txt
+User-agent: *
+Disallow:
+Disallow: /admin/
+# ===================================
+# Schließe folgende Spider komplett aus:
+# ===================================
+User-agent: spambot
+User-agent: WebReaper
+User-agent: WebCopier
+User-agent: Offline Explorer
+User-agent: HTTrack
+User-agent: Microsoft.URL.Control
+User-agent: EmailCollector
+User-agent: penthesilea
+Disallow: /
+Disallow: /admin/
+</Robots><HideWidgetsToolbar>true</HideWidgetsToolbar><SiteStructureType /><SiteStructureName /><SiteStructureUrl /><SiteStructureLogo /><SiteStructureStreetAddress /><SiteStructureAddressLocality /><SiteStructureAddressRegion /><SiteStructurePostalCode /><SiteStructureAddressCountry /><SiteStructureGeoLatitude /><SiteStructureGeoLongitude /><SiteStructureTelephone /><SiteStructureContactType /><SiteStructureOpens /><SiteStructureCloses /><ImagePhoneHight>0</ImagePhoneHight><ImagePhoneWidth>0</ImagePhoneWidth><ImageTabletHight>0</ImageTabletHight><ImageTabletWidth>0</ImageTabletWidth><ImageDesktopHight>0</ImageDesktopHight><ImageDesktopWidth>0</ImageDesktopWidth><LogoImage /><IpAnonymization>false</IpAnonymization><GoogleAnalyticTrackingId /><TrackingCode /><FontsCSS /></SiteSetting></ArrayOfSiteSetting>

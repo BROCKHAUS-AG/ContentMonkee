@@ -1,0 +1,339 @@
+﻿@model DataViewModel
+@using BAG.Common.Data.Entities;
+@using Default.WebUI.Extensions;
+@{
+    ViewBag.Title = "Daten";
+    Layout = "~/Views/Admin/__LayoutAdministration.cshtml";
+    ProductStory story1 = new ProductStory();
+    ProductStory story2 = new ProductStory();
+    ProductStory story3 = new ProductStory();
+    int i = 0;
+    foreach (var story in Model.CurrentEdition.ProductStories)
+    {
+        if (i == 0)
+        {
+            story1 = Model.CurrentEdition.ProductStories[i];
+        }
+        if (i == 1)
+        {
+            story2 = Model.CurrentEdition.ProductStories[i];
+        }
+        if (i == 2)
+        {
+            story3 = Model.CurrentEdition.ProductStories[i];
+        }
+        i++;
+    }
+
+}
+
+<div class="row">
+    <div class="toolbar clearfix">
+        <ol class="breadcrumb">
+            <li><a href="~/admin"><i class="fa fa-home"></i></a></li>
+            <li><a href="/admin">@Model.CurrentSiteSetting.Name</a></li>
+            <li><a href="~/admin/Data?tab=edition">Data</a></li>
+            <li class="active">@Model.CurrentEdition.Title</li>
+        </ol>
+    </div>
+
+    <div class="well">
+        @using (Html.BeginForm("DataEditEdition", "admin", FormMethod.Post, new { id = "DataEditEdition" }))
+        {
+            <text>
+                <input type="hidden" name="id" value="@Model.CurrentEdition.Id">
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#data" aria-controls="data" role="tab" data-toggle="tab">Daten</a></li>
+                    <li role="presentation"><a href="#text" aria-controls="text" role="tab" data-toggle="tab">Texte</a></li>
+
+                    <li role="presentation"><a href="#images" aria-controls="images" role="tab" data-toggle="tab">Bilder</a></li>
+                    <li role="presentation"><a href="#stories" aria-controls="stories" role="tab" data-toggle="tab">Stories</a></li>
+                    <li role="presentation"><a href="#seo" aria-controls="seo" role="tab" data-toggle="tab">SEO</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content well" style="background-color: #fff; border-radius: 0;">
+                    <div role="tabpanel" class="tab-pane active" id="data">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="title" class="control-label col-sm-2">Titel</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="title" name="title" required value="@Model.CurrentEdition.Title">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="url" class="control-label col-sm-2">Url</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="url" name="url" required value="@Model.CurrentEdition.Url">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cite" class="control-label col-sm-2">Kurzbeschreibung</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control summernote" id="cite" name="cite">@Model.CurrentEdition.Cite</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="citedperson" class="control-label col-sm-2">Kurzbeschreibung Person</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="citedperson" name="citedperson" value="@Model.CurrentEdition.CitedPerson">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="price" class="control-label col-sm-2">Preis</label>
+                                <div class="col-sm-2">
+                                    <input type="number" step="0.01" min="0" class="form-control" id="price" name="price" value="@Model.CurrentEdition.Price">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">Kategorie</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control" name="category">
+                                        <option value="">Keine Auswahl</option>
+                                        <option value="Accessoires" @Html.Raw(Model.CurrentEdition.Category == "Accessoires" ? @"selected=""selected""" : string.Empty)>Accessoires</option>
+                                        <option value="Beistelltische" @Html.Raw(Model.CurrentEdition.Category == "Beistelltische" ? @"selected=""selected""" : string.Empty)>Beistelltische</option>
+                                        <option value="Betten" @Html.Raw(Model.CurrentEdition.Category == "Betten" ? @"selected=""selected""" : string.Empty)>Betten</option>
+                                        <option value="Esstische" @Html.Raw(Model.CurrentEdition.Category == "Esstische" ? @"selected=""selected""" : string.Empty)>Esstische</option>
+                                        <option value="Hocker" @Html.Raw(Model.CurrentEdition.Category == "Hocker" ? @"selected=""selected""" : string.Empty)>Hocker</option>
+                                        <option value="Leuchten" @Html.Raw(Model.CurrentEdition.Category == "Leuchten" ? @"selected=""selected""" : string.Empty)>Leuchten</option>
+                                        <option value="Regale" @Html.Raw(Model.CurrentEdition.Category == "Regale" ? @"selected=""selected""" : string.Empty)>Regale</option>
+                                        <option value="Schraenke" @Html.Raw(Model.CurrentEdition.Category == "Schraenke" ? @"selected=""selected""" : string.Empty)>Schränke</option>
+                                        <option value="Sideboards" @Html.Raw(Model.CurrentEdition.Category == "Sideboards" ? @"selected=""selected""" : string.Empty)>Sideboards</option>
+                                        <option value="Sitzbaenke" @Html.Raw(Model.CurrentEdition.Category == "Sitzbaenke" ? @"selected=""selected""" : string.Empty)>Sitzbänke</option>
+                                        <option value="Spezial_Moebel" @Html.Raw(Model.CurrentEdition.Category == "Spezial_Moebel" ? @"selected=""selected""" : string.Empty)>Spezial-Möbel</option>
+                                        <option value="Stuehle" @Html.Raw(Model.CurrentEdition.Category == "Stuehle" ? @"selected=""selected""" : string.Empty)>Stühle</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="text">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="description" class="control-label col-sm-2">Beschreibung</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control summernote" id="description" name="description">@Model.CurrentEdition.Description</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="designer" class="control-label col-sm-2">Designer</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="designer" name="designer" value="@Model.CurrentEdition.Designer" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="notes" class="control-label col-sm-2">Notizen</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control summernote" id="notes" name="notes">@Model.CurrentEdition.Notes</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="AdditionalInformation" class="control-label col-sm-2">Zusätzliche Informationen</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control summernote" id="AdditionalInformation" name="AdditionalInformation">@Model.CurrentEdition.AdditionalInformation</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="images">
+
+                        <div class="form-group">
+                            <label for="inputTitle" class="control-label">ImageBig</label>
+                            <div class="img-selector-container center-text" data-name="SelectImageBig">
+
+                                <img class="preview image-responsive" style="width: 200px; max-height: 200px;"
+                                     src="@Html.Raw(string.IsNullOrWhiteSpace(Model.CurrentEdition.ImageBig) ? string.Empty : Model.CurrentEdition.ImageBig.GetImagePath())" />
+                                <input class="selection" type="hidden" name="imagebig" value="@Model.CurrentEdition.ImageBig" />
+                                <br />
+                                <button class="btn btn-default select-image">Bild auswählen</button>
+                                <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputTitle" class="control-label">ImageSmall</label>
+                            <div class="img-selector-container center-text" data-name="SelectImageSmall">
+
+                                <img class="preview image-responsive" style="width: 200px; max-height: 200px;"
+                                     src="@Html.Raw(string.IsNullOrWhiteSpace(Model.CurrentEdition.ImageSmall) ? string.Empty : Model.CurrentEdition.ImageSmall.GetImagePath())" />
+                                <input class="selection" type="hidden" name="imagesmall" value="@Model.CurrentEdition.ImageSmall" />
+                                <br />
+                                <button class="btn btn-default select-image">Bild auswählen</button>
+                                <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputTitle" class="control-label">ImageSlide</label>
+                            <div class="img-selector-container center-text" data-name="SelectImageSlide">
+
+                                <img class="preview image-responsive" style="width: 200px; max-height: 200px;"
+                                     src="@Html.Raw(string.IsNullOrWhiteSpace(Model.CurrentEdition.ImageSlide) ? string.Empty : Model.CurrentEdition.ImageSlide.GetImagePath())" />
+                                <input class="selection" type="hidden" name="imageslide" value="@Model.CurrentEdition.ImageSlide" />
+                                <br />
+                                <button class="btn btn-default select-image">Bild auswählen</button>
+                                <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="stories">
+
+                        <div class="form-group">
+                            <label for="story1Title" class="control-label">Story 1</label>
+                            <input type="text" class="form-control" id="story1Title" name="story1Title" value="@story1.Title" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="story1Story" class="control-label">Story 1 Text</label>
+                            <textarea class="form-control summernote" id="story1Story" name="story1Story">@story1.Story</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputTitle" class="control-label">Story 1 Bild</label>
+                            <div class="img-selector-container center-text" data-name="SelectStory1Image">
+
+                                <img class="preview image-responsive" style="width: 200px; max-height: 200px;"
+                                     src="@Html.Raw( string.IsNullOrWhiteSpace(story1.Image) ? string.Empty : story1.Image.GetImagePath())" />
+
+                                <input class="selection" type="hidden" name="story1Image" value="@story1.Image" />
+                                <br />
+                                <button class="btn btn-default select-image">Bild auswählen</button>
+                                <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="story2Title" class="control-label">Story 2</label>
+                            <input type="text" class="form-control" name="story2Title" value="@story2.Title" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="story2Story" class="control-label">Story 2 Text</label>
+                            <textarea class="form-control summernote" name="story2Story">@story2.Story</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputTitle" class="control-label">Story 2 Bild</label>
+                            <div class="img-selector-container center-text" data-name="SelectStory2Image">
+
+                                <img class="preview image-responsive" style="width: 200px; max-height: 200px;"
+                                     src="@Html.Raw( string.IsNullOrWhiteSpace(story2.Image) ? string.Empty : story2.Image.GetImagePath())" />
+
+                                <input class="selection" type="hidden" name="story2Image" value="@story2.Image" />
+                                <br />
+                                <button class="btn btn-default select-image">Bild auswählen</button>
+                                <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="story3Title" class="control-label">Story 3</label>
+                            <input type="text" class="form-control" id="story3Title" name="story3Title" value="@story3.Title" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Story 3 Text</label>
+                            <textarea class="form-control summernote" name="story3Story">@story3.Story</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputTitle" class="control-label">Story 3 Bild</label>
+                            <div class="img-selector-container center-text" data-name="SelectStory3Image">
+
+                                <img class="preview image-responsive" style="width: 200px; max-height: 200px;"
+                                     src="@Html.Raw( string.IsNullOrWhiteSpace(story3.Image) ? string.Empty : story3.Image.GetImagePath())" />
+
+                                <input class="selection" type="hidden" name="story3Image" value="@story3.Image" />
+                                <br />
+                                <button class="btn btn-default select-image">Bild auswählen</button>
+                                <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                            </div>
+                        </div>
+
+
+                        @* <div class="form-group">
+                                <label for="inputTitle" class="control-label">ImageSmall</label>
+                                <div class="img-selector-container center-text" data-name="SelectImageSmall">
+
+                                    <img class="preview image-responsive" style="width: 200px; max-height: 200px;"
+                                         src="@Html.Raw( string.IsNullOrWhiteSpace(Model.CurrentEdition.ImageSmall) ? string.Empty : Model.CurrentEdition.ImageSmall.GetImagePath())" />
+                                    <input class="selection" type="hidden" name="image" value="@Model.CurrentEdition.ImageSmall" />
+                                    <br />
+                                    <button class="btn btn-default select-image">Bild auswählen</button>
+                                    <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputTitle" class="control-label">ImageSlide</label>
+                                <div class="img-selector-container center-text" data-name="SelectImageSlide">
+
+                                    <img class="preview image-responsive" style="width: 200px; max-height: 200px;"
+                                         src="@Html.Raw( string.IsNullOrWhiteSpace(Model.CurrentEdition.ImageSlide) ? string.Empty : Model.CurrentEdition.ImageSlide.GetImagePath())" />
+                                    <input class="selection" type="hidden" name="image" value="@Model.CurrentEdition.ImageSlide" />
+                                    <br />
+                                    <button class="btn btn-default select-image">Bild auswählen</button>
+                                    <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                                </div>
+                            </div>*@
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="seo">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="metatitle" class="control-label col-sm-2">Title</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="metatitle" id="metatitle" class="form-control" placeholder="Titel der Seite" value="@Model.CurrentEdition.MetaTitle" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="metadescription" class="control-label col-sm-2">Description</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="metadescription" id="metadescription" class="form-control" placeholder="Beschreibung der Seite" value="@Model.CurrentEdition.MetaDescription" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="metaauthor" class="control-label col-sm-2">Author</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="metaauthor" id="metaauthor" class="form-control" placeholder="Author" value="@Model.CurrentEdition.MetaAuthor" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="metakeywords" class="control-label col-sm-2">Keywords</label>
+                                <div class="col-sm-6">
+                                    <textarea type="text" name="metakeywords" id="metakeywords" class="form-control" rows="3">@Model.CurrentEdition.MetaKeywords</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-8 col-sm-offset-2">
+                        <div class="controls">
+                            <a class="btn btn-success" onclick="$('#DataEditEdition').submit(); return false;">Save</a>
+                            <a href="~/admin/data?tab=edition" class="btn btn-default">Back to Overview</a>
+                        </div>
+                    </div>
+                </div>
+
+            </text>
+        }
+    </div>
+</div>

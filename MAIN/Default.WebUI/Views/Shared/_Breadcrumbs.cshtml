@@ -1,0 +1,8 @@
+﻿@if (!Model.Type.Equals("startpage"))
+{
+    <div id="breadcrumbs"><a href="/">Home</a> -> <a href="/@Model.Url">@Model.Name</a> </div>
+}
+else
+{
+    <div id="breadcrumbs"><a href="/">Home</a></div>
+}

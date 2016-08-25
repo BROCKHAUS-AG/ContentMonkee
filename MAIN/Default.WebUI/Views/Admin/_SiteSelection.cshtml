@@ -1,0 +1,37 @@
+﻿@model ISiteSelection
+
+
+@using (Html.BeginForm("SelectSiteSetting", "admin", FormMethod.Post, new {id = "selectCurrentSiteSettingId"}))
+{
+    @Html.Hidden("returnUrl", this.Request.RawUrl)
+    @Html.Hidden("selectCurrentSiteSetting", "")
+}
+
+<div id="selectSiteSetting" class="btn-group pull-right">
+    @foreach (var siteSetting in Model.SiteSettings)
+    {
+        if (siteSetting.Id == Model.CurrentSiteSetting.Id)
+        {
+            <button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="name">@siteSetting.Name</span> <span class="caret"></span>
+            </button>
+        }
+    }
+
+    <ul class="dropdown-menu">
+        @foreach (var siteSetting in Model.SiteSettings)
+            {
+            <li class="site">
+                <a href="#" data-id="@siteSetting.Id">
+                    @siteSetting.Name
+                    @if (siteSetting.IsDefault)
+                    {
+                        @(" (default)");
+                    }
+                </a>
+            </li>
+        }
+        <li role="separator" class="divider"></li>
+        <li><a href="~/admin/sitesettingedit">Add New</a></li>
+    </ul>
+</div>

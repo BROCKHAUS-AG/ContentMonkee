@@ -1,0 +1,93 @@
+﻿@model DataViewModel
+@using Default.WebUI.Extensions;
+@{
+    ViewBag.Title = "Daten";
+    Layout = "~/Views/Admin/__LayoutAdministration.cshtml";
+    var editionItems = string.Join(",", Model.CurrentCollection.Items.Select(i => i.EditionId.ToString()));
+    var modalModel = new EditionModalSelectorViewModel(Model.CurrentCollection.Items.Select(i => i.EditionId), Model.CurrentCollection.AvailableEditions);
+
+}
+
+<div class="row">
+
+    <div class="toolbar clearfix">
+        <ol class="breadcrumb pull-left">
+            <li><a href="~/admin"><i class="fa fa-home"></i></a></li>
+            <li><a href="/admin">@Model.CurrentSiteSetting.Name</a></li>
+            <li><a href="~/admin/Data?tab=collection">Data</a></li>
+            <li class="active">@Model.CurrentCollection.Name</li>
+        </ol>    
+    </div>
+
+    <div class="well">
+        @using (Html.BeginForm("DataEditCollection", "admin", FormMethod.Post, new { id = "DataEditCollection", @class = "form-horizontal" }))
+        {
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">Home</a></li>
+            </ul>
+            <div class="tab-content well">
+                <div role="tabpanel" class="tab-pane active" id="general">
+                    @Html.Partial("_ModalEditionSelector", modalModel)
+                    <text>
+                        <input type="hidden" name="id" value="@Model.CurrentCollection.Id">
+                        <input type="hidden" name="items" class="filepicker-result" value="@editionItems" />
+
+                        <div class="form-group">
+                            <label for="name" class="control-label col-sm-2">Name</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="name" name="name" required value="@Model.CurrentCollection.Name">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-8 col-sm-offset-2">
+
+                                <table class="table table-hover table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Produkt</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="product-items">
+                                        @if (Model.CurrentCollection.Items.Count == 0)
+                                        {
+                                            <tr>
+                                                <td>Dieses Editions-Karussell enthält keine Elemente.</td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            foreach (var item in Model.CurrentCollection.Items)
+                                            {
+                                                <tr>
+                                                    <td data-item-id="@item.EditionId">@item.Title</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                                <p>Ziehen Sie die Elemtente per Drag an Drop in die von Ihnen gewünschte Reihenfolge.</p>
+                                <button type="button" class="btn btn-primary btn-xs"
+                                        data-toggle="modal"
+                                        data-target="#widgetSelector">
+                                    Produkte wählen
+                                </button>
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-8 col-sm-offset-2">
+                                <div class="controls">
+                                    <a class="btn btn-success" onclick="$('#DataEditCollection').submit(); return false;">Save</a>
+                                    <a href="~/admin/data?tab=collection" class="btn btn-default">Back to Overview</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </text>
+                </div>
+            </div>
+        }
+    </div>
+</div>

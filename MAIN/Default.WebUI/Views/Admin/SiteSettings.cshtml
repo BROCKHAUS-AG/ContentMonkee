@@ -1,0 +1,194 @@
+﻿@model AdminViewModel
+@{
+    Layout = "~/Views/Admin/__LayoutAdministration.cshtml";
+    ViewBag.Title = "SiteSetting";
+}
+@Html.Partial("_ModalDeleteConfirm")
+@Html.Partial("_ModalBackupForm")
+<div class="row">
+    <div class="toolbar clearfix">
+        <ol class="breadcrumb pull-left">
+            <li><a href="/admin"><i class="fa fa-home"></i></a></li>
+            <li class="active">Settings</li>
+        </ol>
+    </div>
+
+    <div class="well">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#sites" aria-controls="sites" role="tab" data-toggle="tab">Sites</a></li>
+            <li role="presentation"><a href="#users" aria-controls="users" role="tab" data-toggle="tab">Backend Users</a></li>
+        </ul>
+        <div class="tab-content tab-content-well">
+            <div role="tabpanel" class="tab-pane active" id="sites">
+                <table class="table table-hover @Html.Raw(Model.SiteSettings.Count == 0 ? string.Empty : "tablesorter {sortlist: [[1,0]]}")">
+                    <thead>
+                        <tr>
+                            <th class="{sorter: false}"><a class="btn btn-primary btn-add" href="/admin/sitesettingedit">Add</a></th>
+                            <th>Bindings</th>
+                            <th>Default</th>
+                            <th>Pages</th>
+                            <th>Widgets</th>
+                            <th class="{sorter: false}"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var siteSetting in Model.SiteSettings)
+                        {
+                            string highlight = "";
+                            if (Model.CurrentBindingId.Equals(siteSetting.Id))
+                            {
+                                highlight = "navigationpoint";
+                            }
+                            <tr class="@highlight">
+                                <td><a href="/admin/sitesettingedit/@siteSetting.Id">@siteSetting.Name</a></td>
+                                <td>@siteSetting.Bindings</td>
+                                <td>
+                                    @if (siteSetting.IsDefault)
+                                    {<input type="checkbox" checked disabled />
+                                    }
+                                    else
+                                    {<input type="checkbox" disabled />}
+                                </td>
+
+                                <td>
+                                    @{
+                                        var htmlsite = string.Empty;
+                                        var countsite = 0;
+                                        foreach (var site in Model.Sites)
+                                        {
+                                            if (site.SiteSettingId == siteSetting.Id)
+                                            {
+                                                var name = string.IsNullOrEmpty(site.Name) ? "(leer)" : site.Name;
+                                                htmlsite += "<a class='btn btn-default btn-xs btn-block' href='/admin/siteedit/" + site.Id + "'>" + name + "</a><div class'clearfix'><div>";
+                                                countsite++;
+                                            }
+                                        }
+                                    }
+                                    <button class="btn btn-default btn-xs "
+                                            onclick="return false;"
+                                            data-toggle="popover"
+                                            data-html="true"
+                                            data-trigger="focus"
+                                            data-container="body"
+                                            title="Widgets"
+                                            data-content="@htmlsite">
+                                        @countsite
+                                    </button>
+
+                                </td>
+
+
+                                <td>
+                                    @{
+                                        var html = string.Empty;
+                                        var count = 0;
+                                        foreach (var site in Model.Sites)
+                                        {
+
+                                            if (site.SiteSettingId == siteSetting.Id)
+                                            {
+
+                                                foreach (var widgetpart in site.Widgets)
+                                                {
+                                                    var widget = widgetpart.PreRelease;
+                                                    var name = string.IsNullOrEmpty(widget.Name) ? "(leer)" : widget.Name;
+                                                    var default_class = widget.IsDefaultPartial ? "btn-default" : "btn-warning";
+                                                    html += "<a class='btn " + default_class + " btn-xs btn-block' href='/admin/widgetedit/" + widget.Id + "'>" + name + "</a><div class'clearfix'><div>";
+                                                    count++;
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                    <button class="btn btn-default btn-xs "
+                                            onclick="return false;"
+                                            data-toggle="popover"
+                                            data-html="true"
+                                            data-trigger="focus"
+                                            data-container="body"
+                                            title="Widgets"
+                                            data-content="@html">
+                                        @count
+                                    </button>
+                                </td>
+
+
+
+                                <td class="text-right">
+
+                                    <a class="btn btn-default btn-xs backup-form" 
+                                       data-action="/admin/createbackup"
+                                       data-id="@siteSetting.Id"
+                                       data-title="Create Backup"
+                                       data-description="Bitte wählen Sie ein Namen für das Backup:">
+                                        Backup
+                                    </a>
+                                       
+
+                                    @*<a class="btn btn-info btn-xs" href="#">
+                                        <i class="fa fa-square-o"></i>
+                                    </a>*@
+                                    <a class="btn btn-default btn-xs" href="/admin/sitesettingedit/@siteSetting.Id">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                    &nbsp;
+                                    <a class="btn btn-danger btn-xs delete-confirm"
+                                       data-action="/admin/sitesettingdelete"
+                                       data-id="@siteSetting.Id"
+                                       data-title="SiteSetting löschen"
+                                       data-description="Möchten Sie wirklich @siteSetting.Name löschen?">
+                                        <i class="fa fa-trash-o"></i>
+                                    </a>
+                                    &nbsp;
+                                </td>
+
+                            </tr>
+                                        }
+                    </tbody>
+                </table>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="users">
+                <table class="table table-hover tablesorter {sortlist: [[1,0]]}">
+                    <thead>
+                        <tr>
+                            <th class="{sorter: false}"><a class="btn btn-primary btn-add" href="/admin/useredit/">Add</a></th>
+                            <th>Name</th>
+                            <th>E-Mail</th>
+                            <th>Administrator</th>
+                            <th>Last account activity</th>
+                            <th class="{sorter: false}"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Users)
+                        {
+                            <tr>
+                                <td><a href="/admin/useredit/@user.Id">@user.UserName</a></td>
+                                <td>@user.DisplayName</td>
+                                <td>@user.Email</td>
+                                <td><input disabled="disabled" type="checkbox" @Html.Raw(user.IsAdmin ? "checked=\"checked\"" : string.Empty) /></td>
+                                <td>@user.LastLogin.ToShortDateString() @user.LastLogin.ToShortTimeString()</td>
+
+                                <td class="text-right">
+                                    <a class="btn btn-default btn-xs" href="/admin/useredit/@user.Id">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                    &nbsp;
+                                    <a class="btn btn-danger btn-xs delete-confirm"
+                                       data-action="/admin/userdelete"
+                                       data-id="@user.Id"
+                                       data-title="Benutzer Löschen"
+                                       data-description="Möchten Sie wirklich den Benutzer @user.UserName löschen?">
+                                        <i class="fa fa-trash-o"></i>
+                                    </a>
+                                    &nbsp;
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

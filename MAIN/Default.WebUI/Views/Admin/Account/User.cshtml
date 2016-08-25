@@ -1,0 +1,82 @@
+﻿@model AdminViewModel
+
+@if (Model.IsLoggedInAdmin || Model.IsCurrentUserLoggedIn)
+{
+    using (Html.BeginForm("UserEdit", "admin", FormMethod.Post, new { id = "UserEdit", @class = "form-horizontal" }))
+    {
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#account" aria-controls="account" role="tab" data-toggle="tab">Account</a></li>
+            <li role="presentation"><a href="#password" aria-controls="password" role="tab" data-toggle="tab">Password</a></li>
+            <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span></a></li>
+        </ul>
+
+        <div class="tab-content well">
+            <div role="tabpanel" class="tab-pane active" id="account">
+                <div class="form-group">
+                    <label for="username" class="control-label col-sm-2">Username</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="username" name="username" value="@Model.CurrentUser.UserName">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="firstname" class="control-label col-sm-2">First name</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="firstname" name="firstname" value="@Model.CurrentUser.FirstName">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastname" class="control-label col-sm-2">Last name</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="lastname" name="lastname" value="@Model.CurrentUser.LastName">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="control-label col-sm-2">E-Mail</label>
+                    <div class="col-sm-6">
+                        <input type="email" class="form-control" id="email" name="email" value="@Model.CurrentUser.Email">
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="password">
+                <div class="form-group">
+                    <label for="password" class="control-label col-sm-2">Password</label>
+                    <div class="col-sm-6">
+                        <input type="password" class="form-control" id="password" name="password" value="@Model.CurrentUser.Password">
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="settings">
+                <div class="form-group">
+                    <div class="col-md-6 col-md-offset-2">
+                        @if (Model.IsLoggedInAdmin)
+                        {
+                            <label class="well"><input type="checkbox" name="isadmin" @Html.Raw(Model.CurrentUser.IsAdmin ? "checked=\"checked\"" : string.Empty) /> Administrator</label>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="error alert alert-warning hidden" role="alert"><span></span></div>
+        <text>
+            <input type="hidden" name="id" value="@Model.CurrentUser.Id">
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="controls">
+                        <a class="btn btn-success" onclick="$('#UserEdit').submit(); return false;">Save</a>
+                        <a href="/admin/SiteSettings#!users" class="btn btn-default btn-back">Back to Users</a>
+                    </div>
+                </div>
+            </div>
+
+        </text>
+    }
+}
+else
+{
+    <h1 class="alert alert-danger"> Keine Rechte</h1>
+}

@@ -1,0 +1,73 @@
+﻿@using BAG.Common.Data.Entities
+@model WidgetWrapperViewModel
+
+@{
+    var widget = Model.Widget as WidgetContact;
+}
+
+@if (Model.IsDesignMode)
+{
+    <text>
+        <div class="cm-admin-widget">
+            <h5>Content</h5>
+            <hr />
+            <div class="form-group">
+                <label for="description" class="control-label col-sm-2">Description:</label>
+                <div class="col-sm-9">
+                    <textarea class="form-control summernote" id="description" name="description">@widget.Description</textarea>
+                </div>
+            </div>
+
+            <h5>Contact Data</h5>
+            <hr />
+            <div class="form-group">
+                <label for="email" class="control-label col-sm-2">Email:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="email" name="email" value="@widget.Email" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="phone" class="control-label col-sm-2">Phone:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="phone" name="phone" value="@widget.Phone" />
+                </div>
+            </div>
+
+        </div>
+    </text>
+}
+else
+{
+    var n = 0;
+    string mailto = "mailto:" + widget.Email;
+    string mailtocrypt = "";
+    for (var i = 0; i < mailto.Length; i++)
+    {
+        n = (int)mailto[i];
+        if (n >= 8364)
+        {
+            n = 128;
+        }
+        mailtocrypt += Convert.ToChar(n + 1).ToString();
+    }
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2 class="section-heading">Let's Get In Touch!</h2>
+                    <hr class="primary">
+                    @Html.Raw(widget.Description)
+                </div>
+                <div class="col-lg-4 col-lg-offset-2 text-center">
+                    <i class="fa fa-phone fa-3x sr-contact"></i>
+                    <p>@Html.Raw(widget.Phone)</p>
+                </div>
+                <div class="col-lg-4 text-center">
+                    <i class="fa fa-envelope-o fa-3x sr-contact"></i>
+                    <p><a href="javascript:linkTo_UnCrypt('@mailtocrypt');">@Html.Raw(widget.Email.Replace("@", " @ "))</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+}

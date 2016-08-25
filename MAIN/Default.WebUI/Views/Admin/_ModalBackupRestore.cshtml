@@ -1,0 +1,25 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="modal fade" id="backuprestore" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" aria-hidden="true" class="close">×</a>
+                <h3>Beckup</h3>
+            </div>
+            <div class="modal-body">
+                <form id="BackupRestoreForm" action="/admin/" method="post">
+                    <p>Widerherstellen</p>
+                    <input type="hidden" name="name" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-success" onclick="$('#BackupRestoreForm').submit();">Restore Backup</a>
+                <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-default">Abbrechen</a>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,18 @@
+[
+  {
+    "outputFileName": "App_Themes/default/js/infinitecontent.min.js",
+    "inputFiles": [
+      "App_Themes/default/js/infinitecontent.js"
+    ],
+    "sourceMap": false,
+    "sourceMapRootPath": null
+  },
+  {
+    "outputFileName": "App_Themes/default/js/paper-helper.min.js",
+    "inputFiles": [
+      "App_Themes/default/js/paper-helper.js"
+    ],
+    "sourceMap": false,
+    "sourceMapRootPath": null
+  }
+]

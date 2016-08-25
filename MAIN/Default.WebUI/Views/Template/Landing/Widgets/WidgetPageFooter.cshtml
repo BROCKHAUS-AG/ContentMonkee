@@ -1,0 +1,99 @@
+﻿@using System.Web.UI.WebControls
+@using BAG.Common.Data.Entities
+@using System.Text.RegularExpressions
+@model FooterViewModel
+
+@{
+    var widget = Model.Widget as BAG.Common.Data.Entities.WidgetPageFooter;
+}
+
+@if (Model.IsDesignMode)
+{
+
+    <text>
+        <div class="cm-admin-widget">
+            <h5>Content</h5>
+            <hr />
+            <div class="form-group">
+                <label for="xingurl" class="control-label col-sm-2">Xing:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="xingurl" name="xingurl" value="@widget.XingUrl" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="blogurl" class="control-label col-sm-2">Blog:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="blogurl" name="blogurl" value="@widget.BlogUrl" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="linkedinurl" class="control-label col-sm-2">LinkedIn:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="linkedinurl" name="linkedinurl" value="@widget.LinkedInUrl" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="meinpraktikumurl" class="control-label col-sm-2">Meinpraktikum:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="meinpraktikumurl" name="meinpraktikumurl" value="@widget.MeinpraktikumUrl" />
+                </div>
+            </div>
+
+        </div>
+    </text>
+
+}
+else
+{
+    <footer class="cm-widget widget-footer">
+        <div class="bmenu clearfix">
+            <div class="container">
+                <nav>
+                    @{
+                        string parent = string.Empty;
+                    }
+                    @Html.Raw("<ul class=\"col-md-3\">")
+                    @foreach (WidgetManager manwidget in Model.Site.Widgets)
+                    {
+                        var navWidget = Model.IsPreview ? manwidget.PreRelease : manwidget.Release;
+                        if (navWidget == null)
+                        {
+                            continue;
+                        }
+                        if (Model.Site.WidgetNavigations.Contains(navWidget.Id))
+                        {
+                            @Html.Raw("</ul>")
+                            @Html.Raw("<ul class=\"col-md-3\">")
+                            parent = navWidget.Url;
+                            if (widget.Visible)
+                            {
+                                <li><a class="inf-con-nav-a" href="@Regex.Replace("/" + Model.Site.Url + "/" + navWidget.Url + "/", @"[/]+", "/")"><strong>@navWidget.Name.ToUpper()</strong></a></li>
+                            }
+                        }
+                        else if (widget.Visible)
+                        {
+
+                            <li><a class="inf-con-nav-a" href="@Regex.Replace("/" + Model.Site.Url + "/" + parent + "/" + navWidget.Url + "/", @"[/]+", "/")">@navWidget.Name</a></li>
+
+                        }
+                    }
+                    @Html.Raw("</ul>")
+                </nav>
+            </div>
+        </div>
+        <div class="fmenu">
+            <div class="container">
+                <ul class="row">
+                    @foreach (Site site in Model.Sites)
+                    {
+                        if (!site.Visible && Model.SiteSetting.SiteNavigations.Contains(site.Id))
+                        {
+                            continue;
+                        }
+                        <li class="col-md-3"><a href="@Regex.Replace("/"+@site.Url+"/",@"[/]+","/")">@site.Name</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </footer>
+}

@@ -1,0 +1,164 @@
+﻿@using BAG.Framework.TagCloud;
+@model SEOModel
+
+@{
+    Layout = null;
+}
+
+<text>
+
+    <div>
+        <h5>Statistics</h5>
+        <hr />
+        <div class="row">
+
+            <label class="text-right col-sm-2">Gesamt:</label>
+            <dl class="col-sm-4">
+                <dd class="yes">Anzahl der Wörter: <b>@Model.WordCount</b></dd>
+                @if (Model.WordCountFirstWidget >= 0)
+                {
+                    <dd class="yes">Anzahl der Wörter im ersten Widget: <b>@Model.WordCountFirstWidget</b></dd>
+                }
+
+                @{
+                    var titleCount = 0;
+                    if (Model.Title != null)
+                    {
+                        titleCount = @Model.Title.Count();
+                    }
+                }
+                <dd class="yes">Titlelänge: <b>@titleCount</b></dd>
+                @if (titleCount < 40)
+            {
+                    <dd class="no">Die Titellänge sollte größer als <b>40</b> Character lang sein.</dd>
+                }
+                @if (titleCount > 70)
+            {
+                    <dd class="no">Die Titellänge sollte kürzer als <b>70</b> Character lang sein.</dd>
+                }
+            </dl>
+
+
+
+
+            @{
+                foreach (var keyword in Model.Keywords)
+                {
+                    <label class="text-right col-sm-2">@keyword.Keyword:</label>
+                    <div class="col-md-4">
+                        <dl>
+                            @{
+                                var densityFirstWidget = Model.WordCountFirstWidget <= 0 ? 0 : 100 * keyword.CountFirstWidget / Model.WordCountFirstWidget;
+                                var densityAllWidgets = Model.WordCount <= 0 ? 0 : (100f * keyword.Count) / Model.WordCount;
+                                var contentYesNoClass = keyword.IsInContent ? "yes" : "no";
+                                var firstWidgetYesNoClass = keyword.IsInFirstWidget ? "yes" : "no";
+                            }
+
+                            <dd class="@contentYesNoClass">Anzahl in Content: <b>@keyword.Count (@densityAllWidgets%)</b></dd>
+                            @if (@keyword.CountFirstWidget >= 0)
+                            {
+                                <dd class="@firstWidgetYesNoClass">Anzahl im ersten Widget: <b>@keyword.CountFirstWidget (@densityFirstWidget%)</b></dd>
+                            }
+
+                            @if (keyword.IsInMetaDescription)
+                            {
+                                <dd class="yes">Die Meta-Description enthält das Keyword.</dd>
+                            }
+                            else
+                            {
+                                <dd class="no">Die Meta-Description enthält das Keyword nicht.</dd>
+                            }
+                            @if (keyword.IsInTitle)
+                            {
+                                <dd class="yes">Der Titel enthält das Keyword.</dd>
+                            }
+                            else
+                            {
+                                <dd class="no">Der Titel enthält das Keyword nicht.</dd>
+                            }
+                            @if (keyword.IsInUrl)
+                            {
+                                <dd class="yes">Die Url enthält das Keyword.</dd>
+                            }
+                            else
+                            {
+                                <dd class="no">Die Url enthält das Keyword nicht. <b>(Url ist noch nicht ganz drin und wird nachgereicht.)</b></dd>
+                            }
+
+                        </dl>
+                    </div>
+                                }
+            }
+        </div>
+
+    </div>
+
+
+
+    @if (Model.Keywords.Count != 0)
+    {
+        <script type="text/javascript">
+            google.charts.load("current", { packages: ['corechart'] });
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+
+                var arr = new Array();
+                arr.push(["Keyword", "Density", { role: "style" }])
+                @{
+                var sortedKeywords = Model.Keywords.OrderBy(w => -w.Count).ToList();
+                var amount = sortedKeywords.Count < 11 ? sortedKeywords.Count : 10;
+            }
+                @for (int k = 0; k < amount; k++)
+            {
+                var keyword = sortedKeywords[k];
+                    @:arr.push(["@keyword.Keyword",@keyword.Count, @k%2==0?"#232377":"#4545aa"]);
+                                                                                                                                                                                                                                                                                    }
+
+                var data = google.visualization.arrayToDataTable(arr);
+
+                var view = new google.visualization.DataView(data);
+                view.setColumns([0, 1,
+                                 {
+                                     calc: "stringify",
+                                     sourceColumn: 1,
+                                     type: "string",
+                                     role: "annotation"
+                                 },
+                                 2]);
+
+                var options = {
+                    title: "Keyword-Density",
+                    width: document.getElementById("columnchart_values").style.width,
+                    height: 340,
+                    bar: { groupWidth: "95%" },
+                    legend: { position: "none" },
+                };
+                var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+                chart.draw(view, options);
+            }
+
+            
+            window.addEventListener('resize', function() {
+                drawChart();
+            });
+            window.addEventListener('focus', function() {
+                drawChart();
+            });
+            window.addEventListener('hashchange', function() {
+                drawChart();
+            });
+
+        </script>
+        <div id="columnchart_values" style="width: 100%; height: 340px;"></div>
+    }
+
+
+    <div class="tag-cloud">
+        @foreach (var tag in Model.GetTags())
+        {
+            <span class="tag kind-@tag.Category">@tag.Text</span>
+        }
+    </div>
+
+
+</text>

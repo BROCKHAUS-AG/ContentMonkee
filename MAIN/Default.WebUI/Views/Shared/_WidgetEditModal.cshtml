@@ -1,0 +1,85 @@
+﻿<div class="modal fade" tabindex="-1" role="dialog" id="widgetEditModal">
+    <div class="modal-dialog" style="width: 80%;">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button class="closebtn" onclick="closeWidgetEditModal()">x</button>
+                <iframe src="" style="width: 100%; height: 88vh;"></iframe>
+                <div class="loading hidden"><h1>Loading ...</h1></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="widgetDeleteConfirm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" aria-hidden="true" class="close">×</a>
+                <h3>Delete Widget</h3>
+            </div>
+            <div class="modal-body">
+                <p></p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-danger delete-confirm">Yes</a>
+                <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-default">Abort</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    /*Edit*/
+    var widgetEditModal = function (link) {
+        $("#widgetEditModal").modal({ backdrop: 'static', keyboard: false });
+        $("#widgetEditModal iframe").attr("src", link);
+        $("#widgetEditModal .loading").removeClass("hidden");
+    };
+
+    var closeWidgetEditModal = function (){
+        $("#widgetEditModal").modal("hide");
+        $("#widgetEditModal iframe").attr("src", "");
+    };
+
+    $("#widgetEditModal").on("contentloaded", function () {
+        $("#widgetEditModal .loading").addClass("hidden");
+    });
+
+    $("#widgetEditModal").on("editsaved", function (e, data) {
+        $("[modelid=" + data.objid + "]").load(data.link);
+        $("#widgetEditModal").modal("hide");
+        $("#widgetEditModal iframe").attr("src", "");
+    });
+
+    $("#widgetEditModal").on("editcanceled", function (e) {
+        $("#widgetEditModal").modal("hide");
+        $("#widgetEditModal iframe").attr("src", "");
+    });
+
+    var deletedata = {};
+
+    /*Delete*/
+    var widgetDeleteModal = function (link, name, id) {
+        deletedata.id = id;
+        deletedata.link = link;
+        $("#widgetDeleteConfirm").modal({ backdrop: 'static', keyboard: false });
+        $("#widgetDeleteConfirm a.delete-confirm").attr("href", link);
+        $("#widgetDeleteConfirm .modal-body p").html("Do you really want to delete the widget " + name + "?");
+    };
+
+    $("#widgetDeleteConfirm a.delete-confirm").click(function (e) {
+        e.preventDefault();
+        $("#widgetDeleteConfirm").modal("hide");
+
+        $.ajax({
+            url: deletedata.link,
+            type: 'get',
+            success: function (data) {
+                if (data == "True") {
+                    $("[modelid=" + deletedata.id + "]").remove();
+                }
+            }
+        }); 
+    });
+</script>

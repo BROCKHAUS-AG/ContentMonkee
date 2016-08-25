@@ -1,0 +1,210 @@
+﻿@model SiteViewModel
+
+
+<!-- Modal -->
+<div class="modal fade" id="widgetSelector" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Create / Add Widget</h4>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("WidgetAdd", "Admin", FormMethod.Post, new { id = "addWidgetForm" }))
+                {
+                    <input type="hidden" value="@Model.Site.Id" name="siteId" />
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#new" aria-controls="new" role="tab" data-toggle="tab">New</a></li>
+                        <li role="presentation"><a href="#exist" aria-controls="exist" role="tab" data-toggle="tab">Select Existing</a></li>
+                    </ul>
+
+                    <label for="widgetType" class="error"></label>
+                <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="new">
+
+                            <label for="name">Widget Name:</label>
+                            <div class="form-group">
+                                <input type="text" id="name" name="name" class="form-control" placeholder="Enter New Widget Name *" />
+                            </div>
+
+                            <label>Widget Type:</label>
+                            <div class="form-group">
+                                <fieldset style="max-height: 420px;overflow-y: auto;overflow-x: hidden;">
+                                    <div class="row">
+                                        @foreach (var widget in Model.NewWidgets)
+                                        {
+                                            var name = widget.GetType().Name;
+                                            if (Model.WidgetsList != null)
+                                            {
+                                                if (Array.Exists(Model.WidgetsList, value => value == name))
+                                                {
+                                                    <div class="col-md-3 text-center widget-selector">
+                                                        <input type="radio" id="@widget.GetHashCode()" name="widgetType" value="@name" onclick="onSelection()" />
+                                                        <label for="@widget.GetHashCode()" onclick="onSelection()">
+                                                            <img title="@widget.WidgetDescription" src="@Html.Raw("/App_Themes/admin/img/widgets/"+name+".svg")" width="50"><br />
+                                                            @widget.Name
+                                                        </label>
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <div class="col-md-3 text-center widget-selector">
+                                                    <input type="radio" id="@widget.GetHashCode()" name="widgetType" value="@name" onclick="onSelection()" />
+                                                    <label for="@widget.GetHashCode()" onclick="onSelection()">
+                                                        <img title="@widget.WidgetDescription" src="@Html.Raw("/App_Themes/admin/img/widgets/"+name+".svg")" width="50"><br />
+                                                        @widget.Name
+                                                    </label>
+                                                </div>
+                                            }
+
+                                        }
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="exist">
+                            <div class="wrap-widgetsearch">
+                                <input id="modalWidgetSelectorSearch" class="form-control" placeholder="Search Existing Widget" onkeyup="modalWidgetSelector.search(this.value)" onchange="modalWidgetSelector.search(this.value)">
+                                <label>
+                                    <input type="checkbox" id="modalWidgetSelectorSearchCB" onchange="modalWidgetSelector.search(document.getElementById('modalWidgetSelectorSearch').value)">
+                                    search in types
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <fieldset style="max-height: 420px;overflow-y: auto;overflow-x: hidden;">
+                                    <div class="row">
+                                        @foreach (var widget in Model.Widgets.OrderBy(w => w.Type))
+                                        {
+
+                                            if (Model.WidgetsList != null)
+                                            {
+                                                if (Array.Exists(Model.WidgetsList, value => value == widget.Type))
+                                                {
+                                                    <div class="col-md-3 text-center widget-selector modalwidgetselector-search-handle" search-handle-name="@widget.Name.ToLower()" search-handle-type="@widget.Type.ToString().ToLower()">
+                                                        <input type="radio" id="@widget.GetHashCode()" name="widgetType" value="@widget.Id" onclick="onSelection()" />
+                                                        <label for="@widget.GetHashCode()" onclick="onSelection()">
+                                                            <img src="@Html.Raw("/App_Themes/admin/img/widgets/"+widget.Type+".svg")" width="50"><br />
+                                                            @widget.Name
+                                                            @{
+                                                                var count = 0;
+                                                                var html = string.Empty;
+                                                                foreach (var site in @widget.Sites)
+                                                                {
+                                                                    var name = string.IsNullOrEmpty(site.Name) ? "(leer)" : site.Name;
+                                                                    html += "<a class='btn btn-default btn-xs btn-block' href='/admin/siteedit/" + site.Id + "'>Site: " + name + "</a><div class'clearfix'><div>";
+                                                                    count++;
+                                                                }
+                                                                foreach (var compositesingle in Model.Widgets.Where(w => w.Type == "WidgetComposite"))
+                                                                {
+                                                                    var composite = compositesingle as BAG.Common.Data.Entities.WidgetComposite;
+                                                                    if (composite.WidgetIds.Contains(widget.Id))
+                                                                    {
+                                                                        html += "<a class='btn btn-default btn-xs btn-block' href='/admin/widgetedit/" + composite.Id + "'>Widget: " + composite.Name + "</a><div class'clearfix'><div>";
+                                                                        count++;
+                                                                    }
+                                                                }
+                                                            }
+                                                            <button class="btn btn-default btn-xs"
+                                                                    onclick="return false;"
+                                                                    data-toggle="popover"
+                                                                    data-html="true"
+                                                                    data-trigger="focus"
+                                                                    data-container="body"
+                                                                    title="Seiten"
+                                                                    data-content="@html">
+                                                                @count
+                                                            </button>
+                                                        </label>
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <div class="col-md-3 text-center widget-selector modalwidgetselector-search-handle" search-handle-name="@widget.Name.ToLower()" search-handle-type="@widget.Type.ToString().ToLower()">
+                                                    <input type="radio" id="@widget.GetHashCode()" name="widgetType" value="@widget.Id" onclick="onSelection()" />
+                                                    <label for="@widget.GetHashCode()" onclick="onSelection()">
+                                                        <img src="@Html.Raw("/App_Themes/admin/img/widgets/"+widget.Type+".svg")" width="50"><br />
+                                                        @widget.Name
+                                                        @{
+                                                            var count = 0;
+                                                            var html = string.Empty;
+                                                            foreach (var site in @widget.Sites)
+                                                            {
+                                                                var name = string.IsNullOrEmpty(site.Name) ? "(leer)" : site.Name;
+                                                                html += "<a class='btn btn-default btn-xs btn-block' href='/admin/siteedit/" + site.Id + "'>Site: " + name + "</a><div class'clearfix'><div>";
+                                                                count++;
+                                                            }
+                                                            foreach (var compositesingle in Model.Widgets.Where(w => w.Type == "WidgetComposite"))
+                                                            {
+                                                                var composite = compositesingle as BAG.Common.Data.Entities.WidgetComposite;
+                                                                if (composite.WidgetIds.Contains(widget.Id))
+                                                                {
+                                                                    html += "<a class='btn btn-default btn-xs btn-block' href='/admin/widgetedit/" + composite.Id + "'>Widget: " + composite.Name + "</a><div class'clearfix'><div>";
+                                                                    count++;
+                                                                }
+                                                            }
+                                                        }
+                                                        <button class="btn btn-default btn-xs"
+                                                                onclick="return false;"
+                                                                data-toggle="popover"
+                                                                data-html="true"
+                                                                data-trigger="focus"
+                                                                data-container="body"
+                                                                title="Seiten"
+                                                                data-content="@html">
+                                                            @count
+                                                        </button>
+                                                    </label>
+                                                </div>
+                                                }
+
+                                                                                }
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                                                                                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="$('#addWidgetForm').submit()">Add</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function onSelection() {
+        var name = $("input[name=widgetType]:checked").val();
+        if (name) {
+            $("#widgetSelector button.btn-primary").prop('disabled', false);
+        }
+    }
+
+    var modalWidgetSelector = {
+        search: function (input) {
+            input = input.toLowerCase().trim();
+            $('.modalwidgetselector-search-handle').each(function (id) {
+                var name = $(this).attr('search-handle-name');
+                var type = $(this).attr('search-handle-type');
+
+                var show = false;
+                if ($('#modalWidgetSelectorSearchCB').prop('checked')) {
+                    show = type.includes(input);
+                } else {
+                    show = name.includes(input);
+                }
+                if (show) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,54 @@
+﻿@model WidgetWrapperViewModel
+
+@{
+    var widget = Model.Widget as BAG.Common.Data.Entities.WidgetContent;
+}
+@if (Model.IsDesignMode)
+{
+
+    <text>
+        <div class="cm-admin-widget">
+            <h5>Content</h5>
+            <hr />
+            <div class="form-group">
+                <label for="title" class="control-label col-sm-2">Title:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="title" name="title" value="@widget.Title" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="content" class="control-label col-sm-2">Content:</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control summernote" id="content" name="content">@widget.Content</textarea>
+                </div>
+            </div>
+            <h5>Class Name for Content</h5>
+            <hr />
+
+            <div class="form-group">
+                <label for="title" class="control-label col-sm-2">Class:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="class" name="class" value="@widget.Class" />
+                </div>
+            </div>
+        </div>
+    </text>
+
+}
+else
+{
+    <div class="cm-widget widget-content @Html.Raw(widget.Class)">
+        <section class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2 text-center">
+                        <h2 class="section-heading">@Html.Raw(widget.Title)</h2>
+                        <hr class="light">
+                        <div class="text-faded">@Html.Raw(widget.Content)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+}

@@ -1,0 +1,73 @@
+﻿@model AdminWidgetViewModel
+@{
+    var widgetdata = Model.CurrentWidget as BAG.Common.Data.Entities.WidgetComposite;
+}
+<input id="widget-items" type="hidden" name="itemsstring" value="">
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody class="widget-items ui-sortable">
+        @foreach (var widgetid in widgetdata.WidgetIds)
+            {
+                foreach (var widget in Model.Widgets)
+                {
+                    if (widgetid == widget.Id)
+                    {
+                        var default_class = (widget.IsDefaultPartial) ? "" : "warning-border";
+                    <tr class="item ui-sortable-handle" data-item-id="@widget.Id.ToString()">
+                        @{
+                            var type = @widget.Type + ".svg";
+                        }
+                        @if (Model.CurrentSiteId == Guid.Empty)
+                        {
+                            <td><a href="/admin/widgetedit/@widget.Id?widgetid=@Model.CurrentWidget.Id"><img src="/App_Themes/admin/img/widgets/@type" style="height:36px;" class="@default_class ">@widget.Name</a></td>
+                        }
+                        else
+                        {
+                            <td><a href="/admin/widgetedit/@widget.Id?widgetid=@Model.CurrentWidget.Id&siteid=@Model.CurrentSiteId"><img src="/App_Themes/admin/img/widgets/@type" style="height:36px;" class="@default_class ">@widget.Name</a></td>
+                        }                        
+                        <td>@widget.Type</td>
+                        <td class="text-right">
+                            @if (Model.CurrentSiteId == Guid.Empty)
+                              {
+                                <a class="btn btn-default btn-xs" href="/admin/widgetedit/@widget.Id?widgetid=@Model.CurrentWidget.Id">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-default btn-xs" href="/admin/widgetedit/@widget.Id?widgetid=@Model.CurrentWidget.Id&siteid=@Model.CurrentSiteId">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                            } 
+                            
+                            &nbsp;
+                            <a class="btn btn-danger btn-xs delete-confirm"
+                               data-action="/admin/widgetdelete"
+                               data-id="@widget.Id"
+                               data-siteid="@Model.CurrentSiteId"
+                               data-compositeid="@Model.CurrentWidget.Id"
+                               data-title="Delete Widget"
+                               data-description="Do you really want to delete the widget @widget.Name?">
+                                <i class="fa fa-trash-o"></i>
+                            </a>
+                            &nbsp;
+                            <a class="btn btn-default btn-xs @(Model.WidgetManagers.Find(w => w.Id == widget.Id).IsDistinct?"btn-warning":"")" href="/admin/widgetpublish/@widget.Id?widgetid=@Model.CurrentWidget.Id&siteid=@Model.CurrentSiteId">Publish</a>
+                            <a class="btn btn-default btn-xs" href="/admin/widgetreset/@widget.Id?widgetid=@Model.CurrentWidget.Id&siteid=@Model.CurrentSiteId">Reset</a>
+                        </td>
+                    </tr>
+                }
+            }
+        }
+
+
+
+    </tbody>
+</table>
+

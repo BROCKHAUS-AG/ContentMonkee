@@ -1,0 +1,102 @@
+﻿@model AdminViewModel
+@{
+    ViewBag.Title = "Hilfe";
+    Layout = "~/Views/Admin/__LayoutAdministration.cshtml";
+}
+@Html.Partial("_ModalDeleteConfirm")
+
+<div class="row">
+    <div class="toolbar clearfix">
+        <ol class="breadcrumb">
+            <li><a href="/admin"><i class="fa fa-home"></i></a></li>
+            <li><a href="/admin/help">Help</a></li>
+        </ol>
+    </div>
+
+    <div class="well">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#anlegen" aria-controls="anlegen" role="tab" data-toggle="tab">Anlegen</a></li>
+            <li role="presentation"><a href="#bearbeiten" aria-controls="bearbeiten" role="tab" data-toggle="tab">Bearbeiten</a></li>
+            <li role="presentation"><a href="#loeschen" aria-controls="loeschen" role="tab" data-toggle="tab">Loeschen</a></li>
+            <li role="presentation"><a href="#editor" aria-controls="editor" role="tab" data-toggle="tab">Editor</a></li>
+        </ul>
+
+        <div class="tab-content well">
+            <div role="tabpanel" class="tab-pane active" id="anlegen">
+                <img src="~/App_Themes/admin/img/contentmonkee_logo_Affe_web.png" width="300px" class="pull-right">
+                <h4><strong>Daten anlegen</strong></h4>
+                <br/>
+                <h4>Allgemein</h4>
+                <p>
+                    Wählen Sie auf der Daten-Übersichtsseite Ihren gewünschten Punkt aus und klicken Sie auf <img src="~/Help/img/addButton.png" alt="" style="height: 30px;"/> um einen neuen Datensatz zu erstellen.
+                </p>
+                <p>Die Informationen zu dem gewählten Punkt, werden in Tabs(Oberpunkte) aufgeteilt und haben folgende Inhalte:</p>
+                <br/>
+                <h4>Tischler</h4>
+                <p>
+                    <strong>Daten: </strong>&nbsp;Kurze Beschreibungen zu Ihnen und Ihrer Tischlerei. Als URL sollten Sie am besten Ihren Nachnamen ohne Sonderzeichen eintragen.
+                    <br/><br/>
+                    <strong>Texte: </strong>&nbsp;<i>Inhalt Links</i> ist der Hauptbereich in den größere Textabschnitte besser passen.<br/><i>Inhalt Rechts</i> bezieht sich auf den Inhalt der Sidebar(rechts) und eignet sich gut für weitere Bilder mit prägnanten Überschriften.
+                    <br/><br/>
+                    <strong>Addresse: </strong>&nbsp;Beinhaltet Anschrift und Kontaktmöglichkeiten. Wenn Sie eine Addresse angegeben haben, können Sie mit einem Klick auf <kbd>Koordinaten aus Addresse übernehmen</kbd> Ihre Tischlerei auch auf der Google-Maps-Karte anzeigen lassen.
+                    <br/><br/>
+                    <strong>Bilder: </strong>&nbsp;<i>ImageFactory</i> sollte ein Bild der Tischlerei sein, während sich <i>ImageWorker</i> auf ein Bild der Mitarbeiter bezieht.
+                    <br/><br/>
+                    <strong>SEO: </strong>&nbsp;<i>SEO</i> steht für Search-Engine-Optimization (Suchmaschinenoptimierung) und dient dazu, Ihre Tischlerei leichter durch Suchmaschinen (wie zb Google) auffindbar zu machen.
+                </p>
+                <br/>
+                <h4>Produkte</h4>
+                <p>
+                    <strong>Daten: </strong>&nbsp;Kurze Beschreibungen zu der Edition plus Preis und Kategorie.
+                    <br/><br/>
+                    <strong>Texte: </strong>&nbsp;Detailiertere Informationen zu der Edition und Möglichkeit zur Angabe eines Designers.
+                    <br/><br/>
+                    <strong>Bilder: </strong>&nbsp;Vorschaubilder der Edition für potentielle Kunden und Interessierte.
+                    <br/><br/>
+                    <strong>Stories: </strong>&nbsp;Die Haupttexte und Bilder zu der Edition.<br/>Hier sollten alle wichtigen Informationen und Gründe (warum genau dieses Produkt gekauft werden sollte) rein.
+                    <br/><br/>
+                    <strong>SEO: </strong>&nbsp;(siehe Tischler)
+                </p>
+                <br/>
+                <h4>Kollektionen</h4>
+                <p>
+                    Die Kollektionen haben diese Aufteilung durch Tabs nicht, da dort nur wenige Daten eingetragen werden müssen.<br/>
+                    Hier muss nur ein Name festgelegt und die in der Kollektion enthaltenen Produkte ausgewählt werden.<br/>
+                    Die Reihenfolge dieser Produkte lässt sich hinterher durch das Ziehen der Elemente verändern.
+                </p>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="bearbeiten">
+                <h4><strong>Daten bearbeiten</strong></h4>
+                <br />
+                <p>
+                    Um Daten zu bearbeiten klicken Sie einfach auf &nbsp;<img src="~/Help/img/editButton.png" alt="" />
+                    <br />
+                    Danach können Sie dann eingegebene Daten noch einmal nachträglich anpassen.
+                </p>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="loeschen">
+                <h4><strong>Daten löschen</strong></h4>
+                <br />
+                <p>
+                    Um Daten zu löschen klicken Sie einfach auf &nbsp;<img src="~/Help/img/deleteButton.png" alt="" />&nbsp; und bestätigen Sie die dann erscheinende Meldung mit <kbd>Ja</kbd>.<br />
+                    Bedenken Sie aber, dass so gelöschte Datensätze nicht mehr wiederhergestellt werden können!
+                </p>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="editor">
+                <h4><strong>Hinweise zur Benutzung des Editors</strong></h4>
+                <br />
+                <p>
+                    <h4>Zeilenumbrüche und Leerzeichen</h4>
+                    <br />
+                    Zeilenumbrüche und Leerzeichen werden so übernommen wie sie auch im Editor genutzt wurden.<br />
+                    Sollte es also auf Ihrer Seite zu ungewollten Abständen kommen, prüfen Sie bitte noch einmal ob der Fehler nicht direkt schon im Editor behoben werden kann.
+                    <br /><br />
+                    <h4>Bilder einfügen</h4>
+                    <br />
+                    Wenn Sie im Editor ein neues Bild einfügen oder ein älteres austauschen wollen, drücken Sie, nachdem das gewünschte Bild eingefügt wurde, einmal die <kbd>Entertaste</kbd> um einen Abstand zwischen Bild und nachfolgendem Text zu erzeugen.<br />
+                    Sollte der so entstandene Abstand doch noch etwas zu groß sein, kann durch <strong>einmaliges</strong> drücken der <kbd>Rücktaste</kbd> dieser noch etwas verringert werden.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

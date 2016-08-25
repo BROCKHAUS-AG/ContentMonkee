@@ -1,0 +1,18 @@
+﻿@model WidgetWrapperViewModel
+@{
+    Layout = null;
+}
+
+<div class="row">
+
+    <div class="col-md-12">
+    <input type="hidden" name="@Html.Raw(Model.Prefix+".id")" value="@Html.Raw(Model.Widget!=null?Model.Widget.Id.ToString():"")" />
+    <input type="hidden" name="@Html.Raw(Model.Prefix+".name")" value="@Html.Raw(Model.Widget!=null?Model.Widget.Name:"")" />
+    <input type="hidden" name="@Html.Raw(Model.Prefix+".type")" value="@Html.Raw(Model.Widget!=null?Model.Widget.Type:"")" />
+
+        <img />
+        <a href="" class="btn btn-default">Select</a>
+        <a href="" class="btn btn-default">Reset</a>
+    </div>
+
+</div>

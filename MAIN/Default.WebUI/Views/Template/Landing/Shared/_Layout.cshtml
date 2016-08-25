@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+@using Default.WebUI.Extensions
+@using BAG.Common.Data.Entities
+@using System.Text.RegularExpressions
+@model GlobalViewModel
+
+@{
+
+    WidgetManager widgetmanager = Model.Site.Widgets.Find(w => w.Id == Model.RequestedWidgetId);
+    Widget widget = widgetmanager == null ? null : widgetmanager.Release;
+    if (widget == null)
+    {
+        ViewBag.Title = Model.Site.Title;
+        ViewBag.Description = Model.Site.Description;
+        ViewBag.Author = Model.Site.Author;
+        ViewBag.Keywords = Model.Site.Keywords;
+    }
+    else
+    {
+        ViewBag.Title = widget.MetaTitle;
+        ViewBag.Description = widget.MetaDescription;
+        ViewBag.Author = widget.MetaAuthor;
+        ViewBag.Keywords = widget.MetaKeywords;
+    }
+
+
+    ViewBag.SiteStructureType = Model.SiteSetting.SiteStructureType;
+    ViewBag.SiteStructureName = Model.SiteSetting.SiteStructureName;
+    ViewBag.SiteStructureUrl = Model.SiteSetting.SiteStructureUrl;
+    ViewBag.SiteStructureLogo = Model.SiteSetting.SiteStructureLogo;
+    ViewBag.SiteStructureStreetAddress = Model.SiteSetting.SiteStructureStreetAddress;
+    ViewBag.SiteStructureAddressLocality = Model.SiteSetting.SiteStructureAddressLocality;
+    ViewBag.SiteStructureAddressRegion = Model.SiteSetting.SiteStructureAddressRegion;
+    ViewBag.SiteStructurePostalCode = Model.SiteSetting.SiteStructurePostalCode;
+    ViewBag.SiteStructureAddressCountry = Model.SiteSetting.SiteStructureAddressCountry;
+    ViewBag.SiteStructureGeoLatitude = Model.SiteSetting.SiteStructureGeoLatitude;
+    ViewBag.SiteStructureGeoLongitude = Model.SiteSetting.SiteStructureGeoLongitude;
+    ViewBag.SiteStructureTelephone = Model.SiteSetting.SiteStructureTelephone;
+    ViewBag.SiteStructureContactType = Model.SiteSetting.SiteStructureContactType;
+    ViewBag.SiteStructureOpens = Model.SiteSetting.SiteStructureOpens;
+    ViewBag.SiteStructureCloses = Model.SiteSetting.SiteStructureCloses;
+}
+
+<html lang="de">
+<head itemscope itemtype="http://schema.org/WebSite">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title itemprop='name'>@ViewBag.Title</title>
+
+    <link rel="canonical" href="@("http://"+Model.SiteSetting.MainDomain+Regex.Replace("/"+Model.SEODeepUrl +"/",@"[/]+","/"))" itemprop="url">
+
+    <meta name="Description" content="@ViewBag.Description" />
+    <meta name="Author" content="@ViewBag.Author" />
+    <meta name="Keywords" content="@ViewBag.Keywords" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="google-site-verification" content="2QB_HlWsPk28kA2wkvIJFaFdbhD-cIvn-x7_WFAzohc" />
+    <script type="application/ld+json">
+        {
+        "@@context": "http://schema.org",
+        "@@type": "@ViewBag.SiteStructureType",
+        "name": "@ViewBag.SiteStructureName",
+        "url": "@ViewBag.SiteStructureUrl",
+        "logo": "@ViewBag.SiteStructureLogo",
+        "telephone": "@ViewBag.SiteStructureTelephone",
+        "address": {
+        "@@type": "PostalAddress",
+        "streetAddress": "@ViewBag.SiteStructureStreetAddress",
+        "addressLocality": "@ViewBag.SiteStructureAddressLocality",
+        "addressRegion": "@ViewBag.SiteStructureAddressRegion",
+        "postalCode": "@ViewBag.SiteStructurePostalCode",
+        "addressCountry": "@ViewBag.SiteStructureAddressCountry"
+        },
+        "geo": {
+        "@@type": "GeoCoordinates",
+        "latitude": @ViewBag.SiteStructureGeoLatitude,
+        "longitude": @ViewBag.SiteStructureGeoLongitude
+        },
+        "openingHoursSpecification": [
+        {
+        "@@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+        ],
+        "opens": "@ViewBag.SiteStructureOpens",
+        "closes": "@ViewBag.SiteStructureCloses"
+        }
+        ]
+        }
+    </script>
+
+    @Styles.Render("~/landing/css")
+
+    @Html.Partial("_Favicon", Model)
+
+    @RenderSection("Styles", false)
+
+    @if (!string.IsNullOrEmpty(Model.SiteSetting.TrackingCode) && _Globals.Instance.EnableCookies)
+    {
+        @Html.Raw(Model.SiteSetting.TrackingCode)
+    }
+    @if (!string.IsNullOrEmpty(Model.SiteSetting.FontsCSS))
+    {
+        <link rel="stylesheet" href="@Model.SiteSetting.FontsCSS">
+    }
+</head>
+
+<body class="et @Html.Raw(Model.SiteSetting.HideWidgetsToolbar?"hidecontrols":"")">
+    @Html.Partial("_CookiesInstruction", Model)
+    @RenderSection("BeforContainer", false)
+
+    <div id="site">
+        @Html.Partial("_Navigation")
+        @RenderBody()
+    </div>
+    @Html.Partial("_Gwc")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/landing/js")
+    @RenderSection("Scripts", false)
+
+    @if (_Globals.Instance.IsAuthenticated)
+    {
+        @Html.Partial("_WidgetEditModal")
+    }
+    @if (!string.IsNullOrEmpty(Model.SiteSetting.GoogleAnalyticTrackingId) && _Globals.Instance.EnableCookies)
+    {
+        @Html.Partial("_GoogleAnalytics", Model)
+    }
+    @if (!string.IsNullOrEmpty(Model.Site.JavaScript))
+    {
+        <script>
+            @Model.Site.JavaScript
+        </script>
+    }
+</body>
+</html>

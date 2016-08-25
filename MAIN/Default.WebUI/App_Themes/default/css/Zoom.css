@@ -1,0 +1,28 @@
+﻿.zoom {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+}
+
+
+.gallery {
+    margin-top: 13px;
+}
+
+div.gallery a.active {
+    border-bottom: 5px solid #555;
+    display: inline-block;
+    height: 65px;
+}
+
+div.gallery a > img {
+    max-height: 65px;
+}
+
+.thumbnail2 {
+    margin-top: 10px;
+}
+
+div.gallery a {
+    margin-right: 5px;
+}

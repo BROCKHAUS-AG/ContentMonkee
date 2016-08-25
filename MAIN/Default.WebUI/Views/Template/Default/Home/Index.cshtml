@@ -1,0 +1,103 @@
+﻿@model GlobalViewModel
+@section Scripts
+{
+    @if (!string.IsNullOrEmpty(Model.Site.JavaScript))
+    {
+        @Html.Raw(Model.Site.JavaScript)
+    }
+}
+@section Styles
+{
+    <style></style>
+    @if (!string.IsNullOrEmpty(Model.Site.Css))
+    {
+        @Html.Raw(Model.Site.Css)
+    }
+}
+
+@if (Model.Site != null)
+{
+    <div class="inf-con-root">
+        @{
+            string parentWidgetUrl = string.Empty;
+
+            if (Model.RequestedWidgetId == Guid.Empty && Model.Site.Widgets.Count() > 0)
+            {
+                Model.RequestedWidgetId = Model.Site.Widgets.First().Id;
+            }
+        }
+
+        @foreach (var widgetpart in Model.Site.Widgets.Where(s => (Model.IsPreview ? s.PreRelease != null : s.Release != null) && s.PreRelease.GetType().Name != "WidgetPageFooter"))
+        {
+            var widget = Model.IsPreview ? widgetpart.PreRelease : widgetpart.Release;        
+            if (widget == null || !widget.Visible)
+            {
+                continue;
+            }
+            var headerClass = widget.GetType().Name == "WidgetPageHeader" ? "widget-header-section" : "";
+            if (Model.Site.WidgetNavigations.Contains(widget.Id))
+            {
+                parentWidgetUrl = string.Empty;
+            }
+            string preview = Model.IsPreview ? "?preview=prerelease" : "";
+            string wUrl = ("/" + Model.SEOSiteUrl + parentWidgetUrl + widget.Url + "/" + preview).Replace("//", "/");
+
+
+                WidgetViewModel widgetModel = new WidgetViewModel();
+                widgetModel.Widget = widget;
+                widgetModel.IsNavPoint = false;
+                widgetModel.SiteId = Model.Site.Id;
+
+                <section class="inf-con-elem @headerClass" @(Model.Site.WidgetNavigations.Contains(widget.Id) ? "has-navigation" : "") inf-con-state="loaded" modelid="@widget.Id" id="@wUrl" inf-con-href="@("/getWidgetByFullUrl" + wUrl)" inf-con-meta="Keywords:@widget.MetaKeywords;Description:@widget.MetaDescription;Author:@widget.MetaAuthor;Title:@widget.MetaTitle;">@Html.Action("GetWidgetByFullUrl", "Home", new { SEOUrl = wUrl })</section>
+
+            if (Model.Site.WidgetNavigations.Contains(widget.Id))
+            {
+                parentWidgetUrl = ("/" + widget.Url + "/").Replace("//", "/");
+            }
+        }
+    </div>
+
+    <section class="widget-footer-section">
+        @foreach (var widgetpart in Model.Site.Widgets.Where(s => s.Release != null && s.Release.GetType().Name == "WidgetPageFooter"))
+        {
+            var widget = Model.IsPreview ? widgetpart.PreRelease : widgetpart.Release;
+            if (widget == null)
+            {
+                continue;
+            }
+
+            FooterViewModel widgetModel = new FooterViewModel();
+            widgetModel.Widget = widget;
+            widgetModel.IsNavPoint = false;
+            widgetModel.SiteId = Model.Site.Id;
+            widgetModel.Sites = Model.Sites;
+            widgetModel.Site = Model.Site;
+            widgetModel.SiteSetting = Model.SiteSetting;
+
+            <div modelid="@widget.Id">@Html.Partial("_Widget", widgetModel)</div>
+        }
+    </section>
+
+
+            if (_Globals.Instance.IsAuthenticated)
+            {
+                <a class="btn btn-default btn-xs  pull-right" target="_top" href="/admin/siteedit/@Model.Site.Id">
+                    <i class="fa fa-pencil"></i>
+                </a>
+                }
+
+
+            }
+            else
+            {
+                <text>
+                    <div class="alert alert-danger" role="alert">
+                        <h1>404 Seite nicht gefunden.</h1>
+                    </div>
+
+                    @if (_Globals.Instance.IsAuthenticated)
+                    {
+                        <a class="btn btn-default" href="/admin/">Neue Seite anlegen?</a>
+                    }
+                </text>
+            }

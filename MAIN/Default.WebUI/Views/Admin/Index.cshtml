@@ -1,0 +1,160 @@
+﻿@using System.Data.Entity.Core.Objects
+@model AdminViewModel
+@{
+    Layout = "~/Views/Admin/__LayoutAdministration.cshtml";
+    ViewBag.Title = "Index";
+}
+
+
+@if (Model.CurrentSiteSetting == null)
+{
+    <div>No sitesetting please create one: <a href="/admin/sitesettings">sitesetting</a></div>
+}
+else
+{
+
+    @Html.Partial("_ModalSiteSelector", Model.Sites)
+    @Html.Partial("_ModalDeleteConfirm")
+
+    <div class="row">
+
+        <div class="toolbar clearfix">
+            <ol class="breadcrumb pull-left">
+                <li><a href="/admin"><i class="fa fa-home"></i></a></li>
+                <li><a href="/admin">@Model.CurrentSiteSetting.Name</a></li>
+                <li class="active">Pages</li>
+            </ol>
+            @Html.Partial("_SiteSelection", Model)
+        </div>
+
+        <div class="docs">
+            <button type="button" class="close close-docs" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div class="head">
+                <h4>Welcome to Content Monkee CMS</h4>
+                <div class="subtitles">We’ve assembled some short tips to get you started:</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Get Started</h5>
+                    <button type="button" class="btn btn-primary btn-sm btn-add" data-toggle="modal" data-target="#siteSelector">Add</button> &nbsp; new page <br />or, create new <a href="~/admin/sitesettings">Site Domainssettings</a>.
+                </div>
+                <div class="col-md-4">
+                    <h5>Next Steps</h5>
+                    <ul>
+                        <li><a href="#">Write your first blog post</a></li>
+                        <li><a href="#">Add an About page</a></li>
+                        <li><a href="#">View your site</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>More Actions</h5>
+                    <ul>
+                        <li><a href="#">Manage widgets or menus</a></li>
+                        <li><a href="#">Turn comments on or off</a></li>
+                        <li><a href="#">Learn more about getting started</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="well">
+            @*<a href="~/admin/redirections">*@
+            @using (Html.BeginForm("indexedit", "admin", FormMethod.Post, new { id = "IndexEdit" }))
+
+            {
+                <input id="site-items" type="hidden" name="siteorderstring" value="">
+
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#site" aria-controls="site" role="tab" data-toggle="tab">Pages</a></li>
+                    <li role="presentation"><a href="#widgets" aria-controls="widgets" role="tab" data-toggle="tab">Widgets</a></li>
+                    <li role="presentation"><a href="#redirections" aria-controls="redirections" role="tab" data-toggle="tab">Redirections</a></li>
+                </ul>
+                <div class="tab-content well">
+                    <div role="tabpanel" class="tab-pane active" id="site">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th><button type="button" class="btn btn-primary btn-sm btn-add" data-toggle="modal" data-target="#siteSelector">Add</button></th>
+                                    <th>Url</th>
+                                    <th>Widgets</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody class="site-items ui-sortable">
+                                @foreach (var siteManager in Model.SiteManagers)
+                                {
+                                    var site = siteManager.PreRelease;
+                                    <tr class="item ui-sortable-handle" data-item-id="@site.Id.ToString()">
+                                        <td><i class="fa fa-file-text-o"></i> <a href="/admin/siteedit/@site.Id">@site.Name</a></td>
+                                        <td>
+                                            <a target="_blank" href="/@site.UrlFull" data-toggle="tooltip" title="View"><i class="fa fa-external-link"></i></a>
+                                            @Html.Raw(string.IsNullOrEmpty(site.UrlFull) ? "(Homepage)" : site.UrlFull)
+                                        </td>
+                                        <td>
+                                            @{
+                                                var html = string.Empty;
+                                                foreach (var widgetpart in @site.Widgets)
+                                                {
+                                                    var widget = widgetpart.PreRelease;
+
+                                                    var name = string.IsNullOrEmpty(widget.Name) ? "(leer)" : widget.Name;
+
+                                                    var default_class = widget.IsDefaultPartial ? "btn-default" : "btn-warning";
+
+                                                    html += "<a class='btn " + default_class + " btn-xs btn-block' href='/admin/widgetedit/" + widget.Id + "'>" + name + "</a><div class'clearfix'><div>";
+                                                }
+                                            }
+                                            <button class="btn btn-default btn-xs "
+                                                    onclick="return false;"
+                                                    data-toggle="popover"
+                                                    data-html="true"
+                                                    data-trigger="focus"
+                                                    data-container="body"
+                                                    title="Widgets"
+                                                    data-content="@html">
+                                                @site.Widgets.Count
+                                            </button>
+                                        </td>
+
+                                        <td class="text-right">
+                                            <a class="btn btn-default btn-xs" href="/admin/siteedit/@site.Id" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></a>
+                                            <a class="btn btn-default btn-xs" href="/@(site.UrlFull + "?preview=prerelease")" target="_blank" data-toggle="tooltip" title="Preview"><i class="fa fa-eye"></i></a>
+                                            <a class="btn btn-default btn-xs @(siteManager.IsDistinct?"btn-warning":"")" href="/admin/sitepublish/@site.Id">Publish</a>
+                                            &nbsp;
+                                            <a class="btn btn-danger btn-xs delete-confirm"
+                                               data-action="/admin/sitedelete"
+                                               data-id="@site.Id"
+                                               data-title="Seite Löschen"
+                                               data-description="Möchten Sie wirklich die Seite @site.Name löschen?"
+                                               data-toggle="tooltip"
+                                               title="Delete"
+                                               >
+                                                <i class="fa fa-trash-o"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+
+
+                                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="widgets">
+                        @Html.Partial("_WidgetList", new WidgetContainer(Model.WidgetManagers))
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="redirections">
+                        @Html.Partial("_RedirectionList", Model)
+                    </div>
+                </div>
+                                                }
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="controls">
+                        <a class="btn btn-success" onclick="$('#IndexEdit').submit(); return false;">Save</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}

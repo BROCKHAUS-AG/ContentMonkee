@@ -1,0 +1,31 @@
+﻿@model GlobalViewModel
+@{
+    Layout = null;
+}
+
+<script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+@if (Model.SiteSetting.IpAnonymization)
+{
+    <script type="text/javascript">
+    try {
+        var pageTracker = _gat._getTracker("@Model.SiteSetting.GoogleAnalyticTrackingId");
+        pageTracker._gat._anonymizeIP();
+        pageTracker._trackPageview();
+    } catch (err) { }
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+    try {
+        var pageTracker = _gat._getTracker("@Model.SiteSetting.GoogleAnalyticTrackingId");
+        pageTracker._trackPageview();
+    } catch (err) { }
+    </script>
+}
+
+
