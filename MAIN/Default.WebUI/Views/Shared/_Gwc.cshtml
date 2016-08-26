@@ -1,8 +1,4 @@
 ﻿@model dynamic
-
-@using Newtonsoft.Json
-@using Newtonsoft.Json.Serialization
-
 @{
     Layout = null;
 }
@@ -12,19 +8,18 @@
     window.gwc = gwc;
     @if(Model!=null)
     {
-        //var json = Default.WebUI.Extensions.JsonExtensions.ToJson(Model);
-        ////gwc.model = @Html.Raw(json);
         <text>
-    gwc.serverpath = "@(Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/'))";
-    </text>
+           gwc.serverpath = "@(Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/'))";
+        </text>
     }
     @{
-        if (Model is AdminViewModel || Model is AdminWidgetViewModel)
+        if (Model is AdminViewModel || Model is AdminWidgetViewModel || Model is SiteViewModel)
         {
             if(Model.CurrentSiteSetting != null) {
             <text>
-    gwc.sitesettingpath = "@("Content/" + Model.CurrentSiteSetting.Id)";
-    </text>
+                gwc.sitesettingpath = "Content/tcSitesettingID";
+                gwc.sitesettingid = "@(Model.CurrentSiteSetting.Id)";
+            </text>
             }
         }
     }

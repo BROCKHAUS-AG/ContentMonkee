@@ -277,7 +277,7 @@
                         <div class="col-sm-6">
                             <div class="img-selector-container" data-name="SelectLogo">
                                 <img class="preview image-responsive" style="max-width: 200px; max-height: 200px;"
-                                     src="@Html.Raw(string.IsNullOrWhiteSpace(Model.CurrentSiteSetting.LogoImage) ? string.Empty : Model.CurrentSiteSetting.LogoImage.GetImagePath())" />
+                                     src="@Html.Raw(string.IsNullOrWhiteSpace(Model.CurrentSiteSetting.LogoImage) ? string.Empty : Model.CurrentSiteSetting.LogoImage.GetImagePath().Replace("tcSitesettingID", _Globals.Instance.CurrentSiteSettingId.ToString()))" />
                                 <input class="selection" type="hidden" name="LogoImage" id="LogoImage" value="@Model.CurrentSiteSetting.LogoImage" />
                                 <div class="controls">
                                     <button class="btn btn-default select-image">Select Logo</button>
@@ -292,7 +292,7 @@
                         <div class="col-sm-6">
                             <div class="img-selector-container" data-name="SelectImage">
                                 <img class="preview image-responsive" style="max-width: 200px; max-height: 200px;"
-                                     src="@Html.Raw(string.IsNullOrWhiteSpace(Model.CurrentSiteSetting.Favicon) ? string.Empty : Model.CurrentSiteSetting.Favicon.GetImagePath())" />
+                                     src="@Html.Raw(string.IsNullOrWhiteSpace(Model.CurrentSiteSetting.Favicon) ? string.Empty : Model.CurrentSiteSetting.Favicon.GetImagePath().Replace("tcSitesettingID", _Globals.Instance.CurrentSiteSettingId.ToString()))" />
                                 <input class="selection" type="hidden" name="favicon" id="favicon" value="@Model.CurrentSiteSetting.Favicon" />
                                 <div class="controls">
                                     <button class="btn btn-default select-image">Select Favicon</button>

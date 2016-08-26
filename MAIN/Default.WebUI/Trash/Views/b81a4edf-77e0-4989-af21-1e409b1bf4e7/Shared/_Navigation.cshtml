@@ -1,0 +1,53 @@
+﻿@using BAG.Common.Data.Entities;
+@using System.Text.RegularExpressions;
+@model GlobalViewModel
+@if (!string.IsNullOrWhiteSpace(Model.SiteSetting.LogoImage))
+{
+    <div class="header-logo pageHeaderShowOnly"><img src="@Html.Raw(string.IsNullOrWhiteSpace(Model.SiteSetting.LogoImage) ? string.Empty : Model.SiteSetting.LogoImage)" alt="@Html.Raw(Model.Site.Title);" /></div>
+}
+@{
+
+    var widgetManagerContainerss = from wmcs in (
+                                    from s in Model.Sites
+                                    where (s.Url == string.Empty || s.Url == "/" || s.Id == Model.Site.Id)
+                                    select s.Widgets.Select(wm => new { site = s, widgetManager = wm })
+                                 )
+                                   select wmcs;
+    var widgetManagerContainers = widgetManagerContainerss.Aggregate((wmcs, wmcsn) => wmcs.Union(wmcsn)).Where(wmcs => wmcs.site.WidgetNavigations.Contains(wmcs.widgetManager.Id));
+    {
+        if (widgetManagerContainers.Count() != 0)
+        {
+            <a href="#" class="hamburger hamburger--spin" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                </span>
+            </a>
+
+            <nav id="navigation">
+                <ul>
+                    @foreach (var wmc in widgetManagerContainers)
+                    {
+                        var widget = Model.IsPreview ? wmc.widgetManager.PreRelease : wmc.widgetManager.Release;
+                        var siteId = wmc.site.Id;
+                        var siteUrl = wmc.site.Url;
+            			if (widget == null || !widget.Visible)
+                        {
+                            continue;
+                        }
+
+                            string wUrl = Regex.Replace("/" + siteUrl + "/" + widget.Url + "/", @"[/]+", "/");
+
+                            if (siteId == Model.Site.Id)
+                            {
+                                <li class="n_wUrl infCon3-nav-AoN" infCon3-id="@widget.Id"><a class="infCon3-nav" infCon3-nav-type="main" infCon3-id="@widget.Id" href="@wUrl">@widget.Name</a></li>
+                            }
+                            else
+                            {
+                                <li class="n_wUrl"><a href="@wUrl">@widget.Name</a></li>
+                            }
+                        }
+                </ul>
+            </nav>
+        }
+    }
+}

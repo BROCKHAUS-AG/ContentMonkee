@@ -1,4 +1,5 @@
-﻿@model WidgetWrapperViewModel
+﻿@using System.Text.RegularExpressions
+@model WidgetWrapperViewModel
 @{
     var widget = Model.Widget as BAG.Common.Data.Entities.WidgetVCard;
 }
@@ -120,7 +121,7 @@
                                                                 <h3><span>@Html.Raw(widget.TitleVCard)</span></h3>
                                                             }
                                                             <div class="box vcard" itemscope itemtype="http://schema.org/Person">
-                                                                <img src="@employee.ProfilImagePath" class="vcard-image" itemprop="image" alt="@widget.EmployeeName" />
+                                                                <img src="@Regex.Replace(employee.ProfilImagePath, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString())" class="vcard-image" itemprop="image" alt="@widget.EmployeeName" />
                                                                 <strong itemprop="name">@widget.EmployeeName</strong>
                                                                 <span itemprop="jobTitle">@employee.Position</span>
                                                                 <div class="phone">

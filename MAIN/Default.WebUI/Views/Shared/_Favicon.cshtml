@@ -6,11 +6,11 @@
 
     if (!Model.Site.Favicon.IsNullOrEmpty())
     {
-        path = "/Content/Favicons/" + Model.Site.Favicon.Replace("/Content/", "") + "/";
+        path = "/Content/Favicons/" + Model.Site.Favicon.Replace("/Content/tcSitesettingID/", "") + "/";
     }
     else if (!Model.SiteSetting.Favicon.IsNullOrEmpty())
     {
-        path = "/Content/Favicons/" + Model.SiteSetting.Favicon.Replace("/Content/", "") + "/";
+        path = "/Content/Favicons/" + Model.SiteSetting.Favicon.Replace("/Content/tcSitesettingID/", "") + "/";
     }
     else
     {
@@ -21,7 +21,7 @@
 
     if (!Model.Site.AltFavicon.IsNullOrEmpty())
     {
-        altpath = "/Content/Favicons/" + Model.Site.AltFavicon.Replace("/Content/", "") + "/";
+        altpath = "/Content/Favicons/" + Model.Site.AltFavicon.Replace("/Content/tcSitesettingID/", "") + "/";
     }
 
 

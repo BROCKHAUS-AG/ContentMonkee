@@ -31,15 +31,19 @@ namespace Default.WebUI.Controllers
         {
             get
             {
+#pragma warning disable 612, 618
                 if (unit == null)
                 {
                     this.unit = new UnitOfWork();
                 }
                 return this.unit;
+#pragma warning restore 612, 618
             }
             set
             {
+#pragma warning disable 612, 618
                 this.unit = Unit;
+#pragma warning restore 612, 618
             }
         }
 
@@ -1440,18 +1444,20 @@ namespace Default.WebUI.Controllers
                 site.SetPassword(newPassword);
             }
 
-            if (!form.GetString("favicon").IsNullOrEmpty() && site.Favicon != form.GetString("favicon"))
+            if (!form.GetString("favicon").IsNullOrEmpty() && site.Favicon != form.GetString("favicon") && !form.GetString("favicon").Contains(".svg"))
             {
                 site.Favicon = form.GetString("favicon");
 
                 new FaviconHelper(Server, site.Favicon);
+
             }
             else
             {
-                site.Favicon = form.GetString("favicon");
+                if (!form.GetString("favicon").Contains(".svg"))
+                    site.Favicon = form.GetString("favicon");
             }
 
-            if (!form.GetString("altfavicon").IsNullOrEmpty() && site.AltFavicon != form.GetString("altfavicon"))
+            if (!form.GetString("altfavicon").IsNullOrEmpty() && site.AltFavicon != form.GetString("altfavicon") && !form.GetString("favicon").Contains(".svg"))
             {
                 site.AltFavicon = form.GetString("altfavicon");
 
@@ -1459,7 +1465,8 @@ namespace Default.WebUI.Controllers
             }
             else
             {
-                site.AltFavicon = form.GetString("altfavicon");
+                if(!form.GetString("favicon").Contains(".svg"))
+                    site.AltFavicon = form.GetString("altfavicon");
             }
 
             var itemsstring = form.GetString("itemsstring");

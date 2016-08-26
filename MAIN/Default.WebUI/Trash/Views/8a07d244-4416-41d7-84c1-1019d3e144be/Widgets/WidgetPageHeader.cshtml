@@ -1,0 +1,144 @@
+﻿@using Default.WebUI.Extensions
+@using System.Text.RegularExpressions
+@model WidgetWrapperViewModel
+@{
+    var widget = Model.Widget as BAG.Common.Data.Entities.WidgetPageHeader;
+}
+
+@if (Model.IsDesignMode)
+{
+    <text>
+    <div class="cm-admin-widget">
+        <h5>Content</h5>
+        <hr />
+        <div class="form-group">
+            <label for="title" class="control-label col-sm-2">Title:</label>
+            <div class="col-sm-6">
+                <textarea class="form-control" id="title" name="title">@widget.Title</textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="text" class="control-label col-sm-2">Description:</label>
+            <div class="col-sm-6">
+                <textarea class="form-control" id="description" name="description">@widget.Description</textarea>
+            </div>
+        </div>
+
+        <h5>Enable Background</h5>
+        <hr />
+        <div class="form-group">
+            <div class="col-sm-6 col-sm-offset-2">
+                <label class="well"><input type="checkbox" id="enablebackground" name="enablebackground" @(widget.EnableBackground ? "checked" : "")> Enable Background</label>
+            </div>
+        </div>
+
+        <h5>Configure Animation</h5>
+        <hr />
+        <div class="form-group">
+            <div class="col-sm-6 col-sm-offset-2">
+                <label class="well"><input type="checkbox" id="enableanimations" name="enableanimations" @(widget.EnableAnimations ? "checked" : "")> Enable Animations</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="text" class="control-label col-sm-2">Animation Speed:</label>
+            <div class="col-sm-6">
+                <input type="range" min="0" max="100" id="animationspeed" name="animationspeed" value="@widget.AnimationSpeed" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="text" class="control-label col-sm-2">Intensity:</label>
+            <div class="col-sm-6">
+                <input type="range" min="0" max="100" id="intensity" name="intensity" value="@widget.Intensity" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="text" class="control-label col-sm-2">Base-Color:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control @(widget.Id)colorpicker" id="basecolor" name="basecolor" value="@widget.BaseColor" />
+            </div>
+        </div>
+
+        <h5>Configure Background Image</h5>
+        <hr />
+        <div class="form-group">
+            <div class="col-sm-6 col-sm-offset-2">
+                <label class="well"><input type="checkbox" id="usecustomimage" name="usecustomimage" @(widget.UseCustomImage ? "checked" : "")> Use Custom Image</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6 col-sm-offset-2">
+                <div class="img-selector-container" data-name="SelectImage">
+                    <img class="preview image-responsive" style="width: 200px; max-height: 200px;"
+                         src="@Html.Raw(string.IsNullOrWhiteSpace(widget.CustomImage) ? string.Empty : Regex.Replace(widget.CustomImage.GetImagePath(), @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" />
+                    <input class="selection" type="hidden" name="customimage" value="@widget.CustomImage" />
+                    <div class="controls">
+                        <button class="btn btn-default select-image">Select Image</button>
+                        <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </text>
+}
+else
+{
+    <header class="cm-widget widget-header">
+        <div class="header-content">
+            <div class="container">
+                @*<h1>@Html.Raw(widget.Title)</h1>*@
+                <h1>Space <span>IT</span> Up</h1>
+                <div class="inner">@Html.Raw(widget.Description)</div>
+            </div>
+        </div>
+
+        <div class="scroll-down pageHeaderShowOnly"><a class="inf-con-nav-a hvr-hang" href="@widget.FirstNonHeaderUrl"></a></div>
+        <div class="earth">
+            <div class="container">
+                <div class="earth-orbita1">
+                    <img src="~/App_Themes/rocket/img/Planet_Erde-11.svg" />
+                </div>
+            </div>
+            <div class="shuttle">
+                <svg preserveAspectRatio="xMinYMin slice" viewBox="0 0 624 226">
+                    <path id="plane-path" d="M24.9,143.2 c76-105.1,410-227.1,574.5,58.4" fill="transparent"></path>
+                    <image id="plane" xlink:href="/App_Themes/rocket/img/Rakete-17.svg" x="-35" y="-25" width="70" height="70">
+                        <animateMotion id="plane-motion" dur="9s" rotate="auto" fill="freeze" begin="0s" repeatCount="once" calcMode="spline" keySplines="0.833333 0.02 0.5 1" keyTimes="0; 1" class="svg-anim">
+                            <mpath xlink:href="#plane-path"></mpath>
+                        </animateMotion>
+                    </image>
+                </svg>
+            </div>
+            <div class="pusk"></div>
+        </div>
+        <div class="kommeta"></div>
+        <div class="space">
+            <div class="ship">
+                <div class="ship-rotate">
+                    <div class="pod"></div>
+                    <div class="fuselage"></div>
+                </div>
+            </div>
+            <div class="ship-shadow"></div>
+            <div class="mars">
+                <div class="tentacle"></div>
+                <div class="flag">
+                    <div class="small-tentacle"></div>
+                    <div class="brockhaus"></div>
+                </div>
+                <div class="planet">
+                    <div class="surface"></div>
+                    <div class="crater1"></div>
+                    <div class="crater2"></div>
+                    <div class="crater3"></div>
+                </div>
+            </div>
+            <div class="test"></div>
+        </div>
+    </header>
+}

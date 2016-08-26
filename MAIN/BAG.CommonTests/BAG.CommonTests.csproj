@@ -65,7 +65,24 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="bin\Debug\App_Data\" />
+    <Content Include="bin\Debug\App_Data\Collection.xml" />
+    <Content Include="bin\Debug\App_Data\Content.xml" />
+    <Content Include="bin\Debug\App_Data\Edition.xml" />
+    <Content Include="bin\Debug\App_Data\Employee.xml" />
+    <Content Include="bin\Debug\App_Data\Manufactory.xml" />
+    <Content Include="bin\Debug\App_Data\Site.xml" />
+    <Content Include="bin\Debug\App_Data\SiteManager.xml" />
+    <Content Include="bin\Debug\App_Data\SiteSetting.xml" />
+    <Content Include="bin\Debug\App_Data\User.xml" />
+    <Content Include="bin\Debug\App_Data\WidgetManager.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\App_Data\Geolocation\GeoLiteCity.dat" />
+    <None Include="bin\Debug\App_Data\Geolocation\GeoLiteCity.mmdb" />
+    <None Include="bin\Debug\App_Data\perflog.log" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\App_Data\Backup\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

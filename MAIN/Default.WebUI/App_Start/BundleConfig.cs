@@ -59,67 +59,19 @@ namespace Default.WebUI
                       "~/app_themes/default/js/jquery.waitforimages.js",
                       "~/app_themes/default/js/core.js",
                       "~/app_themes/default/lib/lightbox/js/lightbox.js",
-                      "~/app_themes/bag/lib/SocialSharingButtons/js/rrssb.js",
-                      "~/app_themes/bag/lib/animate-css/animate-css.js",
-                      "~/app_themes/bag/lib/animate-css/jquery.waypoints.min.js",
+                      "~/app_themes/default/lib/SocialSharingButtons/js/rrssb.js",
+                      "~/app_themes/default/lib/animate-css/animate-css.js",
+                      "~/app_themes/default/lib/animate-css/jquery.waypoints.min.js",
 
-                      "~/app_themes/default/js/defaultsite.js",
-                      "~/app_themes/bag/js/site.js"));
+                      "~/app_themes/default/js/defaultsite.js"
+                      ));
 
 
             bundles.Add(new ScriptBundle("~/content/paperbackground").Include(
                     "~/app_themes/default/js/paper-full.min.js",
                     "~/app_themes/default/js/paper-helper.js"
                       ));
-
-            /*BAG*/
-            bundles.Add(new StyleBundle("~/bag/css").Include(
-                      "~/app_themes/default/css/bootstrap.css",
-                      "~/app_themes/default/css/font-awesome.min.css",
-                      "~/app_themes/default/css/jquery-ui.theme.css",
-                      "~/app_themes/default/css/ionicons.min.css",
-                      "~/app_themes/default/css/component.css",
-                      "~/app_themes/default/css/icons.css",
-                      "~/app_themes/default/css/navbar.css",
-                      "~/app_themes/default/css/normalize.css",
-                      "~/app_themes/default/css/zoom.css",
-                      "~/app_themes/default/css/btn.css",
-                      "~/app_themes/default/css/jquery.excoloSlider.css",
-                      "~/app_themes/default/css/flyout-window.css",
-                      "~/app_themes/default/lib/lightbox/css/lightbox.css",
-                      "~/app_themes/bag/css/font-bag.css",
-                      "~/app_themes/bag/lib/SocialSharingButtons/css/rrssb.css",
-                      "~/app_themes/bag/lib/animate-css/animate.min.css",
-                      "~/app_themes/bag/css/site.css"
-                      ));
-
-            bundles.Add(new ScriptBundle("~/bag/js").Include(
-                      "~/app_themes/default/js/hacktimer/HackTimer.silent.min.js",
-                      "~/app_themes/default/js/hacktimer/HackTimerWorker.min.js",
-                      "~/app_themes/default/js/jquery-{version}.js",
-                      "~/app_themes/default/js/jquery-ui.js",
-                      "~/app_themes/default/js/bootstrap.js",
-                      "~/app_themes/default/js/respond.js",
-                      "~/app_themes/default/js/classie.js",
-                      "~/app_themes/default/js/accordion.js",
-                      "~/app_themes/default/js/jquery.zoom.min.js",
-                      "~/app_themes/default/js/jquery.excoloSlider.js",
-                      "~/app_themes/default/js/jquery-ui.searchflyout.js",
-                      "~/app_themes/default/js/jquery.jscroll.min.js",
-                      "~/app_themes/default/js/jquery.waitforimages.js",
-                      //"~/app_themes/default/js/ScrollToTop.js",
-                      "~/app_themes/default/js/infcon3.js",
-                      "~/app_themes/default/js/core.js",
-                      "~/app_themes/default/lib/lightbox/js/lightbox.js",
-                      "~/app_themes/bag/lib/SocialSharingButtons/js/rrssb.js",
-                      "~/app_themes/bag/lib/animate-css/animate-css.js",
-                      "~/app_themes/bag/lib/animate-css/jquery.waypoints.min.js",
-
-                      "~/app_themes/default/js/defaultsite.js",
-                      "~/app_themes/bag/js/site.js"
-
-                      ));
-
+            
             /*Landing*/
             bundles.Add(new StyleBundle("~/landing/css").Include(
                       "~/app_themes/landing/lib/bootstrap/css/bootstrap.min.css",
@@ -145,58 +97,14 @@ namespace Default.WebUI
                       "~/app_themes/default/js/infcon3.js",
                       "~/app_themes/default/js/core.js",
                       "~/app_themes/default/lib/lightbox/js/lightbox.js",
-                      "~/app_themes/bag/lib/SocialSharingButtons/js/rrssb.js",
-                      "~/app_themes/bag/lib/animate-css/animate-css.js",
-                      "~/app_themes/bag/lib/animate-css/jquery.waypoints.min.js",
-
-                      "~/app_themes/default/js/defaultsite.js",
-                      "~/app_themes/bag/js/site.js"
-                      ));
-
-            /*Rocket*/
-            bundles.Add(new StyleBundle("~/rocket/css").Include(
-                      "~/app_themes/default/css/bootstrap.css",
-                      "~/app_themes/default/css/font-awesome.min.css",
-                      "~/app_themes/default/css/jquery-ui.theme.css",
-                      "~/app_themes/default/css/ionicons.min.css",
-                      "~/app_themes/default/css/component.css",
-                      "~/app_themes/default/css/icons.css",
-                      "~/app_themes/default/css/navbar.css",
-                      "~/app_themes/default/css/normalize.css",
-                      "~/app_themes/default/css/zoom.css",
-                      "~/app_themes/default/css/btn.css",
-                      "~/app_themes/default/css/jquery.excoloSlider.css",
-                      "~/app_themes/default/css/flyout-window.css",
-                      "~/app_themes/default/lib/SocialSharingButtons/css/rrssb.css",
-                      "~/app_themes/default/lib/animate-css/animate.min.css",
-                      "~/app_themes/rocket/css/font-bag.css",
-                      "~/app_themes/rocket/css/site.css"
-                      ));
-
-            bundles.Add(new ScriptBundle("~/rocket/js").Include(
-                      "~/app_themes/default/js/hacktimer/HackTimer.silent.min.js",
-                      "~/app_themes/default/js/hacktimer/HackTimerWorker.min.js",
-                      "~/app_themes/default/js/jquery-{version}.js",
-                      "~/app_themes/default/js/jquery-ui.js",
-                      "~/app_themes/default/js/bootstrap.js",
-                      "~/app_themes/default/js/respond.js",
-                      "~/app_themes/default/js/classie.js",
-                      "~/app_themes/default/js/accordion.js",
-                      "~/app_themes/default/js/jquery.zoom.min.js",
-                      "~/app_themes/default/js/jquery.excoloSlider.js",
-                      "~/app_themes/default/js/jquery-ui.searchflyout.js",
-                      "~/app_themes/default/js/jquery.jscroll.min.js",
-                      "~/app_themes/default/js/jquery.waitforimages.js",
-                      "~/app_themes/default/js/infcon3.js",
-                      "~/app_themes/default/js/core.js",
                       "~/app_themes/default/lib/SocialSharingButtons/js/rrssb.js",
                       "~/app_themes/default/lib/animate-css/animate-css.js",
                       "~/app_themes/default/lib/animate-css/jquery.waypoints.min.js",
 
                       "~/app_themes/default/js/defaultsite.js",
-                      "~/app_themes/rocket/js/site.js"
-
+                      "~/app_themes/landing/js/site.js"
                       ));
+            
 
             /*ADMIN*/
             bundles.Add(new ScriptBundle("~/admin/js").Include(
@@ -261,7 +169,7 @@ namespace Default.WebUI
                 "~/App_Themes/admin/lib/elfile/css/elfinder.full.css"
                 ));
 
-            System.Web.Optimization.BundleTable.EnableOptimizations = false;
+            System.Web.Optimization.BundleTable.EnableOptimizations = true;
         }
     }
 }

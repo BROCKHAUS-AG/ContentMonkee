@@ -40,11 +40,19 @@ namespace Default.WebUI.Handler
                 context.Response.ContentType = "image/" + type;
                 context.Response.WriteFile("~/app_themes/admin/css/images/" + adminimgarr.Last());
             }
-
+            if (path.Contains("tcSitesettingID"))
+            {
+                var realpath = path.Replace("tcSitesettingID", _Globals.Instance.CurrentSiteSettingId.ToString());
+                var imagerealpath = ControlFormats(realpath);
+                if (File.Exists(HttpContext.Current.Server.MapPath("~" + imagerealpath)))
+                {
+                    context.Response.ContentType = "image/" + type;
+                    context.Response.WriteFile("~" + imagerealpath);
+                }
+            }
             var imagepath = ControlFormats(path);
             if (File.Exists(HttpContext.Current.Server.MapPath("~" + imagepath)))
             {
-
                 context.Response.ContentType = "image/" + type;
                 context.Response.WriteFile("~" + imagepath);
             }

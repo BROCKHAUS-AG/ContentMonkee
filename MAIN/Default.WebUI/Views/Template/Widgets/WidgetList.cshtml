@@ -1,4 +1,5 @@
 ﻿@using System.Web.UI.WebControls
+@using System.Text.RegularExpressions
 @model WidgetWrapperViewModel
 @{
     var widget = Model.Widget as BAG.Common.Data.Entities.WidgetList;
@@ -47,7 +48,7 @@ else
                     </div>
                     <div class="panel-collapse collapse">
                         <div class="panel-body">
-                            @Html.Raw(widget.Description)
+                            @Html.Raw(string.IsNullOrWhiteSpace(widget.Description) ? string.Empty : Regex.Replace(widget.Description, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))
                         </div>
                     </div>
                 </div>

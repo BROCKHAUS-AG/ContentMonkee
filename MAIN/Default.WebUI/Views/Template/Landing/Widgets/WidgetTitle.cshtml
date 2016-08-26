@@ -1,4 +1,5 @@
 ﻿@using System.Web.UI.WebControls
+@using System.Text.RegularExpressions
 @model WidgetWrapperViewModel
 
 @{
@@ -40,7 +41,7 @@
                         <div class="col-md-5">
                             <div class="img-selector-container" data-name="SelectLogo">
                                 <img class="preview image-responsive" style="max-width: 200px; max-height: 200px;"
-                                     src="@Html.Raw(string.IsNullOrWhiteSpace(widget.FileName) ? string.Empty : widget.FileName)" />
+                                     src="@Html.Raw(string.IsNullOrWhiteSpace(widget.FileName) ? string.Empty : Regex.Replace(widget.FileName, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" />
                                 <input class="selection" type="hidden" name="filename" id="filename" value="@widget.FileName" />
                                 <div class="controls">
                                     <button class="btn btn-default select-image">Select File</button>

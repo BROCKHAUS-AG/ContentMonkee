@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BAG.Common;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -15,20 +16,22 @@ namespace Default.WebUI.Extensions
             Server = _server;
             OriginFaviconPathRelative = _favicon;
             ContentPath = Server.MapPath("~/Content");
-            OriginFaviconPath = ContentPath + OriginFaviconPathRelative.Replace("/Content", "");
+            OriginFaviconPath = ContentPath + OriginFaviconPathRelative.Replace("/Content/tcSitesettingID", "/"+ _Globals.Instance.CurrentSiteSettingId.ToString());
             OriginFaviconFileName = Path.GetFileName(OriginFaviconPath);
             NewPath = ContentPath + "/Favicons/" + OriginFaviconFileName;
-
-            OriginFavicon = new Bitmap(OriginFaviconPath);
-
-            CreatePaths();
-
-            foreach (FaviconSize fs in FaviconSizeStorage.Sizes)
+            if (!OriginFaviconPath.Contains(".svg"))
             {
-                CreateFavicon(fs.Name, fs.Size, "png");
-            }
+                OriginFavicon = new Bitmap(OriginFaviconPath);
 
-            CreateFavicon("favicon", 16, "ico");
+                CreatePaths();
+
+                foreach (FaviconSize fs in FaviconSizeStorage.Sizes)
+                {
+                    CreateFavicon(fs.Name, fs.Size, "png");
+                }
+
+                CreateFavicon("favicon", 16, "ico");
+            }
         }
 
         public HttpServerUtilityBase Server { get; set; }

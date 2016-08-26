@@ -1,0 +1,99 @@
+﻿@model WidgetWrapperViewModel
+@{
+    var widgetbase = Model.Widget as BAG.Common.Data.Entities.WidgetComposite;
+    var preview = HttpContext.Current.Request.Url.Query;
+}
+@if (Model.IsDesignMode)
+{
+    <text>
+        <div class="cm-admin-widget">
+            <h5>Class Name</h5>
+            <hr />
+            <div class="form-group">
+                <label for="title" class="control-label col-sm-2">Class:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="classname" name="classname" value="@widgetbase.ClassName" />
+                </div>
+            </div>
+        </div>
+    </text>
+}
+else
+{
+    <div class="cm-widget widget-composite planet-@Html.Raw(widgetbase.ClassName)">
+        @foreach (var widgetpart in widgetbase.Widgets)
+        {
+            if (preview.Equals("?preview=prerelease"))
+            {
+                if (widgetpart.PreRelease != null)
+                {
+                    var widget = widgetpart.PreRelease;
+
+
+                    var path = "~/Views/Widgets/" + widget.Partial;
+                    if (System.IO.File.Exists(Server.MapPath(path)))
+                    {
+                        <div id="@widget.Name.Replace(" ", string.Empty)">
+                            @Html.Partial(path, new WidgetWrapperViewModel(widget))
+                        </div>
+                    }
+                    else
+                    {
+                        <text>
+                            <div class="alert alert-danger" role="alert">Widget @widget.Name (@widget.Partial) nicht gefunden.</div>
+                        </text>
+                    }
+                    if (_Globals.Instance.IsAuthenticated && widget.Id != Guid.Empty)
+                    {
+
+                        <div class="widget-edit-toolbar clearfix">
+                            <p class="title">@widget.Name</p>
+
+                            <button class="btn btn-default"
+                                    href="/admin/widgeteditdyn/@widget.Id"
+                                    onclick="widgeteditdyn(event)">
+                                <i class="ionicons ion-edit"></i> Edit
+                            </button>
+                        </div>
+
+                    }
+                }
+            }
+            else
+            {
+                if (widgetpart.Release != null)
+                {
+                    var widget = widgetpart.Release;
+
+
+                    var path = "~/Views/Widgets/" + widget.Partial;
+                    if (System.IO.File.Exists(Server.MapPath(path)))
+                    {
+                        <div id="@widget.Name.Replace(" ", string.Empty)">
+                            @Html.Partial(path, new WidgetWrapperViewModel(widget))
+                        </div>
+                    }
+                    else
+                    {
+                        <text>
+                            <div class="alert alert-danger" role="alert">Widget @widget.Name (@widget.Partial) nicht gefunden.</div>
+                        </text>
+                    }
+                    if (_Globals.Instance.IsAuthenticated && widget.Id != Guid.Empty)
+                    {
+
+                        <div class="widget-edit-toolbar clearfix">
+                            <p class="title">@widget.Name</p>
+
+                            <button class="btn btn-default"
+                                    href="/admin/widgeteditdyn/@widget.Id"
+                                    onclick="widgeteditdyn(event)">
+                                <i class="ionicons ion-edit"></i> Edit
+                            </button>
+                        </div>
+                    }
+                }
+            }
+        }
+    </div>
+}

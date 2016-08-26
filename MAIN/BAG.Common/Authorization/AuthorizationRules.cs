@@ -303,33 +303,33 @@ namespace BAG.Common.Authorization
         //    return false;
         //}
 
-        private int comparisonQuality(string domain, string compare)
-        {
-            var count = 0;
-            if (compare.First().Equals('*') || compare.Last().Equals('*'))
-            {
-                var comparearr = compare.Trim().Split('.');
-                foreach (var part in comparearr)
-                {
-                    if (domain.Contains(part))
-                    {
-                        count++;
-                    }
-                }
-            }
-            else
-            {
-                if (domain.Equals(compare))
-                {
-                    count = 10;
-                }
-                else if (compare.Contains(domain))
-                {
-                    count++;
-                }
-            }
+        //private int comparisonQuality(string domain, string compare)
+        //{
+        //    var count = 0;
+        //    if (compare.First().Equals('*') || compare.Last().Equals('*'))
+        //    {
+        //        var comparearr = compare.Trim().Split('.');
+        //        foreach (var part in comparearr)
+        //        {
+        //            if (domain.Contains(part))
+        //            {
+        //                count++;
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (domain.Equals(compare))
+        //        {
+        //            count = 10;
+        //        }
+        //        else if (compare.Contains(domain))
+        //        {
+        //            count++;
+        //        }
+        //    }
 
-            return count;
-        }
+        //    return count;
+        //}
     }
 }

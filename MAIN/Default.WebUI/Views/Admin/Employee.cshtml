@@ -179,7 +179,7 @@
                             <div class="form-group">
                                 @if (Model.CurrentEmployee.ProfilImagePath != string.Empty)
                                 {
-                                    <div class="employee-image"><img src="@Model.CurrentEmployee.ProfilImagePath" style="max-width: 100%;" /></div>
+                                    <div class="employee-image"><img src="@Model.CurrentEmployee.ProfilImagePath.Replace("tcSitesettingID", _Globals.Instance.CurrentSiteSettingId.ToString())" style="max-width: 100%;" /></div>
                                 }
                                 else
                                 {
@@ -216,7 +216,7 @@
                                                 employee_edit_lastname = lastname;
                                             }
                                             var link = employee_edit_firstname + '-' + employee_edit_lastname;
-                                            $('#VCardUrl').val('monkee.profil/link/' + core_stringToUrl(link));
+                                            $('#VCardUrl').val('monkee.info/link/' + core_stringToUrl(link));
                                         }
 
                                         $('#FirstName').change(function () {

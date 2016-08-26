@@ -1,4 +1,5 @@
 ﻿@using System.Web.UI.WebControls
+@using System.Text.RegularExpressions
 @model WidgetWrapperViewModel
 @{
     var viewspath = "~/Views/" + _Globals.Instance.CurrentSiteSettingId + "/Widgets/WidgetGrid.cshtml";
@@ -17,264 +18,265 @@
 {
 
     <text>
-    <div class="cm-admin-widget" style="background: #f9f9f9; margin: 20px 0 40px;">
-        <h5>Grid Content</h5>
-        <hr />
-        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="headingOne">
-                    <h4 class="panel-title">
-                        <input type="radio" class="widgetGridRadioButton" onclick="WidgetGrid.checkRadioButton(this.id)" id="threecol" name="threecol" @(widget.ThreeCol ? "checked" : "")>
-                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            <span>Three Columm</span>
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <label>Title:</label>
-                                <div class="item-grid">
-                                    <input type="text" class="form-control" id="threecolfirsttitle" name="threecolfirsttitle" value="@widget.ThreeColFirstTitle" placeholder="Title" />
-                                </div>
-                                <label>SubTitle:</label>
-                                <div class="item-grid">
-                                    <input type="text" class="form-control" id="threecolfirstsubtitle" name="threecolfirstsubtitle" value="@widget.ThreeColFirstSubTitle" placeholder="SubTitle" />
-                                </div>
-                                <label>Description:</label>
-                                <div class="item-grid">
-                                    <textarea class="form-control vresize" id="threecolfirstdesc" name="threecolfirstdesc" placeholder="Description">@widget.ThreeColFirstDesc</textarea>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <label>Title:</label>
-                                <div class="item-grid">
-                                    <input type="text" class="form-control" id="threecolsecondtitle" name="threecolsecondtitle" value="@widget.ThreeColSecondTitle" placeholder="Title" />
-                                </div>
-                                <label>SubTitle:</label>
-                                <div class="item-grid">
-                                    <input type="text" class="form-control" id="threecolsecondsubtitle" name="threecolsecondsubtitle" value="@widget.ThreeColSecondSubTitle" placeholder="SubTitle" />
-                                </div>
-                                <label>Description:</label>
-                                <div class="item-grid">
-                                    <textarea class="form-control vresize" id="threecolseconddesc" name="threecolseconddesc" placeholder="Description">@widget.ThreeColSecondDesc</textarea>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <label>Title:</label>
-                                <div class="item-grid">
-                                    <input type="text" class="form-control" id="threecolthirdtitle" name="threecolthirdtitle" value="@widget.ThreeColThirdTitle" placeholder="Title" />
-                                </div>
-                                <label>SubTitle:</label>
-                                <div class="item-grid">
-                                    <input type="text" class="form-control" id="threecolthirdsubtitle" name="threecolthirdsubtitle" value="@widget.ThreeColThirdSubTitle" placeholder="SubTitle" />
-                                </div>
-                                <label>Description:</label>
-                                <div class="item-grid">
-                                    <textarea class="form-control vresize" id="threecolthirddesc" name="threecolthirddesc" placeholder="Description">@widget.ThreeColThirdDesc</textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <label>Link:</label>
-                                <div class="item-grid">
-                                    <input type="text" class="form-control" id="threecolfirstlink" name="threecolfirstlink" value="@widget.ThreeColFirstLink" placeholder="Link" />
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <label>Link:</label>
-                                <div class="item-grid">
-                                    <input type="text" class="form-control" id="threecolsecondlink" name="threecolsecondlink" value="@widget.ThreeColSecondLink" placeholder="Link" />
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <label>Link:</label>
-                                <div class="item-grid">
-                                    <input type="text" class="form-control" id="threecolthirdlink" name="threecolthirdlink" value="@widget.ThreeColThirdLink" placeholder="Link" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label>Button Class:</label>
-                                <div class="item-grid">
-                                    <input type="text" class="form-control" id="buttonclass" name="buttonclass" value="@widget.ButtonClass" placeholder="Button Class" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <label>Image:</label>
-                                <div class="item-grid">
-                                    <div class="img-selector-container" data-name="threecolfirstfile">
-                                        <img class="preview image-responsive" src="@Html.Raw(string.IsNullOrWhiteSpace(widget.ThreeColFirstFile) ? string.Empty : widget.ThreeColFirstFile)" />
-                                        <input class="selection" type="hidden" name="threecolfirstfile" id="threecolfirstfile" value="@widget.ThreeColFirstFile" />
-                                        <div class="controls">
-                                            <button class="btn btn-default select-image">Select Image</button>
-                                            <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
-                                        </div>
+        <div class="cm-admin-widget" style="background: #f9f9f9; margin: 20px 0 40px;">
+            <h5>Grid Content</h5>
+            <hr />
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <input type="radio" class="widgetGridRadioButton" onclick="WidgetGrid.checkRadioButton(this.id)" id="threecol" name="threecol" @(widget.ThreeCol ? "checked" : "")>
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <span>Three Columm</span>
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Title:</label>
+                                    <div class="item-grid">
+                                        <input type="text" class="form-control" id="threecolfirsttitle" name="threecolfirsttitle" value="@widget.ThreeColFirstTitle" placeholder="Title" />
+                                    </div>
+                                    <label>SubTitle:</label>
+                                    <div class="item-grid">
+                                        <input type="text" class="form-control" id="threecolfirstsubtitle" name="threecolfirstsubtitle" value="@widget.ThreeColFirstSubTitle" placeholder="SubTitle" />
+                                    </div>
+                                    <label>Description:</label>
+                                    <div class="item-grid">
+                                        <textarea class="form-control vresize" id="threecolfirstdesc" name="threecolfirstdesc" placeholder="Description">@widget.ThreeColFirstDesc</textarea>
                                     </div>
                                 </div>
-                                <label>Icon:</label>
-                                <div class="item-grid">
-                                    <label class="well"><input type="checkbox" id="threecolfirsticonuse" name="threecolfirsticonuse" @(widget.ThreeColFirstIconUse ? "checked" : "")> Enable Icon</label>
-                                    <input type="text" class="form-control" id="threecolfirsticon" name="threecolfirsticon" value="@widget.ThreeColFirstIcon" placeholder="Icon class" />
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <label>Image:</label>
-                                <div class="item-grid">
-                                    <div class="img-selector-container" data-name="threecolsecondfile">
-                                        <img class="preview image-responsive" src="@Html.Raw(string.IsNullOrWhiteSpace(widget.ThreeColSecondFile) ? string.Empty : widget.ThreeColSecondFile)" />
-                                        <input class="selection" type="hidden" name="threecolsecondfile" id="threecolsecondfile" value="@widget.ThreeColSecondFile" />
-                                        <div class="controls">
-                                            <button class="btn btn-default select-image">Select Image</button>
-                                            <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
-                                        </div>
+                                <div class="col-sm-4">
+                                    <label>Title:</label>
+                                    <div class="item-grid">
+                                        <input type="text" class="form-control" id="threecolsecondtitle" name="threecolsecondtitle" value="@widget.ThreeColSecondTitle" placeholder="Title" />
+                                    </div>
+                                    <label>SubTitle:</label>
+                                    <div class="item-grid">
+                                        <input type="text" class="form-control" id="threecolsecondsubtitle" name="threecolsecondsubtitle" value="@widget.ThreeColSecondSubTitle" placeholder="SubTitle" />
+                                    </div>
+                                    <label>Description:</label>
+                                    <div class="item-grid">
+                                        <textarea class="form-control vresize" id="threecolseconddesc" name="threecolseconddesc" placeholder="Description">@widget.ThreeColSecondDesc</textarea>
                                     </div>
                                 </div>
-                                <label>Icon:</label>
-                                <div class="item-grid">
-                                    <label class="well"><input type="checkbox" id="threecolsecondiconuse" name="threecolsecondiconuse" @(widget.ThreeColSecondIconUse ? "checked" : "")> Enable Icon</label>
-                                    <input type="text" class="form-control" id="threecolsecondicon" name="threecolsecondicon" value="@widget.ThreeColSecondIcon" placeholder="Icon class" />
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <label>Image:</label>
-                                <div class="item-grid">
-                                    <div class="img-selector-container" data-name="threecolthirdfile">
-                                        <img class="preview image-responsive" src="@Html.Raw(string.IsNullOrWhiteSpace(widget.ThreeColThirdFile) ? string.Empty : widget.ThreeColThirdFile)" />
-                                        <input class="selection" type="hidden" name="threecolthirdfile" id="threecolthirdfile" value="@widget.ThreeColThirdFile" />
-                                        <div class="controls">
-                                            <button class="btn btn-default select-image">Select Image</button>
-                                            <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
-                                        </div>
+                                <div class="col-sm-4">
+                                    <label>Title:</label>
+                                    <div class="item-grid">
+                                        <input type="text" class="form-control" id="threecolthirdtitle" name="threecolthirdtitle" value="@widget.ThreeColThirdTitle" placeholder="Title" />
+                                    </div>
+                                    <label>SubTitle:</label>
+                                    <div class="item-grid">
+                                        <input type="text" class="form-control" id="threecolthirdsubtitle" name="threecolthirdsubtitle" value="@widget.ThreeColThirdSubTitle" placeholder="SubTitle" />
+                                    </div>
+                                    <label>Description:</label>
+                                    <div class="item-grid">
+                                        <textarea class="form-control vresize" id="threecolthirddesc" name="threecolthirddesc" placeholder="Description">@widget.ThreeColThirdDesc</textarea>
                                     </div>
                                 </div>
-                                <label>Icon:</label>
-                                <div class="item-grid">
-                                    <label class="well"><input type="checkbox" id="threecolthirdiconuse" name="threecolthirdiconuse" @(widget.ThreeColThirdIconUse ? "checked" : "")> Enable Icon</label>
-                                    <input type="text" class="form-control" id="threecolthirdicon" name="threecolthirdicon" value="@widget.ThreeColThirdIcon" placeholder="Icon class" />
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Link:</label>
+                                    <div class="item-grid">
+                                        <input type="text" class="form-control" id="threecolfirstlink" name="threecolfirstlink" value="@widget.ThreeColFirstLink" placeholder="Link" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Link:</label>
+                                    <div class="item-grid">
+                                        <input type="text" class="form-control" id="threecolsecondlink" name="threecolsecondlink" value="@widget.ThreeColSecondLink" placeholder="Link" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Link:</label>
+                                    <div class="item-grid">
+                                        <input type="text" class="form-control" id="threecolthirdlink" name="threecolthirdlink" value="@widget.ThreeColThirdLink" placeholder="Link" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Button Class:</label>
+                                    <div class="item-grid">
+                                        <input type="text" class="form-control" id="buttonclass" name="buttonclass" value="@widget.ButtonClass" placeholder="Button Class" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Image:</label>
+                                    <div class="item-grid">
+                                        <div class="img-selector-container" data-name="threecolfirstfile">
+                                            <img class="preview image-responsive" src="@Html.Raw(string.IsNullOrWhiteSpace(widget.ThreeColFirstFile) ? string.Empty : Regex.Replace(widget.ThreeColFirstFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" />
+                                            <input class="selection" type="hidden" name="threecolfirstfile" id="threecolfirstfile" value="@widget.ThreeColFirstFile" />
+                                            <div class="controls">
+                                                <button class="btn btn-default select-image">Select Image</button>
+                                                <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <label>Icon:</label>
+                                    <div class="item-grid">
+                                        <label class="well"><input type="checkbox" id="threecolfirsticonuse" name="threecolfirsticonuse" @(widget.ThreeColFirstIconUse ? "checked" : "")> Enable Icon</label>
+                                        <input type="text" class="form-control" id="threecolfirsticon" name="threecolfirsticon" value="@widget.ThreeColFirstIcon" placeholder="Icon class" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Image:</label>
+                                    <div class="item-grid">
+                                        <div class="img-selector-container" data-name="threecolsecondfile">
+                                            <img class="preview image-responsive" src="@Html.Raw(string.IsNullOrWhiteSpace(widget.ThreeColSecondFile) ? string.Empty : Regex.Replace(widget.ThreeColSecondFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" />
+                                            <input class="selection" type="hidden" name="threecolsecondfile" id="threecolsecondfile" value="@widget.ThreeColSecondFile" />
+                                            <div class="controls">
+                                                <button class="btn btn-default select-image">Select Image</button>
+                                                <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <label>Icon:</label>
+                                    <div class="item-grid">
+                                        <label class="well"><input type="checkbox" id="threecolsecondiconuse" name="threecolsecondiconuse" @(widget.ThreeColSecondIconUse ? "checked" : "")> Enable Icon</label>
+                                        <input type="text" class="form-control" id="threecolsecondicon" name="threecolsecondicon" value="@widget.ThreeColSecondIcon" placeholder="Icon class" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Image:</label>
+                                    <div class="item-grid">
+                                        <div class="img-selector-container" data-name="threecolthirdfile">
+                                            <img class="preview image-responsive" src="@Html.Raw(string.IsNullOrWhiteSpace(widget.ThreeColThirdFile) ? string.Empty : Regex.Replace(widget.ThreeColThirdFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" />
+                                            <input class="selection" type="hidden" name="threecolthirdfile" id="threecolthirdfile" value="@widget.ThreeColThirdFile" />
+                                            <div class="controls">
+                                                <button class="btn btn-default select-image">Select Image</button>
+                                                <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <label>Icon:</label>
+                                    <div class="item-grid">
+                                        <label class="well"><input type="checkbox" id="threecolthirdiconuse" name="threecolthirdiconuse" @(widget.ThreeColThirdIconUse ? "checked" : "")> Enable Icon</label>
+                                        <input type="text" class="form-control" id="threecolthirdicon" name="threecolthirdicon" value="@widget.ThreeColThirdIcon" placeholder="Icon class" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="panel panel-default @(widget.TwoColLeft ? "" : "hidden")">
-                <div class="panel-heading" role="tab" id="headingTwo">
-                    <h4 class="panel-title">
-                        <input type="radio" class="widgetGridRadioButton" onclick="WidgetGrid.checkRadioButton(this.id)" id="twocolleft" name="twocolleft" @(widget.TwoColLeft ? "checked" : "")>
-                        <a class="collapsed" role="button" data-parent="#accordion" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            <span>Two Column</span>
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <label>Icon Position:</label>
+                <div class="panel panel-default @(widget.TwoColLeft ? "" : "hidden")">
+                    <div class="panel-heading" role="tab" id="headingTwo">
+                        <h4 class="panel-title">
+                            <input type="radio" class="widgetGridRadioButton" onclick="WidgetGrid.checkRadioButton(this.id)" id="twocolleft" name="twocolleft" @(widget.TwoColLeft ? "checked" : "")>
+                            <a class="collapsed" role="button" data-parent="#accordion" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                <span>Two Column</span>
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label>Icon Position:</label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <a class="left btn btn-default btn-xs @(widget.TwoColLeft ? "btn-success" : "")" onclick="WidgetGrid.twocolleft(this)" role="button" data-parent="#accordion" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        <span><<</span>
+                                    </a>
+                                    <a class="right btn btn-default btn-xs @((widget.TwoColRight  || widget.ThreeCol)? "btn-success" : "")" onclick="WidgetGrid.twocolright(this)" role="button" data-parent="#accordion" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        <span>>></span>
+                                    </a>
+                                </div>
                             </div>
-                            <div class="col-sm-12">
-                                <a class="left btn btn-default btn-xs @(widget.TwoColLeft ? "btn-success" : "")" onclick="WidgetGrid.twocolleft(this)" role="button" data-parent="#accordion" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    <span><<</span>
-                                </a>
-                                <a class="right btn btn-default btn-xs @((widget.TwoColRight  || widget.ThreeCol)? "btn-success" : "")" onclick="WidgetGrid.twocolright(this)" role="button" data-parent="#accordion" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    <span>>></span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Image:</label>
-                                <div class="img-selector-container" data-name="twovolleftfile">
-                                    <img class="preview image-responsive" src="@Html.Raw(string.IsNullOrWhiteSpace(widget.TwoColLeftFile) ? string.Empty : widget.TwoColLeftFile)" />
-                                    <input class="selection" type="hidden" name="twocolleftfile" id="twocolleftfile" value="@widget.TwoColLeftFile" />
-                                    <div class="controls">
-                                        <button class="btn btn-default select-image">Select Image</button>
-                                        <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Image:</label>
+                                    <div class="img-selector-container" data-name="twovolleftfile">
+                                        <img class="preview image-responsive" src="@Html.Raw(string.IsNullOrWhiteSpace(widget.TwoColLeftFile) ? string.Empty : Regex.Replace(widget.TwoColLeftFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" />
+                                        <input class="selection" type="hidden" name="twocolleftfile" id="twocolleftfile" value="@widget.TwoColLeftFile" />
+                                        <div class="controls">
+                                            <button class="btn btn-default select-image">Select Image</button>
+                                            <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                                        </div>
+                                    </div>
+                                    <label>Icon:</label>
+                                    <div class="item-grid">
+                                        <label class="well"><input type="checkbox" id="twocollefticonuse" name="twocollefticonuse" @(widget.TwoColLeftIconUse ? "checked" : "")> Enable Icon</label>
+                                        <input type="text" class="form-control" id="twocollefticon" name="twocollefticon" value="@widget.TwoColLeftIcon" placeholder="Icon class" />
+                                    </div>
+                                    <label>Link:</label>
+                                    <div class="item-grid">
+                                        <input type="text" class="form-control" id="twoColleftLink" name="twoColleftLink" value="@widget.TwoColLeftLink" placeholder="Icon link" />
                                     </div>
                                 </div>
-                                <label>Icon:</label>
-                                <div class="item-grid">
-                                    <label class="well"><input type="checkbox" id="twocollefticonuse" name="twocollefticonuse" @(widget.TwoColLeftIconUse ? "checked" : "")> Enable Icon</label>
-                                    <input type="text" class="form-control" id="twocollefticon" name="twocollefticon" value="@widget.TwoColLeftIcon" placeholder="Icon class" />
-                                </div>
-                                <label>Link:</label>
-                                <div class="item-grid">
-                                    <input type="text" class="form-control" id="twoColleftLink" name="twoColleftLink" value="@widget.TwoColLeftLink" placeholder="Icon link" />
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label>Title:</label>
-                                <div class="item-grid">
-                                    <input type="text" class="form-control" id="twocollefttitle" name="twocollefttitle" value="@widget.TwoColLeftTitle" placeholder="Title" />
-                                </div>
-                                <label>Description:</label>
-                                <div class="item-grid">
-                                    <textarea class="form-control vresize" id="twocolleftdesc" name="twocolleftdesc" placeholder="Description">@widget.TwoColLeftDesc</textarea>
+                                <div class="col-md-6">
+                                    <label>Title:</label>
+                                    <div class="item-grid">
+                                        <input type="text" class="form-control" id="twocollefttitle" name="twocollefttitle" value="@widget.TwoColLeftTitle" placeholder="Title" />
+                                    </div>
+                                    <label>Description:</label>
+                                    <div class="item-grid">
+                                        <textarea class="form-control vresize" id="twocolleftdesc" name="twocolleftdesc" placeholder="Description">@widget.TwoColLeftDesc</textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="panel panel-default @((widget.TwoColRight || widget.ThreeCol) ? "" : "hidden")">
-                <div class="panel-heading" role="tab" id="headingThree">
-                    <h4 class="panel-title">
-                        <input type="radio" class="widgetGridRadioButton" onclick="WidgetGrid.checkRadioButton(this.id)" id="twocolright" name="twocolright" @(widget.TwoColRight ? "checked" : "")>
-                        <a class="collapsed" role="button" data-parent="#accordion" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                            <span>Two Column</span>
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <label>Icon Position:</label>
-                            </div>
-                            <div class="col-sm-12">
-                                <a class="left btn btn-default btn-xs @(widget.TwoColLeft ? "btn-success" : "")" onclick="WidgetGrid.twocolleft(this)" role="button" data-parent="#accordion" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    <span><<</span>
-                                </a>
-                                <a class="right btn btn-default btn-xs @((widget.TwoColRight  || widget.ThreeCol)? "btn-success" : "")" onclick="WidgetGrid.twocolright(this)" role="button" data-parent="#accordion" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    <span>>></span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Title:</label>
-                                <div class="item-grid">
-                                    <input type="text" class="form-control" id="twocolrighttitle" name="twocolrighttitle" value="@widget.TwoColRightTitle" placeholder="Title" />
+                <div class="panel panel-default @((widget.TwoColRight || widget.ThreeCol) ? "" : "hidden")">
+                    <div class="panel-heading" role="tab" id="headingThree">
+                        <h4 class="panel-title">
+                            <input type="radio" class="widgetGridRadioButton" onclick="WidgetGrid.checkRadioButton(this.id)" id="twocolright" name="twocolright" @(widget.TwoColRight ? "checked" : "")>
+                            <a class="collapsed" role="button" data-parent="#accordion" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                <span>Two Column</span>
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label>Icon Position:</label>
                                 </div>
-                                <label>Description:</label>
-                                <div class="item-grid">
-                                    <textarea class="form-control vresize" id="twocolrightdesc" name="twocolrightdesc" placeholder="Description">@widget.TwoColRightDesc</textarea>
+                                <div class="col-sm-12">
+                                    <a class="left btn btn-default btn-xs @(widget.TwoColLeft ? "btn-success" : "")" onclick="WidgetGrid.twocolleft(this)" role="button" data-parent="#accordion" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        <span><<</span>
+                                    </a>
+                                    <a class="right btn btn-default btn-xs @((widget.TwoColRight  || widget.ThreeCol)? "btn-success" : "")" onclick="WidgetGrid.twocolright(this)" role="button" data-parent="#accordion" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        <span>>></span>
+                                    </a>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <label>Image:</label>
-                                <div class="img-selector-container" data-name="twovolrightfile">
-                                    <img class="preview image-responsive" src="@Html.Raw(string.IsNullOrWhiteSpace(widget.TwoColRightFile) ? string.Empty : widget.TwoColRightFile)" />
-                                    <input class="selection" type="hidden" name="twocolrightfile" id="twocolrightfile" value="@widget.TwoColRightFile" />
-                                    <div class="controls">
-                                        <button class="btn btn-default select-image">Select Image</button>
-                                        <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Title:</label>
+                                    <div class="item-grid">
+                                        <input type="text" class="form-control" id="twocolrighttitle" name="twocolrighttitle" value="@widget.TwoColRightTitle" placeholder="Title" />
+                                    </div>
+                                    <label>Description:</label>
+                                    <div class="item-grid">
+                                        <textarea class="form-control vresize" id="twocolrightdesc" name="twocolrightdesc" placeholder="Description">@widget.TwoColRightDesc</textarea>
                                     </div>
                                 </div>
-                                <label>Icon:</label>
-                                <div class="item-grid">
-                                    <label class="well"><input type="checkbox" id="twocolrighticonuse" name="twocolrighticonuse" @(widget.TwoColRightIconUse ? "checked" : "")> Enable Icon</label>
-                                    <input type="text" class="form-control" id="twocolrighticon" name="twocolrighticon" value="@widget.TwoColRightIcon" placeholder="Icon class" />
-                                </div>
-                                <label>Link:</label>
-                                <div class="item-grid">
-                                    <input type="text" class="form-control" id="twocolrightlink" name="twocolrightlink" value="@widget.TwoColRightLink" placeholder="Icon link" />
+                                <div class="col-md-6">
+                                    <label>Image:</label>
+                                    <div class="img-selector-container" data-name="twovolrightfile">
+                                        <img class="preview image-responsive" src="@Html.Raw(string.IsNullOrWhiteSpace(widget.TwoColRightFile) ? string.Empty : Regex.Replace(widget.TwoColRightFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" />
+                                        <input class="selection" type="hidden" name="twocolrightfile" id="twocolrightfile" value="@widget.TwoColRightFile" />
+                                        <div class="controls">
+                                            <button class="btn btn-default select-image">Select Image</button>
+                                            <button class="btn btn-default reset-image" onclick="return false;">Reset</button>
+                                        </div>
+                                    </div>
+                                    <label>Icon:</label>
+                                    <div class="item-grid">
+                                        <label class="well"><input type="checkbox" id="twocolrighticonuse" name="twocolrighticonuse" @(widget.TwoColRightIconUse ? "checked" : "")> Enable Icon</label>
+                                        <input type="text" class="form-control" id="twocolrighticon" name="twocolrighticon" value="@widget.TwoColRightIcon" placeholder="Icon class" />
+                                    </div>
+                                    <label>Link:</label>
+                                    <div class="item-grid">
+                                        <input type="text" class="form-control" id="twocolrightlink" name="twocolrightlink" value="@widget.TwoColRightLink" placeholder="Icon link" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -282,7 +284,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </text>
 }
 else
@@ -299,13 +300,13 @@ else
                                 <div class="icon icon-@Html.Raw(widget.ThreeColFirstIcon)">
                                     @if (!string.IsNullOrWhiteSpace(widget.ThreeColFirstFile))
                                     {
-                                        <img src="@Html.Raw(widget.ThreeColFirstFile)" alt="@Html.Raw(widget.ThreeColFirstTitle)" />
+                                        <img src="@Html.Raw(Regex.Replace(widget.ThreeColFirstFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="@Html.Raw(widget.ThreeColFirstTitle)" />
                                     }
                                 </div>
                             }
                             else
                             {
-                                <div class="image"><img src="@Html.Raw(widget.ThreeColFirstFile)" alt="@Html.Raw(widget.ThreeColFirstTitle)" /></div>
+                                <div class="image"><img src="@Html.Raw(Regex.Replace(widget.ThreeColFirstFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="@Html.Raw(widget.ThreeColFirstTitle)" /></div>
                             }
                             <h3><span>@Html.Raw(widget.ThreeColFirstTitle)</span></h3>
                             @if (!string.IsNullOrWhiteSpace(widget.ThreeColFirstSubTitle))
@@ -326,13 +327,13 @@ else
                                 <div class="icon icon-@Html.Raw(widget.ThreeColSecondIcon)">
                                     @if (!string.IsNullOrWhiteSpace(widget.ThreeColSecondFile))
                                     {
-                                        <img src="@Html.Raw(widget.ThreeColSecondFile)" alt="@Html.Raw(widget.ThreeColSecondTitle)" />
+                                        <img src="@Html.Raw(Regex.Replace(widget.ThreeColSecondFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="@Html.Raw(widget.ThreeColSecondTitle)" />
                                     }
                                 </div>
                             }
                             else
                             {
-                                <div class="image"><img src="@Html.Raw(widget.ThreeColSecondFile)" alt="@Html.Raw(widget.ThreeColSecondTitle)" /></div>
+                                <div class="image"><img src="@Html.Raw(Regex.Replace(widget.ThreeColSecondFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="@Html.Raw(widget.ThreeColSecondTitle)" /></div>
                             }
                             <h3><span>@Html.Raw(widget.ThreeColSecondTitle)</span></h3>
                             @if (!string.IsNullOrWhiteSpace(widget.ThreeColSecondSubTitle))
@@ -353,13 +354,13 @@ else
                                 <div class="icon icon-@Html.Raw(widget.ThreeColThirdIcon)">
                                     @if (!string.IsNullOrWhiteSpace(widget.ThreeColThirdFile))
                                     {
-                                        <img src="@Html.Raw(widget.ThreeColThirdFile)" alt="@Html.Raw(widget.ThreeColThirdTitle)" />
+                                        <img src="@Html.Raw(Regex.Replace(widget.ThreeColThirdFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="@Html.Raw(widget.ThreeColThirdTitle)" />
                                     }
                                 </div>
                             }
                             else
                             {
-                                <div class="image"><img src="@Html.Raw(widget.ThreeColThirdFile)" alt="@Html.Raw(widget.ThreeColThirdTitle)" /></div>
+                                <div class="image"><img src="@Html.Raw(Regex.Replace(widget.ThreeColThirdFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="@Html.Raw(widget.ThreeColThirdTitle)" /></div>
                             }
                             <h3><span>@Html.Raw(widget.ThreeColThirdTitle)</span></h3>
                             @if (!string.IsNullOrWhiteSpace(widget.ThreeColThirdSubTitle))
@@ -387,7 +388,7 @@ else
                                 <div class="icon icon-@Html.Raw(widget.TwoColLeftIcon)">
                                     @if (!string.IsNullOrWhiteSpace(widget.TwoColLeftFile))
                                     {
-                                        <img src="@Html.Raw(widget.TwoColLeftFile)" alt="@Html.Raw(widget.TwoColLeftTitle)" />
+                                        <img src="@Html.Raw(Regex.Replace(widget.TwoColLeftFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="@Html.Raw(widget.TwoColLeftTitle)" />
                                     }
                                 </div>
                                 if (string.IsNullOrWhiteSpace(widget.TwoColLeftLink))
@@ -397,7 +398,7 @@ else
                             }
                             else
                             {
-                                <div class="image"><img src="@Html.Raw(widget.TwoColLeftFile)" alt="@Html.Raw(widget.TwoColLeftTitle)" /></div>
+                                <div class="image"><img src="@Html.Raw(Regex.Replace(widget.TwoColLeftFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="@Html.Raw(widget.TwoColLeftTitle)" /></div>
                             }
                         </div>
                         <div class="col-md-7">
@@ -421,7 +422,7 @@ else
                                 <div class="icon icon-@Html.Raw(widget.TwoColRightIcon)">
                                     @if (!string.IsNullOrWhiteSpace(widget.TwoColRightFile))
                                     {
-                                        <img src="@Html.Raw(widget.TwoColRightFile)" alt="@Html.Raw(widget.TwoColRightTitle)" />
+                                        <img src="@Html.Raw(Regex.Replace(widget.TwoColRightFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="@Html.Raw(widget.TwoColRightTitle)" />
                                     }
                                 </div>
                                 if (!string.IsNullOrWhiteSpace(widget.TwoColRightLink))
@@ -431,7 +432,7 @@ else
                             }
                             else
                             {
-                                <div class="image"><img src="@Html.Raw(widget.TwoColRightFile)" alt="@Html.Raw(widget.TwoColRightTitle)" /></div>
+                                <div class="image"><img src="@Html.Raw(Regex.Replace(widget.TwoColRightFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="@Html.Raw(widget.TwoColRightTitle)" /></div>
                             }
                         </div>
                     </div>

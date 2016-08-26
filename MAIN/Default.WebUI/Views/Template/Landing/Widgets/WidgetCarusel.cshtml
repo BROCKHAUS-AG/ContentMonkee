@@ -1,5 +1,6 @@
 ﻿@using BAG.Common.Data.Entities
 @using Default.WebUI.Extensions
+@using System.Text.RegularExpressions
 @model WidgetWrapperViewModel
 @{
     var widget = Model.Widget as WidgetCarusel;
@@ -21,7 +22,7 @@
                         <table class="table table-striped table-hover table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Bild</th>
+                                    <th>Image</th>
                                     <th>Link</th>
                                     <th></th>
                                 </tr>
@@ -33,7 +34,7 @@
                                         <td>
                                             <input type="checkbox" name="marked-item" data-item-id="@item.Id" />
 
-                                            <img style="max-height: 150px; max-width: 100%;" src="@Html.Raw(string.IsNullOrWhiteSpace(item.Image) ? string.Empty : item.Image.GetImagePath())" />
+                                            <img style="max-height: 150px; max-width: 100%;" src="@Html.Raw(string.IsNullOrWhiteSpace(item.Image) ? string.Empty : Regex.Replace(item.Image.GetImagePath(), @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString())) " />
                                         </td>
                                         <td>
                                             <a class="item-link" href="@item.Url">@item.Url</a>
@@ -46,8 +47,8 @@
                             </tbody>
                         </table>
 
-                        <a href="#" class="btn btn-success btn-add-image">Bild hinzufügen</a>
-                        <a href="#" class="btn btn-danger btn-delete-selected">Ausgewählte löschen</a>
+                        <a href="#" class="btn btn-success btn-add-image">Add Image</a>
+                        <a href="#" class="btn btn-danger btn-delete-selected">Delete Selected</a>
                     </div>
                 </div>
             </div>
@@ -64,12 +65,12 @@
                     {
                         if (string.IsNullOrWhiteSpace(item.Url) || item.Url == "null")
                         {
-                            <img src="@Html.Raw(string.IsNullOrWhiteSpace(item.Image) ? string.Empty : item.Image.GetImagePath())" alt="Slider Image" />
+                            <img src="@Html.Raw(string.IsNullOrWhiteSpace(item.Image) ? string.Empty : Regex.Replace(item.Image.GetImagePath(), @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="Slider Image" />
                         }
                         else
                         {
                             <a href="@item.Url">
-                                <img src="@Html.Raw(string.IsNullOrWhiteSpace(item.Image) ? string.Empty : item.Image.GetImagePath())" alt="Slider Image" />
+                                <img src="@Html.Raw(string.IsNullOrWhiteSpace(item.Image) ? string.Empty : Regex.Replace(item.Image.GetImagePath(), @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="Slider Image" />
                             </a>
                         }
                     }

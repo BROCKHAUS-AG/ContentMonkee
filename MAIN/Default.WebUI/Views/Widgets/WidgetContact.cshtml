@@ -1,4 +1,5 @@
 ﻿@using BAG.Common.Data.Entities
+@using System.Text.RegularExpressions
 @model WidgetWrapperViewModel
 @{
     var viewspath = "~/Views/" + _Globals.Instance.CurrentSiteSettingId + "/Widgets/WidgetContact.cshtml";
@@ -101,7 +102,7 @@
                     else
                     {
                         <div class="alert alert-danger">No secure connection</div>
-                    }                    
+                    }
                 </div>
             </div>
 
@@ -139,106 +140,106 @@
         </div>
 
     </text>
-}
-else
-{
-    if (widget.UseVCard)
-    {
-        var employees = widget.employees.Get(e => e.Id == widget.UserId);
-        var employee = employees.Count() > 0 ? employees.First() : null;
-        var n = 0;
-        string mailto = "mailto:" + employee.Email;
-        string mailtocrypt = "";
-        for (var i = 0; i < mailto.Length; i++)
-        {
-            n = (int)mailto[i];
-            if (n >= 8364)
-            {
-                n = 128;
-            }
-            mailtocrypt += Convert.ToChar(n + 1).ToString();
-        }
-        if (employee != null)
-        {
-        <div class="cm-widget widget-contact">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="contactform">
-                            <h3>@Html.Raw(widget.Title)</h3>
-                            @using (Html.BeginForm("SendMessage", "SendContact", FormMethod.Post, new { id = "SendMessage" }))
-                            {
-                                <input type="hidden" id="id" name="id" value="@widget.Id" />
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Name" value="@widget.FullName">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="telefon" name="telefon" placeholder="Telefon" value="@widget.Phone">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="email" name="email" placeholder="E-Mail" value="@widget.Email">
-                                </div>
-                                <div class="form-group">
-                                    <textarea class="form-control" id="message" name="message" placeholder="Nachricht">@widget.Message</textarea>
-                                </div>
-                                <button type="submit">Senden</button>
-                            }
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="box vcard" itemscope itemtype="http://schema.org/Person">
-                            <img src="@employee.ProfilImagePath" class="vcard-image" itemprop="image" alt="@widget.EmployeeName" />
-                            <strong itemprop="name">@widget.EmployeeName</strong>
-                            <span itemprop="jobTitle">@employee.Position</span>
-                            <div class="phone">
-                                Tel.: <span itemprop="telephone">@employee.Telephone</span> <br />
-                                Fax: @employee.Fax
-                            </div>
-                            <div class="qta">
-                                <a href="@Url.Action("GetVCardDownload", "QRCode", new { employeeId = @widget.UserId })"><i class="icon-download-harddisk"></i></a>
-                                <a href="@Url.Action("GetQRImage", "QRCode", new { employeeId = @widget.UserId, pixelsPerModule = 5 })" data-lightbox="image-1"><i class="icon-qr-code"></i></a>
-                                <a href="javascript:linkTo_UnCrypt('@mailtocrypt');" itemprop="email"><i class="icon-person-email"></i></a>
-                                <a href="@employee.XingProfileUrl" target="_blank" rel="nofollow" itemprop="sameAs"><i class="icon-share-xing"></i></a>
-                                <a href="@employee.LinkedInProfileUrl" target="_blank" rel="nofollow" itemprop="sameAs"><i class="icon-share-linkedin"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        }
-    }
-    else
-    {
-        <div class="cm-widget widget-contact">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="contactform">
-                            @using (Html.BeginForm("SendMessage", "SendContact", FormMethod.Post, new { id = "SendMessage" }))
-                            {
-                                <input type="hidden" id="id" name="id" value="@widget.Id" />
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Name" value="@widget.FullName">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="telefon" name="telefon" placeholder="Telefon" value="@widget.Phone">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="email" name="email" placeholder="E-Mail" value="@widget.Email">
-                                </div>
-                                <div class="form-group">
-                                    <textarea class="form-control" id="message" name="message" placeholder="Nachricht">@widget.Message</textarea>
-                                </div>
-                                <button type="submit">Senden</button>
-                            }
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        @Html.Raw(widget.Description)
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
-}
+                                }
+                                else
+                                {
+                                    if (widget.UseVCard)
+                                    {
+                                        var employees = widget.employees.Get(e => e.Id == widget.UserId);
+                                        var employee = employees.Count() > 0 ? employees.First() : null;
+                                        var n = 0;
+                                        string mailto = "mailto:" + employee.Email;
+                                        string mailtocrypt = "";
+                                        for (var i = 0; i < mailto.Length; i++)
+                                        {
+                                            n = (int)mailto[i];
+                                            if (n >= 8364)
+                                            {
+                                                n = 128;
+                                            }
+                                            mailtocrypt += Convert.ToChar(n + 1).ToString();
+                                        }
+                                        if (employee != null)
+                                        {
+                                            <div class="cm-widget widget-contact">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-md-8">
+                                                            <div class="contactform">
+                                                                <h3>@Html.Raw(widget.Title)</h3>
+                                                                @using (Html.BeginForm("SendMessage", "SendContact", FormMethod.Post, new { id = "SendMessage" }))
+                                                                {
+                                                                    <input type="hidden" id="id" name="id" value="@widget.Id" />
+                                                                    <div class="form-group">
+                                                                        <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Name" value="@widget.FullName">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <input type="text" class="form-control" id="telefon" name="telefon" placeholder="Telefon" value="@widget.Phone">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <input type="text" class="form-control" id="email" name="email" placeholder="E-Mail" value="@widget.Email">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <textarea class="form-control" id="message" name="message" placeholder="Nachricht">@widget.Message</textarea>
+                                                                    </div>
+                                                                    <button type="submit">Senden</button>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="box vcard" itemscope itemtype="http://schema.org/Person">
+                                                                <img src="@Regex.Replace(employee.ProfilImagePath, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString())" class="vcard-image" itemprop="image" alt="@widget.EmployeeName" />
+                                                                <strong itemprop="name">@widget.EmployeeName</strong>
+                                                                <span itemprop="jobTitle">@employee.Position</span>
+                                                                <div class="phone">
+                                                                    Tel.: <span itemprop="telephone">@employee.Telephone</span> <br />
+                                                                    Fax: @employee.Fax
+                                                                </div>
+                                                                <div class="qta">
+                                                                    <a href="@Url.Action("GetVCardDownload", "QRCode", new { employeeId = @widget.UserId })"><i class="icon-download-harddisk"></i></a>
+                                                                    <a href="@Url.Action("GetQRImage", "QRCode", new { employeeId = @widget.UserId, pixelsPerModule = 5 })" data-lightbox="image-1"><i class="icon-qr-code"></i></a>
+                                                                    <a href="javascript:linkTo_UnCrypt('@mailtocrypt');" itemprop="email"><i class="icon-person-email"></i></a>
+                                                                    <a href="@employee.XingProfileUrl" target="_blank" rel="nofollow" itemprop="sameAs"><i class="icon-share-xing"></i></a>
+                                                                    <a href="@employee.LinkedInProfileUrl" target="_blank" rel="nofollow" itemprop="sameAs"><i class="icon-share-linkedin"></i></a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="cm-widget widget-contact">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="contactform">
+                                                            @using (Html.BeginForm("SendMessage", "SendContact", FormMethod.Post, new { id = "SendMessage" }))
+                                                            {
+                                                                <input type="hidden" id="id" name="id" value="@widget.Id" />
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Name" value="@widget.FullName">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control" id="telefon" name="telefon" placeholder="Telefon" value="@widget.Phone">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control" id="email" name="email" placeholder="E-Mail" value="@widget.Email">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <textarea class="form-control" id="message" name="message" placeholder="Nachricht">@widget.Message</textarea>
+                                                                </div>
+                                                                <button type="submit">Senden</button>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        @Html.Raw(string.IsNullOrWhiteSpace(widget.Description) ? string.Empty : Regex.Replace(widget.Description, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }

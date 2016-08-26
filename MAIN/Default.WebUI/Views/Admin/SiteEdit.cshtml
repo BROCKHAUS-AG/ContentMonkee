@@ -131,7 +131,7 @@
                                 <div class="col-sm-6">
                                     <div class="img-selector-container" data-name="SelectImage">
                                         <img class="preview image-responsive" style="max-width: 200px; max-height: 200px;"
-                                             src="@Html.Raw(string.IsNullOrWhiteSpace(Model.Site.Favicon) ? string.Empty : Model.Site.Favicon.GetImagePath())" />
+                                             src="@Html.Raw(string.IsNullOrWhiteSpace(Model.Site.Favicon) ? string.Empty : Model.Site.Favicon.GetImagePath().Replace("tcSitesettingID", _Globals.Instance.CurrentSiteSettingId.ToString()))" />
                                         <input class="selection" type="hidden" name="favicon" id="favicon" value="@Model.Site.Favicon" />
                                         <div class="controls">
                                             <button class="btn btn-default select-image">Select Favicon</button>
@@ -152,7 +152,7 @@
                                 <div class="col-sm-6">
                                     <div class="img-selector-container" data-name="SelectImage">
                                         <img class="preview image-responsive" style="max-width: 200px; max-height: 200px;"
-                                             src="@Html.Raw(string.IsNullOrWhiteSpace(Model.Site.AltFavicon) ? string.Empty : Model.Site.AltFavicon.GetImagePath())" />
+                                             src="@Html.Raw(string.IsNullOrWhiteSpace(Model.Site.AltFavicon) ? string.Empty : Model.Site.AltFavicon.GetImagePath().Replace("tcSitesettingID", _Globals.Instance.CurrentSiteSettingId.ToString()))" />
                                         <input class="selection" type="hidden" name="altfavicon" id="altfavicon" value="@Model.Site.AltFavicon" />
                                         <div class="controls">
                                             <button class="btn btn-default select-image">Select Favicon</button>

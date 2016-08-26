@@ -1,4 +1,5 @@
-﻿@model WidgetWrapperViewModel
+﻿@using System.Text.RegularExpressions
+@model WidgetWrapperViewModel
 @{
     var viewspath = "~/Views/" + _Globals.Instance.CurrentSiteSettingId + "/Widgets/WidgetContent.cshtml";
     var mappath = this.Server.MapPath(viewspath);
@@ -43,7 +44,7 @@ else
             {
                 <h3>@Html.Raw(widget.Title)</h3>
             }
-            @Html.Raw(widget.Content)
+            @Html.Raw(string.IsNullOrWhiteSpace(widget.Content) ? string.Empty : Regex.Replace(widget.Content, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))
         </div>
     </div>
 }

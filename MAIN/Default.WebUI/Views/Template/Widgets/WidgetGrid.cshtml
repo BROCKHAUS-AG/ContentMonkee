@@ -1,4 +1,5 @@
 ﻿@using System.Web.UI.WebControls
+@using System.Text.RegularExpressions
 @model WidgetWrapperViewModel
 @{
     var widget = Model.Widget as BAG.Common.Data.Entities.WidgetGrid;
@@ -100,7 +101,7 @@
                                 <label>Image:</label>
                                 <div class="item-grid">
                                     <div class="img-selector-container" data-name="threecolfirstfile">
-                                        <img class="preview image-responsive" src="@Html.Raw(string.IsNullOrWhiteSpace(widget.ThreeColFirstFile) ? string.Empty : widget.ThreeColFirstFile)" />
+                                        <img class="preview image-responsive" src="@Html.Raw(string.IsNullOrWhiteSpace(widget.ThreeColFirstFile) ? string.Empty : Regex.Replace(widget.ThreeColFirstFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" />
                                         <input class="selection" type="hidden" name="threecolfirstfile" id="threecolfirstfile" value="@widget.ThreeColFirstFile" />
                                         <div class="controls">
                                             <button class="btn btn-default select-image">Select Image</button>
@@ -118,7 +119,7 @@
                                 <label>Image:</label>
                                 <div class="item-grid">
                                     <div class="img-selector-container" data-name="threecolsecondfile">
-                                        <img class="preview image-responsive" src="@Html.Raw(string.IsNullOrWhiteSpace(widget.ThreeColSecondFile) ? string.Empty : widget.ThreeColSecondFile)" />
+                                        <img class="preview image-responsive" src="@Html.Raw(string.IsNullOrWhiteSpace(widget.ThreeColSecondFile) ? string.Empty : Regex.Replace(widget.ThreeColSecondFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" />
                                         <input class="selection" type="hidden" name="threecolsecondfile" id="threecolsecondfile" value="@widget.ThreeColSecondFile" />
                                         <div class="controls">
                                             <button class="btn btn-default select-image">Select Image</button>
@@ -136,7 +137,7 @@
                                 <label>Image:</label>
                                 <div class="item-grid">
                                     <div class="img-selector-container" data-name="threecolthirdfile">
-                                        <img class="preview image-responsive" src="@Html.Raw(string.IsNullOrWhiteSpace(widget.ThreeColThirdFile) ? string.Empty : widget.ThreeColThirdFile)" />
+                                        <img class="preview image-responsive" src="@Html.Raw(string.IsNullOrWhiteSpace(widget.ThreeColThirdFile) ? string.Empty : Regex.Replace(widget.ThreeColThirdFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" />
                                         <input class="selection" type="hidden" name="threecolthirdfile" id="threecolthirdfile" value="@widget.ThreeColThirdFile" />
                                         <div class="controls">
                                             <button class="btn btn-default select-image">Select Image</button>
@@ -182,7 +183,7 @@
                             <div class="col-md-6">
                                 <label>Image:</label>
                                 <div class="img-selector-container" data-name="twovolleftfile">
-                                    <img class="preview image-responsive" src="@Html.Raw(string.IsNullOrWhiteSpace(widget.TwoColLeftFile) ? string.Empty : widget.TwoColLeftFile)" />
+                                    <img class="preview image-responsive" src="@Html.Raw(string.IsNullOrWhiteSpace(widget.TwoColLeftFile) ? string.Empty : Regex.Replace(widget.TwoColLeftFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" />
                                     <input class="selection" type="hidden" name="twocolleftfile" id="twocolleftfile" value="@widget.TwoColLeftFile" />
                                     <div class="controls">
                                         <button class="btn btn-default select-image">Select Image</button>
@@ -251,7 +252,7 @@
                             <div class="col-md-6">
                                 <label>Image:</label>
                                 <div class="img-selector-container" data-name="twovolrightfile">
-                                    <img class="preview image-responsive" src="@Html.Raw(string.IsNullOrWhiteSpace(widget.TwoColRightFile) ? string.Empty : widget.TwoColRightFile)" />
+                                    <img class="preview image-responsive" src="@Html.Raw(string.IsNullOrWhiteSpace(widget.TwoColRightFile) ? string.Empty : Regex.Replace(widget.TwoColRightFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" />
                                     <input class="selection" type="hidden" name="twocolrightfile" id="twocolrightfile" value="@widget.TwoColRightFile" />
                                     <div class="controls">
                                         <button class="btn btn-default select-image">Select Image</button>
@@ -290,13 +291,13 @@ else
                                 <div class="icon icon-@Html.Raw(widget.ThreeColFirstIcon)">
                                     @if (!string.IsNullOrWhiteSpace(widget.ThreeColFirstFile))
                                     {
-                                        <img src="@Html.Raw(widget.ThreeColFirstFile)" alt="@Html.Raw(widget.ThreeColFirstTitle)" />
+                                        <img src="@Html.Raw(Regex.Replace(widget.ThreeColFirstFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="@Html.Raw(widget.ThreeColFirstTitle)" />
                                     }
                                 </div>
                             }
                             else
                             {
-                                <div class="image"><img src="@Html.Raw(widget.ThreeColFirstFile)" alt="@Html.Raw(widget.ThreeColFirstTitle)" /></div>
+                                <div class="image"><img src="@Html.Raw(Regex.Replace(widget.ThreeColFirstFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="@Html.Raw(widget.ThreeColFirstTitle)" /></div>
                             }
                             <h3><span>@Html.Raw(widget.ThreeColFirstTitle)</span></h3>
                             @if (!string.IsNullOrWhiteSpace(widget.ThreeColFirstSubTitle))
@@ -317,13 +318,13 @@ else
                                 <div class="icon icon-@Html.Raw(widget.ThreeColSecondIcon)">
                                     @if (!string.IsNullOrWhiteSpace(widget.ThreeColSecondFile))
                                     {
-                                        <img src="@Html.Raw(widget.ThreeColSecondFile)" alt="@Html.Raw(widget.ThreeColSecondTitle)" />
+                                        <img src="@Html.Raw(Regex.Replace(widget.ThreeColSecondFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="@Html.Raw(widget.ThreeColSecondTitle)" />
                                     }
                                 </div>
                             }
                             else
                             {
-                                <div class="image"><img src="@Html.Raw(widget.ThreeColSecondFile)" alt="@Html.Raw(widget.ThreeColSecondTitle)" /></div>
+                                <div class="image"><img src="@Html.Raw(Regex.Replace(widget.ThreeColSecondFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="@Html.Raw(widget.ThreeColSecondTitle)" /></div>
                             }
                             <h3><span>@Html.Raw(widget.ThreeColSecondTitle)</span></h3>
                             @if (!string.IsNullOrWhiteSpace(widget.ThreeColSecondSubTitle))
@@ -344,13 +345,13 @@ else
                                 <div class="icon icon-@Html.Raw(widget.ThreeColThirdIcon)">
                                     @if (!string.IsNullOrWhiteSpace(widget.ThreeColThirdFile))
                                     {
-                                        <img src="@Html.Raw(widget.ThreeColThirdFile)" alt="@Html.Raw(widget.ThreeColThirdTitle)" />
+                                        <img src="@Html.Raw(Regex.Replace(widget.ThreeColThirdFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="@Html.Raw(widget.ThreeColThirdTitle)" />
                                     }
                                 </div>
                             }
                             else
                             {
-                                <div class="image"><img src="@Html.Raw(widget.ThreeColThirdFile)" alt="@Html.Raw(widget.ThreeColThirdTitle)" /></div>
+                                <div class="image"><img src="@Html.Raw(Regex.Replace(widget.ThreeColThirdFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="@Html.Raw(widget.ThreeColThirdTitle)" /></div>
                             }
                             <h3><span>@Html.Raw(widget.ThreeColThirdTitle)</span></h3>
                             @if (!string.IsNullOrWhiteSpace(widget.ThreeColThirdSubTitle))
@@ -378,7 +379,7 @@ else
                                 <div class="icon icon-@Html.Raw(widget.TwoColLeftIcon)">
                                     @if (!string.IsNullOrWhiteSpace(widget.TwoColLeftFile))
                                     {
-                                        <img src="@Html.Raw(widget.TwoColLeftFile)" alt="@Html.Raw(widget.TwoColLeftTitle)" />
+                                        <img src="@Html.Raw(Regex.Replace(widget.TwoColLeftFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="@Html.Raw(widget.TwoColLeftTitle)" />
                                     }
                                 </div>
                                 if (string.IsNullOrWhiteSpace(widget.TwoColLeftLink))
@@ -388,7 +389,7 @@ else
                             }
                             else
                             {
-                                <div class="image"><img src="@Html.Raw(widget.TwoColLeftFile)" alt="@Html.Raw(widget.TwoColLeftTitle)" /></div>
+                                <div class="image"><img src="@Html.Raw(Regex.Replace(widget.TwoColLeftFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="@Html.Raw(widget.TwoColLeftTitle)" /></div>
                             }
                         </div>
                         <div class="col-md-7">
@@ -412,7 +413,7 @@ else
                                 <div class="icon icon-@Html.Raw(widget.TwoColRightIcon)">
                                     @if (!string.IsNullOrWhiteSpace(widget.TwoColRightFile))
                                     {
-                                        <img src="@Html.Raw(widget.TwoColRightFile)" alt="@Html.Raw(widget.TwoColRightTitle)" />
+                                        <img src="@Html.Raw(Regex.Replace(widget.TwoColRightFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="@Html.Raw(widget.TwoColRightTitle)" />
                                     }
                                 </div>
                                 if (!string.IsNullOrWhiteSpace(widget.TwoColRightLink))
@@ -422,7 +423,7 @@ else
                             }
                             else
                             {
-                                <div class="image"><img src="@Html.Raw(widget.TwoColRightFile)" alt="@Html.Raw(widget.TwoColRightTitle)" /></div>
+                                <div class="image"><img src="@Html.Raw(Regex.Replace(widget.TwoColRightFile, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" alt="@Html.Raw(widget.TwoColRightTitle)" /></div>
                             }
                         </div>
                     </div>

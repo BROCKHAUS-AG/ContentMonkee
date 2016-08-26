@@ -665,7 +665,7 @@ $(function () {
                 getFileCallback: function (file) {
                     var path = file.url.replace("Content", gwc.sitesettingpath);
                     $('#el_' + instanceName).dialogelfinder('close');
-                    $(previewImage).attr('src', path.replace(gwc.serverpath, ''));
+                    $(previewImage).attr('src', path.replace(gwc.serverpath, '').replace("tcSitesettingID", gwc.sitesettingid));
                     $(formControl).val(path.replace(gwc.serverpath, ''));
                 }
             });

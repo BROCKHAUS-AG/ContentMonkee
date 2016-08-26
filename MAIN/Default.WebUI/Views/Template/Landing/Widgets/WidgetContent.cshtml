@@ -1,4 +1,5 @@
-﻿@model WidgetWrapperViewModel
+﻿@using System.Text.RegularExpressions
+@model WidgetWrapperViewModel
 
 @{
     var widget = Model.Widget as BAG.Common.Data.Entities.WidgetContent;
@@ -45,7 +46,7 @@ else
                     <div class="col-lg-8 col-lg-offset-2 text-center">
                         <h2 class="section-heading">@Html.Raw(widget.Title)</h2>
                         <hr class="light">
-                        <div class="text-faded">@Html.Raw(widget.Content)</div>
+                        <div class="text-faded">@Html.Raw(string.IsNullOrWhiteSpace(widget.Content) ? string.Empty : Regex.Replace(widget.Content, @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))</div>
                     </div>
                 </div>
             </div>

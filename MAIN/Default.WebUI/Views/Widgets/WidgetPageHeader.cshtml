@@ -1,4 +1,5 @@
 ﻿@using Default.WebUI.Extensions
+@using System.Text.RegularExpressions
 @model WidgetWrapperViewModel
 @{
     var viewspath = "~/Views/" + _Globals.Instance.CurrentSiteSettingId + "/Widgets/WidgetPageHeader.cshtml";
@@ -81,7 +82,7 @@
                 <div class="col-sm-6 col-sm-offset-2">
                     <div class="img-selector-container" data-name="SelectImage">
                         <img class="preview image-responsive" style="width: 200px; max-height: 200px;"
-                             src="@Html.Raw(string.IsNullOrWhiteSpace(widget.CustomImage) ? string.Empty : widget.CustomImage.GetImagePath())" />
+                             src="@Html.Raw(string.IsNullOrWhiteSpace(widget.CustomImage) ? string.Empty : Regex.Replace(widget.CustomImage.GetImagePath(), @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" />
                         <input class="selection" type="hidden" name="customimage" value="@widget.CustomImage" />
                         <div class="controls">
                             <button class="btn btn-default select-image">Select Image</button>
@@ -104,7 +105,7 @@ else
         {
             if (widget.UseCustomImage)
             {
-                <img src="@Html.Raw(string.IsNullOrWhiteSpace(widget.CustomImage) ? string.Empty : widget.CustomImage.GetImagePath())" class="canvas" />
+                <img src="@Html.Raw(string.IsNullOrWhiteSpace(widget.CustomImage) ? string.Empty : Regex.Replace(widget.CustomImage.GetImagePath(), @"[0-9a-zA-Z]{8}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{4}(-)[0-9a-zA-Z]{12}|(tcSitesettingID)", _Globals.Instance.CurrentSiteSettingId.ToString()))" class="canvas" />
             }
             else
             {
