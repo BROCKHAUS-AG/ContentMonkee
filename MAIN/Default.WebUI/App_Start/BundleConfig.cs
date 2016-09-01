@@ -169,7 +169,23 @@ namespace Default.WebUI
                 "~/App_Themes/admin/lib/elfile/css/elfinder.full.css"
                 ));
 
-            System.Web.Optimization.BundleTable.EnableOptimizations = true;
+
+            /*Landing*/
+            bundles.Add(new StyleBundle("~/installation/css").Include(
+                      "~/app_themes/installation/css/bootstrap.css",
+                      "~/app_themes/installation/lib/font-awesome/css/font-awesome.min.css",
+                      "~/app_themes/installation/css/main.css"
+                      ));
+
+            bundles.Add(new ScriptBundle("~/installation/js").Include(
+                      "~/app_themes/installation/js/knockout-3.4.0.js",
+                      "~/app_themes/installation/js/react-15.0.1.js",
+                      "~/app_themes/installation/js/react-dom-15.0.1.js",
+                      "~/app_themes/default/js/jquery-{version}.js",
+                      "~/app_themes/default/js/jquery-ui.js",
+                      "~/app_themes/installation/js/site.js"
+                      ));
+            System.Web.Optimization.BundleTable.EnableOptimizations = false;
         }
     }
 }

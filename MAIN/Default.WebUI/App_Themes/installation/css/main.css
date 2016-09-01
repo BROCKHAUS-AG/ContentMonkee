@@ -1,0 +1,60 @@
+﻿body {
+    text-align: center;
+    padding-top: 150px;
+}
+
+.inst-image {
+    width: 150px;
+    vertical-align: middle;
+}
+
+/*.control-button {
+    border-radius: 8px;
+    background-color: #eaeaea;
+}*/
+
+.inValide {
+    background-color: #ff6a00;
+}
+
+.panel {    
+    margin-top: 50px;
+    text-align: left;
+}
+.footer {
+    text-align: left;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 35px;
+    background-color: rgba(180,180,180,.4);
+    font-size: 13px;
+    line-height: 29px;
+}
+
+.inst-text {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.infobox {
+    margin-left: 5%;
+    margin-right: 5%;
+    background-color: #f18a5c;
+    border-radius: 5px;
+    border-style: groove;
+    border-color: red;
+    margin-bottom: 15px;
+    padding: 2%;    
+}
+.infobox h2 {
+
+}
+.infobox span {
+    
+}
+.fa-times {
+    color: red;
+    text-align: left;
+    font-size: 2em;
+}

@@ -51,7 +51,7 @@ namespace Default.WebUI
                );
             
 
-            (new string[] { "Admin", "Account", "Reset", "File", "Ajax", "Search" ,"QRCode", "SendContact" }).ToList().ForEach(name =>
+            (new string[] { "Admin", "Installation", "Account", "Reset", "File", "Ajax", "Search" ,"QRCode", "SendContact" }).ToList().ForEach(name =>
            {
                routes.MapRoute(
                        name: name,

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\JavaScriptEngineSwitcher.V8.1.5.2\build\JavaScriptEngineSwitcher.V8.props" Condition="Exists('..\packages\JavaScriptEngineSwitcher.V8.1.5.2\build\JavaScriptEngineSwitcher.V8.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -27,6 +28,8 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,6 +54,26 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ClearScript, Version=5.4.5.0, Culture=neutral, PublicKeyToken=935d0c957da47c73, processorArchitecture=MSIL">
+      <HintPath>..\packages\JavaScriptEngineSwitcher.V8.1.5.2\lib\net40\ClearScript.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JavaScriptEngineSwitcher.Core, Version=1.5.0.0, Culture=neutral, PublicKeyToken=c608b2a8cc9e4472, processorArchitecture=MSIL">
+      <HintPath>..\packages\JavaScriptEngineSwitcher.Core.1.5.0\lib\net40\JavaScriptEngineSwitcher.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JavaScriptEngineSwitcher.Msie, Version=1.5.0.0, Culture=neutral, PublicKeyToken=c608b2a8cc9e4472, processorArchitecture=MSIL">
+      <HintPath>..\packages\JavaScriptEngineSwitcher.Msie.1.5.0\lib\net40\JavaScriptEngineSwitcher.Msie.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JavaScriptEngineSwitcher.V8, Version=1.5.0.0, Culture=neutral, PublicKeyToken=c608b2a8cc9e4472, processorArchitecture=MSIL">
+      <HintPath>..\packages\JavaScriptEngineSwitcher.V8.1.5.2\lib\net40\JavaScriptEngineSwitcher.V8.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JSPool, Version=0.4.0.0, Culture=neutral, PublicKeyToken=2fc7775f73072640, processorArchitecture=MSIL">
+      <HintPath>..\packages\JSPool.0.4.1\lib\net40-Client\JSPool.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="LemmaSharpPrebuilt, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\BAG.Library\TagCloud\Lib\LemmaSharpPrebuilt.dll</HintPath>
@@ -60,12 +83,28 @@
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MsieJavaScriptEngine, Version=1.7.0.0, Culture=neutral, PublicKeyToken=a3a2846a37ac0d3e, processorArchitecture=MSIL">
+      <HintPath>..\packages\MsieJavaScriptEngine.1.7.0\lib\net40\MsieJavaScriptEngine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="RazorEngine, Version=3.8.2.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
       <HintPath>..\packages\RazorEngine.3.8.2\lib\net45\RazorEngine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="React.Core, Version=2.5.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
+      <HintPath>..\packages\React.Core.2.5.0\lib\net40\React.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="React.Web, Version=2.5.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
+      <HintPath>..\packages\React.Web.2.5.0\lib\net40\React.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="React.Web.Mvc4, Version=2.5.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
+      <HintPath>..\packages\React.Web.Mvc4.2.5.0\lib\net40\React.Web.Mvc4.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -132,6 +171,14 @@
     </Reference>
     <Reference Include="System.Net.Http.WebRequest">
     </Reference>
+    <Reference Include="VroomJs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
+      <HintPath>..\packages\React.Core.2.5.0\lib\net40\VroomJs.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.1.0\lib\net40\WebActivatorEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
       <Private>True</Private>
@@ -140,6 +187,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\ReactConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Classes\DirectoryManagement.cs" />
@@ -150,6 +198,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\api\SyncApiController.cs" />
     <Compile Include="Controllers\BackupController.cs" />
+    <Compile Include="Controllers\InstallationController.cs" />
     <Compile Include="Controllers\SendContactController.cs" />
     <Compile Include="Controllers\PortalController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
@@ -181,6 +230,7 @@
     <Compile Include="Models\FooterViewModel.cs" />
     <Compile Include="Models\GenericSelectorWrapperModel.cs" />
     <Compile Include="Models\GlobalViewModel.cs" />
+    <Compile Include="Models\InstallationViewModel.cs" />
     <Compile Include="Models\ISiteSelection.cs" />
     <Compile Include="Models\LayoutEditorModel.cs" />
     <Compile Include="Models\LayoutGroup.cs" />
@@ -1012,6 +1062,57 @@
     <Content Include="App_Themes\default\lib\SocialSharingButtons\js\rrssb.js" />
     <Content Include="App_Themes\default\lib\SocialSharingButtons\js\rrssb.min.js" />
     <Content Include="App_Themes\default\lib\SocialSharingButtons\js\vendor\jquery.1.10.2.min.js" />
+    <Content Include="App_Themes\installation\css\bootstrap.css" />
+    <Content Include="App_Themes\installation\css\bootstrap.min.css">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
+    <Content Include="App_Themes\installation\css\main.css" />
+    <Content Include="App_Themes\installation\js\react-15.0.1.js" />
+    <Content Include="App_Themes\installation\js\react-dom-15.0.1.js" />
+    <Content Include="App_Themes\installation\js\site.js" />
+    <Content Include="App_Themes\installation\js\knockout-3.4.0.js" />
+    <Content Include="App_Themes\installation\lib\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="App_Themes\installation\lib\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="App_Themes\installation\lib\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="App_Themes\installation\lib\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="App_Themes\installation\lib\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="App_Themes\installation\lib\font-awesome\less\animated.less" />
+    <Content Include="App_Themes\installation\lib\font-awesome\less\bordered-pulled.less" />
+    <Content Include="App_Themes\installation\lib\font-awesome\less\core.less" />
+    <Content Include="App_Themes\installation\lib\font-awesome\less\fixed-width.less" />
+    <Content Include="App_Themes\installation\lib\font-awesome\less\font-awesome.less" />
+    <Content Include="App_Themes\installation\lib\font-awesome\less\icons.less" />
+    <Content Include="App_Themes\installation\lib\font-awesome\less\larger.less" />
+    <Content Include="App_Themes\installation\lib\font-awesome\less\list.less" />
+    <Content Include="App_Themes\installation\lib\font-awesome\less\mixins.less" />
+    <Content Include="App_Themes\installation\lib\font-awesome\less\path.less" />
+    <Content Include="App_Themes\installation\lib\font-awesome\less\rotated-flipped.less" />
+    <Content Include="App_Themes\installation\lib\font-awesome\less\screen-reader.less" />
+    <Content Include="App_Themes\installation\lib\font-awesome\less\stacked.less" />
+    <Content Include="App_Themes\installation\lib\font-awesome\less\variables.less" />
+    <Content Include="App_Themes\installation\lib\font-awesome\scss\_animated.scss" />
+    <Content Include="App_Themes\installation\lib\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="App_Themes\installation\lib\font-awesome\scss\_core.scss" />
+    <Content Include="App_Themes\installation\lib\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="App_Themes\installation\lib\font-awesome\scss\_icons.scss" />
+    <Content Include="App_Themes\installation\lib\font-awesome\scss\_larger.scss" />
+    <Content Include="App_Themes\installation\lib\font-awesome\scss\_list.scss" />
+    <Content Include="App_Themes\installation\lib\font-awesome\scss\_mixins.scss" />
+    <Content Include="App_Themes\installation\lib\font-awesome\scss\_path.scss" />
+    <Content Include="App_Themes\installation\lib\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="App_Themes\installation\lib\font-awesome\scss\_screen-reader.scss" />
+    <Content Include="App_Themes\installation\lib\font-awesome\scss\_stacked.scss" />
+    <Content Include="App_Themes\installation\lib\font-awesome\scss\_variables.scss" />
+    <Content Include="App_Themes\installation\lib\font-awesome\scss\font-awesome.scss" />
+    <None Include="App_Themes\installation\views\Content.jsx" />
+    <None Include="App_Themes\installation\views\Components.jsx" />
+    <Content Include="App_Themes\installation\lib\font-awesome\css\font-awesome.css" />
+    <Content Include="App_Themes\installation\lib\font-awesome\css\font-awesome.min.css" />
+    <Content Include="App_Themes\installation\lib\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="App_Themes\landing\css\bootstrap.css" />
+    <Content Include="App_Themes\landing\css\bootstrap.min.css">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
     <Content Include="App_Themes\landing\img\header.jpg" />
     <Content Include="App_Themes\landing\js\site.js" />
     <Content Include="Content\8a07d244-4416-41d7-84c1-1019d3e144be\alien.svg" />
@@ -3080,6 +3181,7 @@
     <Content Include="App_Themes\default\js\paper-helper.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\cb41a38e-f8b2-411c-86f1-0e584ef13fc6\landing.txt.txt" />
+    <Content Include="App_Themes\installation\views\Index.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -3230,6 +3332,9 @@
     <Content Include="Views\Template\SpaceITUp\Widgets\WidgetVCard.cshtml" />
     <Content Include="Views\Admin\__LayoutLogIn.cshtml" />
     <Content Include="Views\cb41a38e-f8b2-411c-86f1-0e584ef13fc6\Shared\_Footer.cshtml" />
+    <None Include="Views\Installation\Index.cshtml" />
+    <Content Include="Views\Installation\__Layout.cshtml" />
+    <Content Include="App_Themes\installation\views\Index.jsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\00000000-0000-0000-0000-000000000000\" />
@@ -3239,6 +3344,7 @@
     <Folder Include="App_Themes\admin\app\site\" />
     <Folder Include="App_Themes\admin\img\bootstrap-colorpicker\" />
     <Folder Include="App_Themes\admin\lib\angularjs\i18n\ngLocale\" />
+    <Folder Include="App_Themes\installation\img\" />
     <Folder Include="Content\00000000-0000-0000-0000-000000000000\" />
     <Folder Include="Content\b81a4edf-77e0-4989-af21-1e409b1bf4e7\fonts\" />
     <Folder Include="Content\Favicons\" />
@@ -3290,6 +3396,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+    <Error Condition="!Exists('..\packages\JavaScriptEngineSwitcher.V8.1.5.2\build\JavaScriptEngineSwitcher.V8.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JavaScriptEngineSwitcher.V8.1.5.2\build\JavaScriptEngineSwitcher.V8.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

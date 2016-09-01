@@ -21,7 +21,7 @@ namespace Default.WebUI.Controllers
         [HttpPost]
         public ActionResult Login(FormCollection form)
         {
-            UnitOfWork unit = new UnitOfWork(); ;
+            UnitOfWork unit = new UnitOfWork(); 
             var email = form["email"];
             var password = form["password"];
 

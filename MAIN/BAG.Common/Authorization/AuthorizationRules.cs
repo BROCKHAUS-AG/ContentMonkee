@@ -178,6 +178,9 @@ namespace BAG.Common.Authorization
             string host = requestUrl.Host.ToLower().Trim();
             foreach (SiteSetting siteSetting in siteSettings.Get())
             {
+                siteSetting.Bindings = siteSetting.Bindings == null ? string.Empty : siteSetting.Bindings;
+                siteSetting.MainDomain = siteSetting.MainDomain == null ? string.Empty : siteSetting.MainDomain;
+
                 IEnumerable<string> domains = siteSetting.Bindings.Split(',').ToList();
                 domains = domains.Union(siteSetting.MainDomain.Split(','));
                 domains = domains.Select(d => d.Replace("http://", string.Empty).Replace("https://", string.Empty));
@@ -216,7 +219,7 @@ namespace BAG.Common.Authorization
             if (siteSettingMatches.Count <= 0)
             {
                 return Guid.Empty;
-            }            
+            }
             return siteSettingMatches.OrderBy(ssm => ssm.SpecificCoefficient).Last().SSID;
         }
 

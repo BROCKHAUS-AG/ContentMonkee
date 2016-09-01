@@ -35,6 +35,13 @@ namespace Default.WebUI.Extensions
             //if (!string.IsNullOrEmpty(friendlyUrl))
             //  urlrewrite = con.URLRewrites.Where(p => p.PageSEOUrl == friendlyUrl).FirstOrDefault();
 
+            //UnitOfWork unit = new UnitOfWork();
+            //if (unit.UserRepository.Get().Count() <= 1)
+            //{
+            //    requestContext.RouteData.Values["controller"] = "Installation";
+            //    requestContext.RouteData.Values["action"] = "Index";
+            //    return base.GetHttpHandler(requestContext);
+            //}
 
             requestContext.RouteData.Values["controller"] = controller;
             if (action == null)
