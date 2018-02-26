@@ -143,16 +143,11 @@ namespace BAG.Common
             }
         }
 
-        private Guid currentSiteSettingId = Guid.Empty;
         public Guid CurrentSiteSettingId
         {
             get
             {
-                if (!EnableCookies)
-                {
-                    return currentSiteSettingId;
-                }
-                Guid result = currentSiteSettingId;
+                Guid result = Guid.Empty;
                 if (HttpContext.Current.Session == null)
                 {
                     if (HttpContext.Current.Items["CurrentSiteSettingId"] != null)
@@ -165,11 +160,6 @@ namespace BAG.Common
             }
             private set
             {
-                currentSiteSettingId = value;
-                if (!EnableCookies)
-                {
-                    return;
-                }
                 if (HttpContext.Current.Session == null)
                     HttpContext.Current.Items["CurrentSiteSettingId"] = value;
                 else
